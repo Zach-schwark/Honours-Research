@@ -22,7 +22,7 @@ class DataPreprocessing:
         
         
     def normalize_data(data: pd.DataFrame):
-        print(type(data))
+
         normalized_data = data.copy()
         for column  in normalized_data.columns:
             if normalized_data[column].dtype == np.float64:
