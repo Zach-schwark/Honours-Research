@@ -49,13 +49,15 @@ class DataPreprocessing:
         
         return train, test
     
-    def get_evidence_list(test_data):
+    def get_evidence_list(test_data, target_label):
         # gets the evidence list of the testing data to use as evidence when classifying loan status
+        test_temp_df = test_data.copy()
+        del test_temp_df[target_label]
         testing_evidence_list = []
-        for i in range(len(test_data)):
+        for i in range(len(test_temp_df)):
             testing_evidence_dict = {}
-            for z in range(len(test_data.columns.values.tolist())):
-                testing_evidence_dict[test_data.columns.values.tolist()[z]] = test_data[test_data.columns.values.tolist()[z]].iloc[i]
+            for z in range(len(test_temp_df.columns.values.tolist())):
+                testing_evidence_dict[test_temp_df.columns.values.tolist()[z]] = test_temp_df[test_temp_df.columns.values.tolist()[z]].iloc[i]
             testing_evidence_list.append(testing_evidence_dict)
         
         return testing_evidence_list
