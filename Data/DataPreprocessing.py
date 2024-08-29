@@ -79,6 +79,9 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['verification_status'] = discretized_full
 
+
+        discretise_data['issue_d'] = pd.to_datetime(discretise_data['issue_d'], format='%b-%Y')
+        discretise_data['issue_d'] = discretise_data['issue_d'].dt.year.astype(int)
         discretized = discretise_data['issue_d'].dropna()
         discretized = pd.Series(discretized, index=discretise_data['issue_d'].dropna().index)
         discretized_full = pd.Series('N/A', index= discretise_data['issue_d'].index)
@@ -134,8 +137,8 @@ class DataPreprocessing:
         discretise_data['delinq_2yrs'] = discretized_full
         #
         #
-        discretise_data['earliest_cr_line'] = discretise_data['earliest_cr_line'].apply(lambda x: x.split('-')[1])
-        discretized = discretise_data['earliest_cr_line'].dropna()
+        discretise_data['earliest_cr_line'] = pd.to_datetime(discretise_data['earliest_cr_line'].apply(lambda x: x.split('-')[1]))
+        discretized = pd.cut(discretise_data['earliest_cr_line'].dropna(), bins = standard_num_bins)
         discretized = pd.Series(discretized, index=discretise_data['earliest_cr_line'].dropna().index)
         discretized_full = pd.Series('N/A', index= discretise_data['earliest_cr_line'].index)
         discretized_full.update(discretized)
@@ -236,6 +239,9 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['last_pymnt_amnt'] = discretized_full
 
+
+        discretise_data['last_credit_pull_d'] = pd.to_datetime(discretise_data['last_credit_pull_d'], format='%b-%Y')
+        discretise_data['last_credit_pull_d'] = discretise_data['last_credit_pull_d'].dt.year
         discretized = discretise_data['last_credit_pull_d'].dropna()
         discretized = pd.Series(discretized, index=discretise_data['last_credit_pull_d'].dropna().index)
         discretized_full = pd.Series('N/A', index= discretise_data['last_credit_pull_d'].index)
@@ -244,7 +250,7 @@ class DataPreprocessing:
         #
         discretise_data['last_fico_range_high'] = pd.cut(discretise_data['last_fico_range_high'], bins= standard_num_bins)
         #
-        discretise_data['collections_12_mths_ex_med'] = pd.cut(discretise_data['collections_12_mths_ex_med'], bins= discretise_data['collections_12_mths_ex_med'].nunique())
+        discretise_data['collections_12_mths_ex_med'] = pd.cut(discretise_data['collections_12_mths_ex_med'], bins= standard_num_bins)
         #
         discretized = discretise_data['policy_code'].dropna()
         discretized = pd.Series(discretized, index=discretise_data['policy_code'].dropna().index)
