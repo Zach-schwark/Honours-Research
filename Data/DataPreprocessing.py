@@ -713,13 +713,16 @@ class DataPreprocessing:
     
     def get_evidence_list(test_data, target_label):
         # gets the evidence list of the testing data to use as evidence when classifying loan status
+        
+        basic_evidence_features = ["annual_inc", "grade", "verification_status", "last_fico_range_high", "home_ownership", "purpose", "dti", "application_type", "delinq_2yrs", "fico_range_high", "pub_rec", "open_acc", "total_acc", "avg_cur_bal", "tax_liens", "pub_rec_bankruptcies", "revol_bal", "tot_cur_bal", "emp_length", "mort_acc", "num_il_tl", "num_actv_rev_tl", "num_op_rev_tl"]
+        
         test_temp_df = test_data.copy()
         del test_temp_df[target_label]
         testing_evidence_list = []
         for i in range(len(test_temp_df)):
             testing_evidence_dict = {}
-            for z in range(len(test_temp_df.columns.values.tolist())):
-                testing_evidence_dict[test_temp_df.columns.values.tolist()[z]] = test_temp_df[test_temp_df.columns.values.tolist()[z]].iloc[i]
+            for z in range(len(basic_evidence_features)):
+                testing_evidence_dict[basic_evidence_features[z]] = test_temp_df[basic_evidence_features[z]].iloc[i]
             testing_evidence_list.append(testing_evidence_dict)
         
         return testing_evidence_list
