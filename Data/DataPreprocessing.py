@@ -706,23 +706,36 @@ class DataPreprocessing:
         subset_data = data.sample(n = num_rows)
         
         # splits data into 75% train and 25% test
-        train, test =  train_test_split(subset_data)
-
+        train_val, test =  train_test_split(subset_data, test_size = 0.2)
         
-        return train, test
+        train, validation =  train_test_split(train_val, test_size = 0.25)
+        
+        return train, validation, test
     
     def get_evidence_list(test_data, target_label):
         # gets the evidence list of the testing data to use as evidence when classifying loan status
         
-        basic_evidence_features = ["annual_inc", "grade", "verification_status", "last_fico_range_high", "home_ownership", "purpose", "dti", "application_type", "delinq_2yrs", "fico_range_high", "pub_rec", "open_acc", "total_acc", "avg_cur_bal", "tax_liens", "pub_rec_bankruptcies", "revol_bal", "tot_cur_bal", "emp_length", "mort_acc", "num_il_tl", "num_actv_rev_tl", "num_op_rev_tl"]
+        very_basic_evidence_features = ["annual_inc","emp_length", "grade", "verification_status","fico_range_high","purpose","dti", "home_ownership", "tot_cur_bal", "pub_rec_bankruptcies"]
+        
+        basic_evidence_features = ["annual_inc", "emp_length", "grade", "home_ownership", "verification_status", "last_fico_range_high", "fico_range_high", "purpose", "dti", "application_type", "delinq_2yrs", "avg_cur_bal", "tot_cur_bal", "pub_rec_bankruptcies", "mort_acc", "num_il_tl", "num_rev_accts", "total_bal_ex_mort"]
+        
+        more_detailed_evidence_features = ["annual_inc", "emp_length", "grade", "home_ownership", "verification_status", "last_fico_range_high", "fico_range_high", "purpose", "dti", "application_type", "delinq_2yrs", "avg_cur_bal", "tot_cur_bal", "pub_rec_bankruptcies", "mort_acc", "num_il_tl", "num_rev_accts", "total_bal_ex_mort", "revol_bal", "num_actv_rev_tl","num_op_rev_tl","max_bal_bc","total_rev_hi_lim","total_bal_il","open_acc","total_acc","tax_liens","pub_rec","num_bc_tl","earliest_cr_line","pct_tl_nvr_dlq","acc_now_delinq"]
+        
+        advanced_evidence_features =  ["annual_inc", "emp_length", "grade", "home_ownership", "verification_status", "last_fico_range_high", "fico_range_high", "purpose", "dti", "application_type", "delinq_2yrs", "avg_cur_bal", "tot_cur_bal", "pub_rec_bankruptcies", "mort_acc", "num_il_tl", "num_rev_accts", "total_bal_ex_mort", "revol_bal", "num_actv_rev_tl","num_op_rev_tl","max_bal_bc","total_rev_hi_lim","total_bal_il","open_acc","total_acc","tax_liens","pub_rec","num_bc_tl","earliest_cr_line","pct_tl_nvr_dlq","acc_now_delinq","revol_util","all_util","bc_util","total_cu_tl","total_bc_limit","num_actv_bc_tl","num_bc_sats","percent_bc_gt_75","num_tl_30dpd","num_tl_90g_dpd_24m","num_tl_120dpd_2m","num_accts_ever_120_pd"]
+        
+        all_customer_info_evidence_features =  ["annual_inc", "emp_length", "grade", "home_ownership", "verification_status", "last_fico_range_high", "fico_range_high", "purpose", "dti", "application_type", "delinq_2yrs", "avg_cur_bal", "tot_cur_bal", "pub_rec_bankruptcies", "mort_acc", "num_il_tl", "num_rev_accts", "total_bal_ex_mort", "revol_bal", "num_actv_rev_tl","num_op_rev_tl","max_bal_bc","total_rev_hi_lim","total_bal_il","open_acc","total_acc","tax_liens","pub_rec","num_bc_tl","earliest_cr_line","pct_tl_nvr_dlq","acc_now_delinq","revol_util","all_util","bc_util","total_cu_tl","total_bc_limit","num_actv_bc_tl","num_bc_sats","percent_bc_gt_75","num_tl_30dpd","num_tl_90g_dpd_24m","num_tl_120dpd_2m","num_accts_ever_120_pd","open_il_12m","open_il_24m","num_tl_op_past_12m","open_acc_6m","acc_open_past_24mths","open_rv_12m","open_rv_24m","mo_sin_rcnt_tl","mths_since_recent_bc","mo_sin_rcnt_rev_tl_op","mo_sin_old_rev_tl_op","mo_sin_old_il_acct","mths_since_recent_inq","inq_fi","inq_last_6mths","inq_last_12m","title","bc_open_to_buy"]
+        
+  
+        
+        evidence_features = basic_evidence_features
         
         test_temp_df = test_data.copy()
         del test_temp_df[target_label]
         testing_evidence_list = []
         for i in range(len(test_temp_df)):
             testing_evidence_dict = {}
-            for z in range(len(basic_evidence_features)):
-                testing_evidence_dict[basic_evidence_features[z]] = test_temp_df[basic_evidence_features[z]].iloc[i]
+            for z in range(len(evidence_features)):
+                testing_evidence_dict[evidence_features[z]] = test_temp_df[evidence_features[z]].iloc[i]
             testing_evidence_list.append(testing_evidence_dict)
         
         return testing_evidence_list
