@@ -712,7 +712,7 @@ class DataPreprocessing:
         
         return train, validation, test
     
-    def get_evidence_list(test_data, target_label):
+    def get_evidence_list(test_data, target_label_list: list):
         # gets the evidence list of the testing data to use as evidence when classifying loan status
         
         very_basic_evidence_features = ["annual_inc","emp_length", "grade", "verification_status","fico_range_high","purpose","dti", "home_ownership", "tot_cur_bal", "pub_rec_bankruptcies"]
@@ -726,16 +726,20 @@ class DataPreprocessing:
         all_customer_info_evidence_features =  ["annual_inc", "emp_length", "grade", "home_ownership", "verification_status", "last_fico_range_high", "fico_range_high", "purpose", "dti", "application_type", "delinq_2yrs", "avg_cur_bal", "tot_cur_bal", "pub_rec_bankruptcies", "mort_acc", "num_il_tl", "num_rev_accts", "total_bal_ex_mort", "revol_bal", "num_actv_rev_tl","num_op_rev_tl","max_bal_bc","total_rev_hi_lim","total_bal_il","open_acc","total_acc","tax_liens","pub_rec","num_bc_tl","earliest_cr_line","pct_tl_nvr_dlq","acc_now_delinq","revol_util","all_util","bc_util","total_cu_tl","total_bc_limit","num_actv_bc_tl","num_bc_sats","percent_bc_gt_75","num_tl_30dpd","num_tl_90g_dpd_24m","num_tl_120dpd_2m","num_accts_ever_120_pd","open_il_12m","open_il_24m","num_tl_op_past_12m","open_acc_6m","acc_open_past_24mths","open_rv_12m","open_rv_24m","mo_sin_rcnt_tl","mths_since_recent_bc","mo_sin_rcnt_rev_tl_op","mo_sin_old_rev_tl_op","mo_sin_old_il_acct","mths_since_recent_inq","inq_fi","inq_last_6mths","inq_last_12m","title","bc_open_to_buy"]
         
   
-        
         evidence_features = basic_evidence_features
         
-        test_temp_df = test_data.copy()
-        del test_temp_df[target_label]
+        targets_removed_df = test_data.copy()
+        
+        for target_label in target_label_list:
+            del targets_removed_df[target_label]
+            
         testing_evidence_list = []
-        for i in range(len(test_temp_df)):
+        for i in range(len(targets_removed_df)):
             testing_evidence_dict = {}
             for z in range(len(evidence_features)):
-                testing_evidence_dict[evidence_features[z]] = test_temp_df[evidence_features[z]].iloc[i]
+                testing_evidence_dict[evidence_features[z]] = targets_removed_df[evidence_features[z]].iloc[i]
+                testing_evidence_dict['loan_status'] = "Fully Paid"
+                testing_evidence_dict['loan_amnt'] = '(8800.0, 16600.0]'
             testing_evidence_list.append(testing_evidence_dict)
         
         return testing_evidence_list

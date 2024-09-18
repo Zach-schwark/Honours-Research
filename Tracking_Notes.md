@@ -200,3 +200,26 @@ none
 - I included the highest number of features relating to loan stuture that I could that were in the network.
 - I plan to do finance research to decide on which features would be the most useful
 
+Variables that are in network that relate to loan structure:
+
+loan_amnt, installment, total_pymnt, total_rec_int, term, recoveries, last_pymnt_amnt, loan_status, int_rate,
+disbursement_method, debt_settlement_flag, total_rec_late_fee, 
+
+Target Loan structure variables:
+
+- loan_amnt
+- int_rate
+- term
+- installment
+- disbursement_method
+
+Variables to use in evidence to ensure positve outcome:
+
+only this for now:
+- loan_status - need to make "loan_status = fully paid"
+
+figure out how to do this after initial inference setup:
+- debt_settlement_flag - need to make "debt_settlement_flag = yes"
+- total_rec_int - maybe try minimise this or maximise for bank profitability
+- total_pymnt - maybe try minimise this or maximise for bank profitability
+- total_rec_late_fee - need to try minimise this 
