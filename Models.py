@@ -11,6 +11,14 @@ from pgmpy import estimators
 from Data.DataPreprocessing import DataPreprocessing
 from pgmpy.utils import compat_fns
 from abc import ABC, abstractmethod
+from pgmpy import config
+import torch
+#device = "cuda" if torch.cuda.is_available() else "cpu"
+
+#config.set_dtype(dtype=torch.float16)
+#config.set_backend("torch", device=device, dtype=torch.float32)#
+
+config.set_dtype(dtype=np.float16)
 
 class Models(ABC):
     
@@ -62,8 +70,8 @@ class Models(ABC):
         if prior_type == 'BDeu' and equivalent_sample_size == None:
             raise ValueError("equivalent_sample_size needs to be given if prior_type == 'BDeu'.")
         
-        parameter_estimator = estimators.BayesianEstimator(self.model,self.train_data, state_names = self.feature_states)
-        parameters = parameter_estimator.get_parameters(prior_type=prior_type,equivalent_sample_size = equivalent_sample_size, pseudo_counts = pseudo_counts,  n_jobs=6)
+        parameter_estimator = estimators.BayesianEstimator(self.model, self.train_data, state_names = self.feature_states)
+        parameters = parameter_estimator.get_parameters(prior_type=prior_type,equivalent_sample_size = equivalent_sample_size, pseudo_counts = pseudo_counts,  n_jobs=1)
  
         for i in range(len(parameters)):
             self.model.add_cpds(parameters[i])
