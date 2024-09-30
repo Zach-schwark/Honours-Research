@@ -67,20 +67,10 @@ evidence_features = return_evidence_features(list_description="basic", inc_loan_
 target_features = return_target_features(inc_loan_amnt=True)
 
 
-Random_full_distribution_log_liklihood_list = []
-Random_desired_distribution_log_liklihood_list = []
-
-BIC_full_distribution_log_liklihood_list = []
-BIC_desired_distribution_log_liklihood_list = []
 
 BDeu_full_distribution_log_liklihood_list = []
 BDeu_desired_distribution_log_liklihood_list = []
 
-BDs_full_distribution_log_liklihood_list = []
-BDs_desired_distribution_log_liklihood_list = []
-
-K2_full_distribution_log_liklihood_list = []
-K2_desired_distribution_log_liklihood_list = []
 
 num_datapoints = []
 
@@ -90,74 +80,17 @@ for num_rows in range(1000,3000,1000):
     print("#############\n")
     print("percent_complete: "+str(percent_complete)+"%\n")
     train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_rows = num_rows)
-
-    #Random_BN = RandomBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
-    BIC_BN = BICBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
     BDeu_BN = BDeuBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
-    BDs_BN = BDsBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
-   #K2_BN = k2BayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
-    
-    #Random_BN.set_evidence_features(evidence_features)
-    BIC_BN.set_evidence_features(evidence_features)
     BDeu_BN.set_evidence_features(evidence_features)
-    BDs_BN.set_evidence_features(evidence_features)
-    #K2_BN.set_evidence_features(evidence_features)
-    
-    #Random_BN.set_target_list(target_features)
-    BIC_BN.set_target_list(target_features)
     BDeu_BN.set_target_list(target_features)
-    BDs_BN.set_target_list(target_features)
-    #K2_BN.set_target_list(target_features)
-    
-    #Random_BN.structure_learning()
-    BIC_BN.structure_learning()
     BDeu_BN.structure_learning()
-    BDs_BN.structure_learning()
-    #K2_BN.structure_learning()
-    
-    #Random_BN.parameter_estimator()
-    BIC_BN.parameter_estimator()
     BDeu_BN.parameter_estimator()
-    BDs_BN.parameter_estimator()
-    #K2_BN.parameter_estimator()
-    
-    #Random_full_distribution_log_liklihood_list.append(Random_BN.evaluate(distribution="full"))
-    BIC_full_distribution_log_liklihood_list.append(BIC_BN.evaluate(distribution="full"))
+
     BDeu_full_distribution_log_liklihood_list.append(BDeu_BN.evaluate(distribution="full"))
-    BDs_full_distribution_log_liklihood_list.append(BDs_BN.evaluate(distribution="full"))
-    #K2_full_distribution_log_liklihood_list.append(K2_BN.evaluate(distribution="full"))
-    
-    #Random_desired_distribution_log_liklihood_list.append(Random_BN.evaluate(distribution="desired"))
-    BIC_desired_distribution_log_liklihood_list.append(BIC_BN.evaluate(distribution="desired"))
     BDeu_desired_distribution_log_liklihood_list.append(BDeu_BN.evaluate(distribution="desired"))
-    BDs_desired_distribution_log_liklihood_list.append(BDs_BN.evaluate(distribution="desired"))
-    #K2_desired_distribution_log_liklihood_list.append(K2_BN.evaluate(distribution="desired"))
-    
-print("Random_full_distribution_log_liklihood_list:", Random_full_distribution_log_liklihood_list)
-print("Random_desired_distribution_log_liklihood_list:", Random_desired_distribution_log_liklihood_list)
 
-print("BIC_full_distribution_log_liklihood_list:", BIC_full_distribution_log_liklihood_list)
-print("BIC_desired_distribution_log_liklihood_list:", BIC_desired_distribution_log_liklihood_list)
+with open("BDeu_full_distribution_log_liklihood_list.txt", "w") as file:
+    file.write(", ".join(map(str, BDeu_full_distribution_log_liklihood_list)))
 
-print("BDeu_full_distribution_log_liklihood_list:", BDeu_full_distribution_log_liklihood_list)
-print("BDeu_desired_distribution_log_liklihood_list:", BDeu_desired_distribution_log_liklihood_list)
-
-print("BDs_full_distribution_log_liklihood_list:", BDs_full_distribution_log_liklihood_list)
-print("BDs_desired_distribution_log_liklihood_list:", BDs_desired_distribution_log_liklihood_list)
-
-print("K2_full_distribution_log_liklihood_list:", K2_full_distribution_log_liklihood_list)
-print("K2_desired_distribution_log_liklihood_list:", K2_desired_distribution_log_liklihood_list)
-
-
-fig, ax = plt.subplots(figsize=(5, 2.7), layout='constrained')
-#ax.plot(num_datapoints, Random_full_distribution_log_liklihood_list, label='Random') 
-ax.plot(num_datapoints, BIC_full_distribution_log_liklihood_list, label='BIC') 
-ax.plot(num_datapoints, BDeu_full_distribution_log_liklihood_list, label='BDeu') 
-ax.plot(num_datapoints, BDs_full_distribution_log_liklihood_list, label='BDs') 
-#ax.plot(num_datapoints, K2_full_distribution_log_liklihood_list, label='K2') 
-ax.set_xlabel('Number of datapoints')  # Add an x-label to the Axes.
-ax.set_ylabel('Log Liklihood')  # Add a y-label to the Axes.
-ax.set_title("Log Liklihood")  # Add a title to the Axes.
-ax.legend()  # Add a legend.
-plt.savefig("./test_fig")
-plt().show()
+with open("BDeu_desired_distribution_log_liklihood_list.txt", "w") as file:
+    file.write(", ".join(map(str, BDeu_desired_distribution_log_liklihood_list)))

@@ -71,7 +71,7 @@ class Models(ABC):
             raise ValueError("equivalent_sample_size needs to be given if prior_type == 'BDeu'.")
         
         parameter_estimator = estimators.BayesianEstimator(self.model, self.train_data, state_names = self.feature_states)
-        parameters = parameter_estimator.get_parameters(prior_type=prior_type,equivalent_sample_size = equivalent_sample_size, pseudo_counts = pseudo_counts,  n_jobs=1)
+        parameters = parameter_estimator.get_parameters(prior_type=prior_type,equivalent_sample_size = equivalent_sample_size, pseudo_counts = pseudo_counts,  n_jobs=6)
  
         for i in range(len(parameters)):
             self.model.add_cpds(parameters[i])
@@ -82,7 +82,7 @@ class Models(ABC):
         predicted_max_probabilities = []
         inference = VariableElimination(self.model)
         for i in range(len(evidence_list)):
-            posterior_distribution = inference.query(variables = target_list, evidence=evidence_list[i], elimination_order="MinFill", joint=True, show_progress= False )
+            posterior_distribution = inference.query(variables = target_list, evidence=evidence_list[i], elimination_order="MinFill", joint=True, show_progress= True )
             #argmax = compat_fns.argmax(posterior_distribution.values)
             #assignment = posterior_distribution.assignment([argmax])[0]
             max = compat_fns.max(posterior_distribution.values)
@@ -93,7 +93,7 @@ class Models(ABC):
         predicted_values = []
         inference = VariableElimination(self.model)
         for i in range(len(evidence_list)):        
-            target_variables_result = inference.map_query(target_list, evidence = evidence_list[i], elimination_order="MinFill", show_progress= False) 
+            target_variables_result = inference.map_query(target_list, evidence = evidence_list[i], elimination_order="MinFill", show_progress= True) 
             predicted_values.append(target_variables_result)
         return predicted_values
     
@@ -173,7 +173,7 @@ class RandomBayesianNetwork(Models):
     @override
     def structure_learning(self):
         self.model = BayesianNetwork()
-        Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.06)
+        Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.05)
         self.model.add_nodes_from(self.train_data.columns.to_list())
         self.model.add_edges_from(Random_Dag.edges())
 
@@ -248,7 +248,7 @@ class BDeuBayesianNetwork(Models):
         scoring_method = estimators.BDeuScore(data=self.train_data, equivalent_sample_size=equivalent_sample_size)  # TODO change sample size hyperparameter
         est = estimators.HillClimbSearch(data=self.train_data, use_cache = True)
         estimated_model = est.estimate(
-            scoring_method=scoring_method, max_iter=int(1e3))
+            scoring_method=scoring_method, max_iter=int(1e3), max_indegree=3)
 
         self.model = BayesianNetwork(estimated_model.edges())
         self.model.add_nodes_from(estimated_model.nodes())
@@ -281,7 +281,7 @@ class BDsBayesianNetwork(Models):
     def structure_learning(self, equivalent_sample_size=10):
         scoring_method = estimators.BDsScore(data=self.train_data,equivalent_sample_size=equivalent_sample_size) # TODO change sample size hyperparameter
         est = estimators.HillClimbSearch(data=self.train_data, use_cache = True)
-        estimated_model = est.estimate(scoring_method=scoring_method, max_iter=int(1e3))
+        estimated_model = est.estimate(scoring_method=scoring_method, max_iter=int(1e3),  max_indegree=3)
         self.model = BayesianNetwork(estimated_model.edges())
         self.model.add_nodes_from(estimated_model.nodes())
         super().structure_learning()
@@ -314,7 +314,7 @@ class k2BayesianNetwork(Models):
         scoring_method = estimators.K2Score(data=self.train_data)
         est = estimators.HillClimbSearch(data=self.train_data, use_cache = True)
         estimated_model = est.estimate(
-            scoring_method=scoring_method, max_iter=400)
+            scoring_method=scoring_method, max_iter=int(1e3), max_indegree=3)
         self.model = BayesianNetwork(estimated_model.edges())
         self.model.add_nodes_from(estimated_model.nodes())
         super().structure_learning()
