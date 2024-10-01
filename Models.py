@@ -45,7 +45,7 @@ class Models(ABC):
             if node not in active_trail_nodes_list:
                 self.model.remove_node(node)
     
-    def draw_graph(self, file_name: str, save: bool):
+    def draw_graph(self, name: str, file_name: str, save: bool):
         active_trail_nodes = self.model.active_trail_nodes('loan_status')['loan_status']
         active_trail_nodes_list = list(active_trail_nodes)
         original_nodes = list(self.model.nodes())
@@ -56,11 +56,11 @@ class Models(ABC):
         
         nx_graph = nx.DiGraph(self.model.edges())
         pos = nx.spring_layout(nx_graph,2)
-        fig, ax = plt.figure(figsize=(20, 20))
+        fig, ax = plt.subplots(ncols=1, figsize=(20, 20))
         nx.draw(nx_graph, pos, with_labels=True, node_size=1000, node_color = 'skyblue', edge_color='#424242',font_size=15,font_color='black')
-        ax.title('Learned Bayesian Network')
+        ax.set_title(name)
         if save == True:
-            plt.savefig(file_name)
+            plt.savefig("Graphics/BN_graphs/"+file_name)
         plt.show()
     
     def parameter_estimator(self, prior_type: str = "BDeu", equivalent_sample_size: int = 5, pseudo_counts: dict | int = None):
@@ -161,8 +161,8 @@ class RandomBayesianNetwork(Models):
     def set_evidence_features(self, evidence_features: list):
         return super().set_evidence_features(evidence_features)
 
-    def draw_graph(self, file_name: str, save: bool):
-        return super().draw_graph(file_name, save)
+    def draw_graph(self,name:str, file_name: str, save: bool):
+        return super().draw_graph(name, file_name, save)
     
     def inference(self, return_type: str):
         return super().inference(return_type)
@@ -203,8 +203,8 @@ class BICBayesianNetwork(Models):
     def set_evidence_features(self, evidence_features: list):
         return super().set_evidence_features(evidence_features)
 
-    def draw_graph(self, file_name: str, save: bool):
-        return super().draw_graph(file_name, save)
+    def draw_graph(self,name:str, file_name: str, save: bool):
+        return super().draw_graph(name, file_name, save)
     
     def inference(self, return_type: str):
         return super().inference(return_type)
@@ -235,8 +235,8 @@ class BDeuBayesianNetwork(Models):
     def set_evidence_features(self, evidence_features: list):
         return super().set_evidence_features(evidence_features)
 
-    def draw_graph(self, file_name: str, save: bool):
-        return super().draw_graph(file_name, save)
+    def draw_graph(self,name:str, file_name: str, save: bool):
+        return super().draw_graph(name, file_name, save)
     
     def inference(self, return_type: str):
         return super().inference(return_type)
@@ -269,8 +269,8 @@ class BDsBayesianNetwork(Models):
     def set_evidence_features(self, evidence_features: list):
         return super().set_evidence_features(evidence_features)
 
-    def draw_graph(self, file_name: str, save: bool):
-        return super().draw_graph(file_name, save)
+    def draw_graph(self,name:str, file_name: str, save: bool):
+        return super().draw_graph(name, file_name, save)
     
     def inference(self, return_type: str):
         return super().inference(return_type)
@@ -301,8 +301,8 @@ class k2BayesianNetwork(Models):
     def set_evidence_features(self, evidence_features: list):
         return super().set_evidence_features(evidence_features)
 
-    def draw_graph(self, file_name: str, save: bool):
-        return super().draw_graph(file_name, save)
+    def draw_graph(self,name:str, file_name: str, save: bool):
+        return super().draw_graph(name, file_name, save)
     
     def inference(self, return_type: str):
         return super().inference(return_type)

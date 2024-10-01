@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0,"./")
 from Models import RandomBayesianNetwork,  BICBayesianNetwork, BDeuBayesianNetwork, BDsBayesianNetwork, k2BayesianNetwork
 from Data.DataPreprocessing import DataPreprocessing
 import matplotlib.pyplot as plt
@@ -72,7 +74,7 @@ K2_desired_distribution_log_liklihood_list = []
 
 num_datapoints = []
 
-for num_rows in range(1000,3000,1000):
+for num_rows in range(1000,2000,500):
     num_datapoints.append(num_rows)
     percent_complete = (num_rows/3000)*100
     print("#############\n")
@@ -90,8 +92,11 @@ for num_rows in range(1000,3000,1000):
     K2_full_distribution_log_liklihood_list.append(K2_BN.evaluate(distribution="full"))
     K2_desired_distribution_log_liklihood_list.append(K2_BN.evaluate(distribution="desired"))
     
-with open("K2_full_distribution_log_liklihood_list.txt", "w") as file:
+    
+K2_BN.draw_graph(name= "Bayesian Network with K2 score",file_name="K2_graph", save=True)
+    
+with open("LogLikelihood_outputs/K2_full_distribution_log_liklihood_list.txt", "w") as file:
     file.write(", ".join(map(str, K2_full_distribution_log_liklihood_list)))
 
-with open("K2_desired_distribution_log_liklihood_list.txt", "w") as file:
+with open("LogLikelihood_outputs/K2_desired_distribution_log_liklihood_list.txt", "w") as file:
     file.write(", ".join(map(str, K2_desired_distribution_log_liklihood_list)))
