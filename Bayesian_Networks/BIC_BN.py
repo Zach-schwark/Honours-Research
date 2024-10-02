@@ -14,8 +14,10 @@ import torch
 
 config.set_dtype(dtype=np.float32)
 
-data = pd.read_csv("Data/preprocessed_data.csv", engine='c')
+loaded_data: pd.DataFrame = DataPreprocessing.load_data()
+data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)
 feature_states = DataPreprocessing.get_feature_states(data)
+#print(feature_states)
 
 print("#############")
 print("Data loaded")
@@ -89,7 +91,7 @@ BIC_BN.parameter_estimator(prior_type = "K2")
 BIC_full_distribution_log_liklihood_list.append(BIC_BN.evaluate(distribution="full"))
 BIC_desired_distribution_log_liklihood_list.append(BIC_BN.evaluate(distribution="desired"))
     
-BIC_BN.draw_graph(name= "Bayesian Network with BIC score",file_name="BIC_graph", save=True)
+BIC_BN.draw_graph(name= "Bayesian Network with BIC score",file_name="BIC_graph", save=True, show=False)
  
     
 with open("LogLikelihood_outputs/BIC_full_distribution_k2.txt", "w") as file:

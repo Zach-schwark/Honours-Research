@@ -14,7 +14,8 @@ import torch
 
 config.set_dtype(dtype=np.float32)
 
-data = pd.read_csv("Data/preprocessed_data.csv", engine='c')
+loaded_data: pd.DataFrame = DataPreprocessing.load_data()
+data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)
 feature_states = DataPreprocessing.get_feature_states(data)
 
 print("#############")
@@ -92,7 +93,7 @@ BDs_BN.parameter_estimator(prior_type = "K2")
 BDs_full_distribution_log_liklihood_list.append(BDs_BN.evaluate(distribution="full"))
 BDs_desired_distribution_log_liklihood_list.append(BDs_BN.evaluate(distribution="desired"))
 
-BDs_BN.draw_graph(name= "Bayesian Network with BDs score",file_name="BDs_graph", save=True)
+BDs_BN.draw_graph(name= "Bayesian Network with BDs score",file_name="BDs_graph", save=True, show=False)
 
 with open("LogLikelihood_outputs/BDs_full_distribution_sl_ess10_pe_k2.txt", "w") as file:
     file.write(", ".join(map(str, BDs_full_distribution_log_liklihood_list)))

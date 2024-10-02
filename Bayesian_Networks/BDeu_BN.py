@@ -14,7 +14,8 @@ import torch
 
 config.set_dtype(dtype=np.float32)
 
-data = pd.read_csv("Data/preprocessed_data.csv", engine='c')
+loaded_data: pd.DataFrame = DataPreprocessing.load_data()
+data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)
 feature_states = DataPreprocessing.get_feature_states(data)
 
 print("#############")
@@ -77,6 +78,7 @@ BDeu_desired_distribution_log_liklihood_list = []
 num_datapoints = []
 num_rows = len(data)
 
+
 #for num_rows in range(1000,2000,500):
 #num_datapoints.append(num_rows)
 #percent_complete = (num_rows/3000)*100
@@ -92,7 +94,7 @@ BDeu_full_distribution_log_liklihood_list.append(BDeu_BN.evaluate(distribution="
 BDeu_desired_distribution_log_liklihood_list.append(BDeu_BN.evaluate(distribution="desired"))
 
 
-BDeu_BN.draw_graph(name= "Bayesian Network with BDeu score",file_name="BDeu_graph", save=True)
+BDeu_BN.draw_graph(name= "Bayesian Network with BDeu score",file_name="BDeu_graph", save=True, show=False)
 
 
 with open("LogLikelihood_outputs/BDeu_full_distribution_sl_ess10_pe_k2.txt", "w") as file:

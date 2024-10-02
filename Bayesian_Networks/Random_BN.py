@@ -9,7 +9,8 @@ import torch
 
 config.set_dtype(dtype=np.float32)
 
-data = pd.read_csv("Data/preprocessed_data.csv", engine='c')
+loaded_data: pd.DataFrame = DataPreprocessing.load_data()
+data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)
 feature_states = DataPreprocessing.get_feature_states(data)
 #
 print("#############")
@@ -84,7 +85,7 @@ Random_BN.parameter_estimator(prior_type = "K2")
 Random_full_distribution_log_liklihood_list.append(Random_BN.evaluate(distribution="full"))
 Random_desired_distribution_log_liklihood_list.append(Random_BN.evaluate(distribution="desired"))
 
-Random_BN.draw_graph(name= "Random Bayesian Network",file_name="Random_graph", save=True)
+Random_BN.draw_graph(name= "Random Bayesian Network",file_name="Random_graph", save=True, show=False)
 
 with open("LogLikelihood_outputs/Random_full_distribution_k2.txt", "w") as file:
     file.write(", ".join(map(str, Random_full_distribution_log_liklihood_list)))
