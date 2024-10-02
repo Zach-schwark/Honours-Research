@@ -1,4 +1,3 @@
-from typing import override
 import numpy as np
 import pandas as pd
 import networkx as nx
@@ -169,8 +168,7 @@ class RandomBayesianNetwork(Models):
     
     def evaluate(self, distribution: str):
         return super().evaluate(distribution)
-    
-    @override
+
     def structure_learning(self):
         self.model = BayesianNetwork()
         Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.05)
