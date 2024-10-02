@@ -6,4 +6,6 @@
 #SBATCH -n 1
 #SBATCH -p stampede
 
+source ~/.bashrc
+conda activate HonoursResearch
 python3 ~/Bayesian_Networks/Random_BN.py
