@@ -2,7 +2,6 @@ import sys
 sys.path.insert(0,"./")
 from Models import RandomBayesianNetwork,  BICBayesianNetwork, BDeuBayesianNetwork, BDsBayesianNetwork, k2BayesianNetwork
 from Data.DataPreprocessing import DataPreprocessing
-import matplotlib.pyplot as plt
 from pgmpy import config
 import numpy as np
 import pandas as pd
