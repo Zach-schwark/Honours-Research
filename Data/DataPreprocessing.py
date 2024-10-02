@@ -11,7 +11,7 @@ class DataPreprocessing:
     def load_data()-> pd.DataFrame:
         # reads from CS, removes rows with null/missing values and automatically infers and converts datatypes for the data.
         
-        data = pd.read_csv("../Data/accepted_2007_to_2018Q4.csv", engine='c')
+        data = pd.read_csv("Data/accepted_2007_to_2018Q4.csv", engine='c')
         data = data.drop(['id', 'member_id', 'settlement_term','settlement_percentage', 'settlement_amount', 'settlement_date','settlement_status', 'debt_settlement_flag_date', 'hardship_last_payment_amount', 'hardship_payoff_balance_amount', 'orig_projected_additional_accrued_interest',
            'hardship_loan_status', 'hardship_dpd', 'hardship_length','payment_plan_start_date','hardship_end_date', 'hardship_start_date', 'hardship_amount', 'deferral_term', 'hardship_status', 'hardship_reason', 'hardship_type',
            'sec_app_mths_since_last_major_derog', 'sec_app_collections_12_mths_ex_med', 'sec_app_chargeoff_within_12_mths', 'sec_app_num_rev_accts', 'sec_app_open_act_il', 'sec_app_revol_util', 'sec_app_open_acc', 'sec_app_mort_acc',
@@ -27,7 +27,7 @@ class DataPreprocessing:
         
         
     
-    def discretise_data(data: pd.DataFrame):
+    def discretise_data(data: pd.DataFrame) -> pd.DataFrame:
 
         discretise_data = data.copy() 
 
@@ -79,6 +79,9 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['verification_status'] = discretized_full
 
+
+        discretise_data['issue_d'] = pd.to_datetime(discretise_data['issue_d'], format='%b-%Y')
+        discretise_data['issue_d'] = discretise_data['issue_d'].dt.year.astype(int)
         discretized = discretise_data['issue_d'].dropna()
         discretized = pd.Series(discretized, index=discretise_data['issue_d'].dropna().index)
         discretized_full = pd.Series('N/A', index= discretise_data['issue_d'].index)
@@ -134,8 +137,8 @@ class DataPreprocessing:
         discretise_data['delinq_2yrs'] = discretized_full
         #
         #
-        discretise_data['earliest_cr_line'] = discretise_data['earliest_cr_line'].apply(lambda x: x.split('-')[1])
-        discretized = discretise_data['earliest_cr_line'].dropna()
+        discretise_data['earliest_cr_line'] = pd.to_datetime(discretise_data['earliest_cr_line'].apply(lambda x: x.split('-')[1]))
+        discretized = pd.cut(discretise_data['earliest_cr_line'].dropna(), bins = standard_num_bins)
         discretized = pd.Series(discretized, index=discretise_data['earliest_cr_line'].dropna().index)
         discretized_full = pd.Series('N/A', index= discretise_data['earliest_cr_line'].index)
         discretized_full.update(discretized)
@@ -236,6 +239,9 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['last_pymnt_amnt'] = discretized_full
 
+
+        discretise_data['last_credit_pull_d'] = pd.to_datetime(discretise_data['last_credit_pull_d'], format='%b-%Y')
+        discretise_data['last_credit_pull_d'] = discretise_data['last_credit_pull_d'].dt.year
         discretized = discretise_data['last_credit_pull_d'].dropna()
         discretized = pd.Series(discretized, index=discretise_data['last_credit_pull_d'].dropna().index)
         discretized_full = pd.Series('N/A', index= discretise_data['last_credit_pull_d'].index)
@@ -244,7 +250,7 @@ class DataPreprocessing:
         #
         discretise_data['last_fico_range_high'] = pd.cut(discretise_data['last_fico_range_high'], bins= standard_num_bins)
         #
-        discretise_data['collections_12_mths_ex_med'] = pd.cut(discretise_data['collections_12_mths_ex_med'], bins= discretise_data['collections_12_mths_ex_med'].nunique())
+        discretise_data['collections_12_mths_ex_med'] = pd.cut(discretise_data['collections_12_mths_ex_med'], bins= standard_num_bins)
         #
         discretized = discretise_data['policy_code'].dropna()
         discretized = pd.Series(discretized, index=discretise_data['policy_code'].dropna().index)
@@ -678,8 +684,9 @@ class DataPreprocessing:
 
 
 
-    def preprocess_data(data: pd.DataFrame):
+    def preprocess_data(data: pd.DataFrame) -> pd.DataFrame:
         
+        discretised_data: pd.DataFrame = None
         discretised_data = DataPreprocessing.discretise_data(data)
         return discretised_data
     
@@ -699,21 +706,32 @@ class DataPreprocessing:
         #subest_data = data.sample(n=num_rows)
         subset_data = data.sample(n = num_rows)
         
-        # splits data into 75% train and 25% test
-        train, test =  train_test_split(subset_data)
-
+        train_val: pd.DataFrame = None
+        test: pd.DataFrame = None
+        train: pd.DataFrame = None
+        validation: pd.DataFrame = None
         
-        return train, test
+        # splits data into 60% train and 20% test, 20% validation
+        train_val, test =  train_test_split(subset_data, test_size = 0.2)
+        
+        train, validation =  train_test_split(train_val, test_size = 0.25)
+        
+        return train, validation, test
     
-    def get_evidence_list(test_data, target_label):
+    def get_evidence_list(test_data, target_label_list: list, evidence_features: list):
         # gets the evidence list of the testing data to use as evidence when classifying loan status
-        test_temp_df = test_data.copy()
-        del test_temp_df[target_label]
+        
+        targets_removed_df = test_data.copy()
+        
+        for target_label in target_label_list:
+            del targets_removed_df[target_label]
+            
         testing_evidence_list = []
-        for i in range(len(test_temp_df)):
+        for i in range(len(targets_removed_df)):
             testing_evidence_dict = {}
-            for z in range(len(test_temp_df.columns.values.tolist())):
-                testing_evidence_dict[test_temp_df.columns.values.tolist()[z]] = test_temp_df[test_temp_df.columns.values.tolist()[z]].iloc[i]
+            for z in range(len(evidence_features)):
+                testing_evidence_dict[evidence_features[z]] = targets_removed_df[evidence_features[z]].iloc[i]
+                testing_evidence_dict['loan_status'] = "Fully Paid"
             testing_evidence_list.append(testing_evidence_dict)
         
         return testing_evidence_list

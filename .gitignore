@@ -1,6 +1,7 @@
 
 #ignore data file
 accepted_2007_to_2018Q4.csv
+preprocessed_data.csv
 
 #ignore pycache
 __pycache__/
