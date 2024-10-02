@@ -5,6 +5,7 @@ from Data.DataPreprocessing import DataPreprocessing
 import matplotlib.pyplot as plt
 from pgmpy import config
 import numpy as np
+import pandas as pd
 import torch
 
 #device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -14,12 +15,12 @@ import torch
 
 config.set_dtype(dtype=np.float32)
 
-loaded_data = DataPreprocessing.load_data()
-data = DataPreprocessing.preprocess_data(loaded_data)
+data = pd.read_csv("Data/preprocessed_data.csv", engine='c')
 feature_states = DataPreprocessing.get_feature_states(data)
 
+print("#############")
+print("Data loaded")
 print("#############\n")
-print("Data loaded\n")
 
 def return_evidence_features(list_description: str, inc_loan_amnt: bool):
 
@@ -73,28 +74,27 @@ BIC_full_distribution_log_liklihood_list = []
 BIC_desired_distribution_log_liklihood_list = []
 
 num_datapoints = []
+num_rows = len(data)
 
-for num_rows in range(1000,2000,500):
-    num_datapoints.append(num_rows)
-    percent_complete = (num_rows/3000)*100
-    print("#############\n")
-    print("percent_complete: "+str(percent_complete)+"%\n")
-    train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_rows = num_rows)
-
-    BIC_BN = BICBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
-    BIC_BN.set_evidence_features(evidence_features)
-    BIC_BN.set_target_list(target_features)
-    BIC_BN.structure_learning()
-    BIC_BN.parameter_estimator()
-
-    BIC_full_distribution_log_liklihood_list.append(BIC_BN.evaluate(distribution="full"))
-    BIC_desired_distribution_log_liklihood_list.append(BIC_BN.evaluate(distribution="desired"))
+#for num_rows in range(1000,2000,500):
+#num_datapoints.append(num_rows)
+#percent_complete = (num_rows/3000)*100
+#print("#############\n")
+#print("percent_complete: "+str(percent_complete)+"%\n")
+train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_rows = num_rows)
+BIC_BN = BICBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
+BIC_BN.set_evidence_features(evidence_features)
+BIC_BN.set_target_list(target_features)
+BIC_BN.structure_learning()
+BIC_BN.parameter_estimator(prior_type = "K2")
+BIC_full_distribution_log_liklihood_list.append(BIC_BN.evaluate(distribution="full"))
+BIC_desired_distribution_log_liklihood_list.append(BIC_BN.evaluate(distribution="desired"))
     
 BIC_BN.draw_graph(name= "Bayesian Network with BIC score",file_name="BIC_graph", save=True)
  
     
-with open("LogLikelihood_outputs/BIC_full_distribution_log_liklihood_list.txt", "w") as file:
+with open("LogLikelihood_outputs/BIC_full_distribution_k2.txt", "w") as file:
     file.write(", ".join(map(str, BIC_full_distribution_log_liklihood_list)))
 
-with open("LogLikelihood_outputs/BIC_desired_distribution_log_liklihood_list.txt", "w") as file:
+with open("LogLikelihood_outputs/BIC_desired_distribution_k2.txt", "w") as file:
     file.write(", ".join(map(str, BIC_desired_distribution_log_liklihood_list)))

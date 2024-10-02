@@ -11,17 +11,38 @@
 ### Other preprocessing:
 
 
+
+
+## Fine Tuning:
+
+First run / Finetuning:
+
+1 run on whole dataset 
+
 ## Structure Learning:
 
 ### different scores:
+random
+BIC
+Bdeu
+BDs
+K2
 
 #### priors/pseudo counts:
+
+First run/finetuning:
+
+BDeu: equivalent sample size = 10 
+BD2: equivalent sample size = 10
 
 
 ## Parameter Estimation:
 
 ### Hyperparameters / priors:
 
+First run/finetuning:
+
+All models had K2 prior.
 
 ## Inference:
 

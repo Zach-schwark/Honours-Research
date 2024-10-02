@@ -27,7 +27,7 @@ class DataPreprocessing:
         
         
     
-    def discretise_data(data: pd.DataFrame):
+    def discretise_data(data: pd.DataFrame) -> pd.DataFrame:
 
         discretise_data = data.copy() 
 
@@ -684,8 +684,9 @@ class DataPreprocessing:
 
 
 
-    def preprocess_data(data: pd.DataFrame):
+    def preprocess_data(data: pd.DataFrame) -> pd.DataFrame:
         
+        discretised_data: pd.DataFrame = None
         discretised_data = DataPreprocessing.discretise_data(data)
         return discretised_data
     
@@ -705,7 +706,12 @@ class DataPreprocessing:
         #subest_data = data.sample(n=num_rows)
         subset_data = data.sample(n = num_rows)
         
-        # splits data into 75% train and 25% test
+        train_val: pd.DataFrame = None
+        test: pd.DataFrame = None
+        train: pd.DataFrame = None
+        validation: pd.DataFrame = None
+        
+        # splits data into 60% train and 20% test, 20% validation
         train_val, test =  train_test_split(subset_data, test_size = 0.2)
         
         train, validation =  train_test_split(train_val, test_size = 0.25)
