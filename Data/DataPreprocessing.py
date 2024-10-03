@@ -17,7 +17,7 @@ class DataPreprocessing:
            'sec_app_mths_since_last_major_derog', 'sec_app_collections_12_mths_ex_med', 'sec_app_chargeoff_within_12_mths', 'sec_app_num_rev_accts', 'sec_app_open_act_il', 'sec_app_revol_util', 'sec_app_open_acc', 'sec_app_mort_acc',
            'sec_app_inq_last_6mths', 'sec_app_earliest_cr_line', 'sec_app_fico_range_high', 'sec_app_fico_range_low', 'verification_status_joint', 'dti_joint', 'annual_inc_joint', 'desc', 'url', 'revol_bal_joint','mths_since_last_record', 'mths_since_recent_bc_dlq', 'mths_since_last_major_derog', 'mths_since_recent_revol_delinq', 'next_pymnt_d',
            'il_util', 'mths_since_rcnt_il','mths_since_last_delinq', 'zip_code', 'last_pymnt_d','emp_title', 'funded_amnt', 'funded_amnt_inv', 'sub_grade', 'collection_recovery_fee', 'fico_range_low', 'num_sats', 'total_pymnt_inv', 'total_rec_prncp', 'tot_hi_cred_lim', 'total_il_high_credit_limit', 'num_rev_tl_bal_gt_0',
-           'last_fico_range_low'], axis=1)
+           'last_fico_range_low','addr_state', 'pymnt_plan'], axis=1)
 
 
         # drop rows that had more than 12 or more missing values
@@ -94,11 +94,6 @@ class DataPreprocessing:
         pattern = '|'.join(values_to_keep)
         discretise_data = discretise_data[discretise_data['loan_status'].str.contains(pattern)]
 
-        discretized = discretise_data['pymnt_plan'].dropna()
-        discretized = pd.Series(discretized, index=discretise_data['pymnt_plan'].dropna().index)
-        discretized_full = pd.Series('N/A', index= discretise_data['pymnt_plan'].index)
-        discretized_full.update(discretized)
-        discretise_data['pymnt_plan'] = discretized_full
 
         discretized = discretise_data['purpose'].dropna()
         discretized = pd.Series(discretized, index=discretise_data['purpose'].dropna().index)
@@ -111,11 +106,6 @@ class DataPreprocessing:
         discretized_full = pd.Series('N/A', index= discretise_data['title'].index)
         discretized_full.update(discretized)
         discretise_data['title'] = discretized_full
-        discretized = discretise_data['addr_state'].dropna()
-        discretized = pd.Series(discretized, index=discretise_data['addr_state'].dropna().index)
-        discretized_full = pd.Series('N/A', index= discretise_data['addr_state'].index)
-        discretized_full.update(discretized)
-        discretise_data['addr_state'] = discretized_full
 
         est = KBinsDiscretizer(n_bins = standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
         dti_dataframe = np.array([discretise_data['dti'].dropna().to_numpy()]).transpose()
