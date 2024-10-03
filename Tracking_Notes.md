@@ -17,7 +17,12 @@
 
 First run / Finetuning:
 
-1 run on whole dataset 
+    first run on whole datset did not work out. I ran into problems.
+    Needing over 190GB of RAM for the BDs BN
+    the BDeu taking over 13 hours just for stucture learning
+    the BIC still runing over 13 hours aswell etc
+
+1 run on 10 000 lines
 
 ## Structure Learning:
 

@@ -12,6 +12,7 @@ from pgmpy.utils import compat_fns
 from abc import ABC, abstractmethod
 from pgmpy import config
 import torch
+from tqdm import tqdm
 #device = "cuda" if torch.cuda.is_available() else "cpu"
 
 #config.set_dtype(dtype=torch.float16)
@@ -76,24 +77,24 @@ class Models(ABC):
         for i in range(len(parameters)):
             self.model.add_cpds(parameters[i])
     
-    def __perform_infernce_probability(self, target_list: list, evidence_list: list):
-        
-        
+    def __perform_inference_probability(self, target_list: list, evidence_list: list):
         predicted_max_probabilities = []
+        print("Performing Variable Elimination...")
         inference = VariableElimination(self.model)
-        for i in range(len(evidence_list)):
-            posterior_distribution = inference.query(variables = target_list, evidence=evidence_list[i], elimination_order="MinFill", joint=True, show_progress= True )
+        for i in tqdm(range(len(evidence_list))):
+            posterior_distribution = inference.query(variables = target_list, evidence=evidence_list[i], elimination_order="MinFill", joint=True, show_progress= False )
             #argmax = compat_fns.argmax(posterior_distribution.values)
             #assignment = posterior_distribution.assignment([argmax])[0]
             max = compat_fns.max(posterior_distribution.values)
             predicted_max_probabilities.append(max)
         return predicted_max_probabilities
 
-    def __perform_infernce_assignment(self, target_list: list, evidence_list: list):
+    def __perform_inference_assignment(self, target_list: list, evidence_list: list):
         predicted_values = []
+        print("Performing Variable Elimination...")
         inference = VariableElimination(self.model)
-        for i in range(len(evidence_list)):        
-            target_variables_result = inference.map_query(target_list, evidence = evidence_list[i], elimination_order="MinFill", show_progress= True) 
+        for i in tqdm(range(len(evidence_list))):        
+            target_variables_result = inference.map_query(target_list, evidence = evidence_list[i], elimination_order="MinFill", show_progress= False) 
             predicted_values.append(target_variables_result)
         return predicted_values
     
@@ -110,9 +111,9 @@ class Models(ABC):
                     del validation_evidence_list[i][attribute]
         
         if return_type == "probability":
-            return self.__perform_infernce_probability(target_list=self.target_list, evidence_list=validation_evidence_list)
+            return self.__perform_inference_probability(target_list=self.target_list, evidence_list=validation_evidence_list)
         elif return_type == "assignment":
-            return self.__perform_infernce_assignment(target_list=self.target_list, evidence_list=validation_evidence_list)
+            return self.__perform_inference_assignment(target_list=self.target_list, evidence_list=validation_evidence_list)
         else:
             raise ValueError('invalid argument for return_type, must be either "probability" or "assignment".')
         

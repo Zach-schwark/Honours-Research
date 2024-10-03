@@ -6,6 +6,9 @@ from pgmpy import config
 import numpy as np
 import pandas as pd
 import torch
+import logging
+from pgmpy.global_vars import logger
+logger.setLevel(logging.ERROR)
 
 #device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -76,7 +79,7 @@ BDs_desired_distribution_log_liklihood_list = []
 
 
 num_datapoints = []
-num_rows = len(data)
+num_rows = int(10000)
 
 #for num_rows in range(1000,2000,500):
 #num_datapoints.append(num_rows)
