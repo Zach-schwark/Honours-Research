@@ -88,7 +88,7 @@ K2_BN = k2BayesianNetwork(train_data=train_data, test_data=validation_data, feat
 K2_BN.set_evidence_features(evidence_features)
 K2_BN.set_target_list(target_features)
 K2_BN.structure_learning()
-K2_BN.parameter_estimator(prior_type = "K2")
+K2_BN.parameter_estimator(prior_type = "BDeu")
 
 K2_full_distribution_log_liklihood_list.append(K2_BN.evaluate(distribution="full"))
 K2_desired_distribution_log_liklihood_list.append(K2_BN.evaluate(distribution="desired"))

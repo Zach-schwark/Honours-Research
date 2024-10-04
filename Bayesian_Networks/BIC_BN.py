@@ -90,7 +90,7 @@ BIC_BN = BICBayesianNetwork(train_data=train_data, test_data=validation_data, fe
 BIC_BN.set_evidence_features(evidence_features)
 BIC_BN.set_target_list(target_features)
 BIC_BN.structure_learning()
-BIC_BN.parameter_estimator(prior_type = "K2")
+BIC_BN.parameter_estimator(prior_type = "BDeu")
 BIC_full_distribution_log_liklihood_list.append(BIC_BN.evaluate(distribution="full"))
 BIC_desired_distribution_log_liklihood_list.append(BIC_BN.evaluate(distribution="desired"))
     
