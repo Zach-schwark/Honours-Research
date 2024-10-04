@@ -22,7 +22,41 @@ First run / Finetuning:
     the BDeu taking over 13 hours just for stucture learning
     the BIC still runing over 13 hours aswell etc
 
-1 run on 10 000 lines
+#### 1 run on 10 000 lines
+#####  ess=10 for structure learning priors, k2 sccore for parameter estimation
+
+random:
+- full: -83716.11
+- desired: -5498.7417
+
+BIC:
+- full: -96348.92
+- desired: -2750.0156
+
+Bdeu:\
+this score was estimated to take 33 days to complete the variable elimination of the desired distribution so I stopped it.
+- full:
+- desired: 
+
+BDs:
+- full: -97380.44
+- desired: -2769.0144
+
+K2:
+- full: -99207.66
+- desired: -2794.0796
+
+###### ess=100 for structure learning priors:
+
+Bdeu:
+- full:
+- desired: 
+
+BDs:
+- full: 
+- desired: 
+
+
 
 ## Structure Learning:
 

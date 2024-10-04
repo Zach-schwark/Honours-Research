@@ -90,7 +90,7 @@ train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_r
 BDs_BN = BDsBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
 BDs_BN.set_evidence_features(evidence_features)    
 BDs_BN.set_target_list(target_features)
-BDs_BN.structure_learning(equivalent_sample_size  = 10)
+BDs_BN.structure_learning(equivalent_sample_size  = 100)
 BDs_BN.parameter_estimator(prior_type = "K2")
 
 BDs_full_distribution_log_liklihood_list.append(BDs_BN.evaluate(distribution="full"))
