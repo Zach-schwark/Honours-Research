@@ -248,7 +248,7 @@ class BDeuBayesianNetwork(Models):
         scoring_method = estimators.BDeuScore(data=self.train_data, equivalent_sample_size=equivalent_sample_size)  # TODO change sample size hyperparameter
         est = estimators.HillClimbSearch(data=self.train_data, use_cache = True)
         estimated_model = est.estimate(
-            scoring_method=scoring_method, max_iter=int(1e3), max_indegree=3)
+            scoring_method=scoring_method, max_iter=int(1e2), max_indegree=3)
 
         self.model = BayesianNetwork(estimated_model.edges())
         self.model.add_nodes_from(estimated_model.nodes())
