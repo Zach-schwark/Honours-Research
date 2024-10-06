@@ -17,6 +17,19 @@ logger.setLevel(logging.ERROR)
 
 config.set_dtype(dtype=np.float32)
 
+
+with open("LogLikelihood_outputs/BIC_full_distribution.txt", "w") as file:
+    file.write("")
+    
+with open("LogLikelihood_outputs/BIC_desired_distribution.txt", "w") as file:
+    file.write("")
+    
+with open("Correlation_outputs/BIC_correlation_accuracy.txt", "w") as file:
+    file.write("")
+
+with open("Correlation_outputs/BIC_correlation_f1.txt", "w") as file:
+    file.write("")
+
 loaded_data: pd.DataFrame = DataPreprocessing.load_data()
 data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)
 feature_states = DataPreprocessing.get_feature_states(data)
@@ -76,6 +89,8 @@ target_features = return_target_features(inc_loan_amnt=True)
 
 BIC_full_distribution_log_liklihood_list = []
 BIC_desired_distribution_log_liklihood_list = []
+BIC_correlation_accuracy_list = []
+BIC_correlation_f1_list = []
 
 num_datapoints = []
 num_rows = int(10000)
@@ -90,15 +105,28 @@ BIC_BN = BICBayesianNetwork(train_data=train_data, test_data=validation_data, fe
 BIC_BN.set_evidence_features(evidence_features)
 BIC_BN.set_target_list(target_features)
 BIC_BN.structure_learning()
-BIC_BN.parameter_estimator(prior_type = "BDeu")
-BIC_full_distribution_log_liklihood_list.append(BIC_BN.evaluate(distribution="full"))
-BIC_desired_distribution_log_liklihood_list.append(BIC_BN.evaluate(distribution="desired"))
+BIC_BN.parameter_estimator(prior_type = "BDeu", equivalent_sample_size=1000)
+
+full_log_likelihood = BIC_BN.evaluate(distribution="full")
+BIC_full_distribution_log_liklihood_list.append(full_log_likelihood)
+with open("LogLikelihood_outputs/BIC_full_distribution.txt", "a") as file:
+    file.write(str(full_log_likelihood)+",")
+    
+desired_log_likelihood = BIC_BN.evaluate(distribution="desired")
+BIC_desired_distribution_log_liklihood_list.append(desired_log_likelihood)
+with open("LogLikelihood_outputs/BIC_desired_distribution.txt", "a") as file:
+    file.write(str(desired_log_likelihood)+",")
+    
+correlation_accuracy = BIC_BN.evaluate(score="correlation", classification_metric="accuracy")    
+BIC_correlation_accuracy_list.append(correlation_accuracy)
+with open("Correlation_outputs/BIC_correlation_accuracy.txt", "a") as file:
+    file.write(str(correlation_accuracy)+",")
+
+correlation_f1 = BIC_BN.evaluate(score="correlation", classification_metric="f1")
+BIC_correlation_f1_list.append(correlation_f1)
+with open("Correlation_outputs/BIC_correlation_f1.txt", "a") as file:
+    file.write(str(correlation_f1)+",")
+    
     
 BIC_BN.draw_graph(name= "Bayesian Network with BIC score",file_name="BIC_graph", save=True, show=False)
  
-    
-with open("LogLikelihood_outputs/BIC_full_distribution.txt", "w") as file:
-    file.write(", ".join(map(str, BIC_full_distribution_log_liklihood_list)))
-
-with open("LogLikelihood_outputs/BIC_desired_distribution.txt", "w") as file:
-    file.write(", ".join(map(str, BIC_desired_distribution_log_liklihood_list)))

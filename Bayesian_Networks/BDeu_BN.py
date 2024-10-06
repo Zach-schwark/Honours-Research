@@ -17,6 +17,18 @@ logger.setLevel(logging.ERROR)
 
 config.set_dtype(dtype=np.float32)
 
+with open("LogLikelihood_outputs/BDeu_full_distribution.txt", "w") as file:
+    file.write("")
+
+with open("LogLikelihood_outputs/BDeu_desired_distribution.txt", "w") as file:
+    file.write("")
+    
+with open("Correlation_outputs/BDeu_correlation_accuracy.txt", "w") as file:
+    file.write("")
+
+with open("Correlation_outputs/BDeu_correlation_f1.txt", "w") as file:
+    file.write("")
+
 loaded_data: pd.DataFrame = DataPreprocessing.load_data()
 data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)
 feature_states = DataPreprocessing.get_feature_states(data)
@@ -76,6 +88,8 @@ target_features = return_target_features(inc_loan_amnt=True)
 
 BDeu_full_distribution_log_liklihood_list = []
 BDeu_desired_distribution_log_liklihood_list = []
+BDeu_correlation_accuracy_list = []
+BDeu_correlation_f1_list = []
 
 
 num_datapoints = []
@@ -92,16 +106,31 @@ BDeu_BN = BDeuBayesianNetwork(train_data=train_data, test_data=validation_data, 
 BDeu_BN.set_evidence_features(evidence_features)
 BDeu_BN.set_target_list(target_features)
 BDeu_BN.structure_learning(equivalent_sample_size = 1000)
-BDeu_BN.parameter_estimator(prior_type = "K2")
-BDeu_full_distribution_log_liklihood_list.append(BDeu_BN.evaluate(distribution="full"))
-BDeu_desired_distribution_log_liklihood_list.append(BDeu_BN.evaluate(distribution="desired"))
+BDeu_BN.parameter_estimator(prior_type = "BDeu", equivalent_sample_size= 1000)
+
+
+full_log_likelihood = BDeu_BN.evaluate(distribution="full")
+BDeu_full_distribution_log_liklihood_list.append(full_log_likelihood)
+with open("LogLikelihood_outputs/BDeu_full_distribution.txt", "a") as file:
+    file.write(str(full_log_likelihood)+",")
+    
+desired_log_likelihood = BDeu_BN.evaluate(distribution="desired")
+BDeu_desired_distribution_log_liklihood_list.append(desired_log_likelihood)
+with open("LogLikelihood_outputs/BDeu_desired_distribution.txt", "a") as file:
+    file.write(str(desired_log_likelihood)+",")
+    
+correlation_accuracy = BDeu_BN.evaluate(score="correlation", classification_metric="accuracy")    
+BDeu_correlation_accuracy_list.append(correlation_accuracy)
+with open("Correlation_outputs/BDeu_correlation_accuracy.txt", "a") as file:
+    file.write(str(correlation_accuracy)+",")
+
+correlation_f1 = BDeu_BN.evaluate(score="correlation", classification_metric="f1")
+BDeu_correlation_f1_list.append(correlation_f1)
+with open("Correlation_outputs/BDeu_correlation_f1.txt", "a") as file:
+    file.write(str(correlation_f1)+",")
+    
 
 
 BDeu_BN.draw_graph(name= "Bayesian Network with BDeu score",file_name="BDeu_graph", save=True, show=False)
 
 
-with open("LogLikelihood_outputs/BDeu_full_distribution.txt", "w") as file:
-    file.write(", ".join(map(str, BDeu_full_distribution_log_liklihood_list)))
-
-with open("LogLikelihood_outputs/BDeu_desired_distribution.txt", "w") as file:
-    file.write(", ".join(map(str, BDeu_desired_distribution_log_liklihood_list)))

@@ -17,6 +17,19 @@ logger.setLevel(logging.ERROR)
 
 config.set_dtype(dtype=np.float32)
 
+with open("LogLikelihood_outputs/K2_full_distribution.txt", "w") as file:
+    file.write("")
+
+with open("LogLikelihood_outputs/K2_desired_distribution.txt", "w") as file:
+    file.write("")
+    
+with open("Correlation_outputs/K2_correlation_accuracy.txt", "w") as file:
+    file.write("")
+
+with open("Correlation_outputs/K2_correlation_f1.txt", "w") as file:
+    file.write("")
+
+
 loaded_data: pd.DataFrame = DataPreprocessing.load_data()
 data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)
 feature_states = DataPreprocessing.get_feature_states(data)
@@ -74,6 +87,8 @@ target_features = return_target_features(inc_loan_amnt=True)
 
 K2_full_distribution_log_liklihood_list = []
 K2_desired_distribution_log_liklihood_list = []
+K2_correlation_accuracy_list = []
+K2_correlation_f1_list = []
 
 num_datapoints = []
 num_rows = int(10000)
@@ -88,16 +103,29 @@ K2_BN = k2BayesianNetwork(train_data=train_data, test_data=validation_data, feat
 K2_BN.set_evidence_features(evidence_features)
 K2_BN.set_target_list(target_features)
 K2_BN.structure_learning()
-K2_BN.parameter_estimator(prior_type = "BDeu")
+K2_BN.parameter_estimator(prior_type = "BDeu", equivalent_sample_size=1000)
 
-K2_full_distribution_log_liklihood_list.append(K2_BN.evaluate(distribution="full"))
-K2_desired_distribution_log_liklihood_list.append(K2_BN.evaluate(distribution="desired"))
+
+full_log_likelihood = K2_BN.evaluate(distribution="full")
+K2_full_distribution_log_liklihood_list.append(full_log_likelihood)
+with open("LogLikelihood_outputs/K2_full_distribution.txt", "a") as file:
+    file.write(str(full_log_likelihood)+",")
     
+desired_log_likelihood = K2_BN.evaluate(distribution="desired")
+K2_desired_distribution_log_liklihood_list.append(desired_log_likelihood)
+with open("LogLikelihood_outputs/K2_desired_distribution.txt", "a") as file:
+    file.write(str(desired_log_likelihood)+",")
+    
+correlation_accuracy = K2_BN.evaluate(score="correlation", classification_metric="accuracy")    
+K2_correlation_accuracy_list.append(correlation_accuracy)
+with open("Correlation_outputs/K2_correlation_accuracy.txt", "a") as file:
+    file.write(str(correlation_accuracy)+",")
+
+correlation_f1 = K2_BN.evaluate(score="correlation", classification_metric="f1")
+K2_correlation_f1_list.append(correlation_f1)
+with open("Correlation_outputs/K2_correlation_f1.txt", "a") as file:
+    file.write(str(correlation_f1)+",")
+
     
 K2_BN.draw_graph(name= "Bayesian Network with K2 score",file_name="K2_graph", save=True, show=False)
     
-with open("LogLikelihood_outputs/K2_full_distribution.txt", "w") as file:
-    file.write(", ".join(map(str, K2_full_distribution_log_liklihood_list)))
-
-with open("LogLikelihood_outputs/K2_desired_distribution.txt", "w") as file:
-    file.write(", ".join(map(str, K2_desired_distribution_log_liklihood_list)))

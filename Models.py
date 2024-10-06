@@ -4,9 +4,11 @@ import networkx as nx
 from matplotlib import pyplot as plt
 from pgmpy.models import BayesianNetwork
 from pgmpy.base import DAG
-from pgmpy.metrics import log_likelihood_score
+from pgmpy.metrics import log_likelihood_score, correlation_score
 from pgmpy.inference import VariableElimination
 from pgmpy import estimators
+from pgmpy.estimators import TreeSearch
+from sklearn.metrics import f1_score, accuracy_score
 from Data.DataPreprocessing import DataPreprocessing
 from pgmpy.utils import compat_fns
 from abc import ABC, abstractmethod
@@ -138,79 +140,81 @@ class Models(ABC):
         
         return log_likelihood
     
-    def evaluate(self, distribution:str):
-        if distribution == "full":
-            return self.__evaluate_full_distribution()
-        elif distribution == "desired":
-            return self.__evaluate_desired_distribution()
+    def evaluate(self, distribution:str= "full", score: str= "log_likelihood", classification_metric: str = "accuracy"):
+        """ Evaluates the model using the PGMPY log_likelihood score or correlation score.
+
+        Args:
+            distribution (str): The distribution to evalaute when using the log likelihood score. This can be either "full" meaning the log likelihood is calculated using the P(all features), or "desired" meaning the log likelihood is specifically calculated for the P(target variables | evidence). The default is "full"
+            score (str): Specifies which evaluation metric to use, either the "log_likelihood" score or the "correlation" score.
+            classification_metric (str): Specifies which classification metric to use if score = "correlation". Can be either "accuracy" or "f1". The default is "accuracy"
+
+        Raises:
+            ValueError: if the inputs for distribution and score are invalid.
+
+        Returns:
+            _type_: float
+        """
+        if score == "log_likelihood":
+            if distribution == "full":
+                return self.__evaluate_full_distribution()
+            elif distribution == "desired":
+                return self.__evaluate_desired_distribution()
+            else:
+                raise ValueError('invalid argument for distribution, must be either "full" or "desired".')
+        elif score == "correlation":
+            if classification_metric == "accuracy":
+                difference = list(set(self.test_data.columns) - set(self.model.nodes()))
+                missing_features = []
+                for missing_feature in difference:
+                    missing_features.append(missing_feature)
+
+                data_removed_missing_features = self.test_data.drop(missing_features, axis=1, inplace=False)
+                return correlation_score(self.model, data_removed_missing_features, test="chi_square", significance_level=0.05,score = accuracy_score, return_summary= False)
+            elif classification_metric == "f1":
+                difference = list(set(self.test_data.columns) - set(self.model.nodes()))
+                missing_features = []
+                for missing_feature in difference:
+                    missing_features.append(missing_feature)
+
+                data_removed_missing_features = self.test_data.drop(missing_features, axis=1, inplace=False)
+                return correlation_score(self.model, data_removed_missing_features, test="chi_square", significance_level=0.05,score = f1_score, return_summary= False)
+            else:
+                raise ValueError('invalid argument for classification metric, must be either "accuracy" or "f1".')
         else:
-            raise ValueError('invalid argument for distribution, must be either "full" or "desired".')
-        
+            raise ValueError('invalid argument for score, must be either "log_likelihood" or "correlation".')
+            
+                   
     def train(self):
         self.structure_learning()
         self.parameter_estimator()
-        
 
 class RandomBayesianNetwork(Models):
     
     def __init__(self, train_data, test_data, feature_states) -> None:
         super().__init__(train_data, test_data, feature_states)
         
-    def set_target_list(self, target_list: list):
-        return super().set_target_list(target_list)
-
-    def set_evidence_features(self, evidence_features: list):
-        return super().set_evidence_features(evidence_features)
-
-    def draw_graph(self,name:str, file_name: str, save: bool, show: bool):
-        return super().draw_graph(name, file_name, save, show)
-    
-    def inference(self, return_type: str):
-        return super().inference(return_type)
-    
-    def evaluate(self, distribution: str):
-        return super().evaluate(distribution)
-
     def structure_learning(self):
         self.model = BayesianNetwork()
         Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.05)
         self.model.add_nodes_from(self.train_data.columns.to_list())
         self.model.add_edges_from(Random_Dag.edges())
 
-        active_trail_nodes = self.model.active_trail_nodes(['loan_status',"int_rate","term","installment", "loan_amnt"])
-        active_trail_nodes_list = list(active_trail_nodes['loan_status'])
-        active_trail_nodes_list.extend(active_trail_nodes['int_rate'])
-        active_trail_nodes_list.extend(active_trail_nodes['term'])
-        active_trail_nodes_list.extend(active_trail_nodes['installment'])
-        active_trail_nodes_list.extend(active_trail_nodes['loan_amnt'])
-        original_nodes = list(self.model.nodes())
-        for node in original_nodes:
-            if node not in active_trail_nodes_list:
-                self.model.remove_node(node)
-    
-    def parameter_estimator(self, prior_type: str= "BDeu", equivalent_sample_size: int = 5, pseudo_counts: dict | int = None):
-        return super().parameter_estimator(prior_type, equivalent_sample_size, pseudo_counts)
+        #active_trail_nodes = self.model.active_trail_nodes(['loan_status',"int_rate","term","installment", "loan_amnt"])
+        #active_trail_nodes_list = list(active_trail_nodes['loan_status'])
+        #active_trail_nodes_list.extend(active_trail_nodes['int_rate'])
+        #active_trail_nodes_list.extend(active_trail_nodes['term'])
+        #active_trail_nodes_list.extend(active_trail_nodes['installment'])
+        #active_trail_nodes_list.extend(active_trail_nodes['loan_amnt'])
+        #original_nodes = list(self.model.nodes())
+        #for node in original_nodes:
+        #    if node not in active_trail_nodes_list:
+        #        self.model.remove_node(node)s
+
 
 class BICBayesianNetwork(Models):
     
     def __init__(self, train_data, test_data, feature_states) -> None:
         super().__init__(train_data, test_data, feature_states)
-        pass
-    
-    def set_target_list(self, target_list: list):
-        return super().set_target_list(target_list)
-
-    def set_evidence_features(self, evidence_features: list):
-        return super().set_evidence_features(evidence_features)
-
-    def draw_graph(self,name:str, file_name: str, save: bool, show: bool):
-        return super().draw_graph(name, file_name, save, show)
-    
-    def inference(self, return_type: str):
-        return super().inference(return_type)
-    
-    def evaluate(self, distribution: str):
-        return super().evaluate(distribution)
     
     def structure_learning(self):
         scoring_method = estimators.BicScore(data=self.train_data)
@@ -219,30 +223,13 @@ class BICBayesianNetwork(Models):
         self.model = BayesianNetwork(estimated_model.edges())
         self.model.add_nodes_from(estimated_model.nodes())
         super().structure_learning()
-        
-    def parameter_estimator(self, prior_type: str= "BDeu", equivalent_sample_size: int = 5, pseudo_counts: dict | int = None):
-        return super().parameter_estimator(prior_type, equivalent_sample_size, pseudo_counts)
+
             
 class BDeuBayesianNetwork(Models):
         
     def __init__(self, train_data, test_data, feature_states) -> None:
         super().__init__(train_data, test_data, feature_states)
-        pass
     
-    def set_target_list(self, target_list: list):
-        return super().set_target_list(target_list)
-
-    def set_evidence_features(self, evidence_features: list):
-        return super().set_evidence_features(evidence_features)
-
-    def draw_graph(self,name:str, file_name: str, save: bool, show: bool):
-        return super().draw_graph(name, file_name, save, show)
-    
-    def inference(self, return_type: str):
-        return super().inference(return_type)
-    
-    def evaluate(self, distribution: str):
-        return super().evaluate(distribution)
     
     def structure_learning(self, equivalent_sample_size = 10):
         scoring_method = estimators.BDeuScore(data=self.train_data, equivalent_sample_size=equivalent_sample_size)  # TODO change sample size hyperparameter
@@ -254,29 +241,12 @@ class BDeuBayesianNetwork(Models):
         self.model.add_nodes_from(estimated_model.nodes())
         super().structure_learning()
         
-    def parameter_estimator(self, prior_type: str= "BDeu", equivalent_sample_size: int = 5, pseudo_counts: dict | int = None):
-        return super().parameter_estimator(prior_type, equivalent_sample_size, pseudo_counts)
         
 class BDsBayesianNetwork(Models):
     
     def __init__(self, train_data, test_data, feature_states) -> None:
         super().__init__(train_data, test_data, feature_states)
-        pass
 
-    def set_target_list(self, target_list: list):
-        return super().set_target_list(target_list)
-
-    def set_evidence_features(self, evidence_features: list):
-        return super().set_evidence_features(evidence_features)
-
-    def draw_graph(self,name:str, file_name: str, save: bool, show: bool):
-        return super().draw_graph(name, file_name, save, show)
-    
-    def inference(self, return_type: str):
-        return super().inference(return_type)
-    
-    def evaluate(self, distribution: str):
-        return super().evaluate(distribution)
 
     def structure_learning(self, equivalent_sample_size=10):
         scoring_method = estimators.BDsScore(data=self.train_data,equivalent_sample_size=equivalent_sample_size) # TODO change sample size hyperparameter
@@ -286,29 +256,13 @@ class BDsBayesianNetwork(Models):
         self.model.add_nodes_from(estimated_model.nodes())
         super().structure_learning()
         
-    def parameter_estimator(self, prior_type: str= "BDeu", equivalent_sample_size: int = 5, pseudo_counts: dict | int = None):
-        return super().parameter_estimator(prior_type, equivalent_sample_size, pseudo_counts)
+
     
 class k2BayesianNetwork(Models):
     
     def __init__(self, train_data, test_data, feature_states) -> None:
         super().__init__(train_data, test_data, feature_states)
-        pass
     
-    def set_target_list(self, target_list: list):
-        return super().set_target_list(target_list)
-
-    def set_evidence_features(self, evidence_features: list):
-        return super().set_evidence_features(evidence_features)
-
-    def draw_graph(self,name:str, file_name: str, save: bool, show: bool):
-        return super().draw_graph(name, file_name, save, show)
-    
-    def inference(self, return_type: str):
-        return super().inference(return_type)
-    
-    def evaluate(self, distribution: str):
-        return super().evaluate(distribution)
     
     def structure_learning(self):
         scoring_method = estimators.K2Score(data=self.train_data)
@@ -318,6 +272,33 @@ class k2BayesianNetwork(Models):
         self.model = BayesianNetwork(estimated_model.edges())
         self.model.add_nodes_from(estimated_model.nodes())
         super().structure_learning()
+
+
+class Chow_Liu_Tree(Models):
+    
+    def __init__(self, train_data, test_data, feature_states) -> None:
+        self.model: BayesianNetwork
+        self.target_list: list = ["int_rate","term","installment","loan_amnt"]
+        self.evidence_features: list = ["fico_range_high"]
+        self.train_data = train_data
+        self.test_data = test_data
+        self.feature_states = feature_states
         
-    def parameter_estimator(self, prior_type: str= "BDeu", equivalent_sample_size: int = 5, pseudo_counts: dict | int = None):
-        return super().parameter_estimator(prior_type, equivalent_sample_size, pseudo_counts)
+    def structure_learning(self):
+        est = TreeSearch(self.train_data, root_node="fico_range_high")
+        dag = est.estimate(estimator_type="chow-liu")
+        self.model = BayesianNetwork(dag.edges())
+    
+    def parameter_estimator(self, prior_type: str = "BDeu", equivalent_sample_size: int = 5, pseudo_counts: dict | int = None):
+        self.model.fit(self.train_data, estimator=estimators.BayesianEstimator, state_names=self.feature_states, prior_type = "K2")
+        
+    def draw_graph(self, name: str, file_name: str, save: bool, show: bool):
+        nx_graph = nx.DiGraph(self.model.edges())
+        pos = nx.spring_layout(nx_graph,2)
+        fig, ax = plt.subplots(ncols=1, figsize=(20, 20))
+        nx.draw(nx_graph, pos, with_labels=True, node_size=1000, node_color = 'skyblue', edge_color='#424242',font_size=15,font_color='black')
+        ax.set_title(name)
+        if save == True:
+            plt.savefig("Graphics/BN_graphs/"+file_name)
+        if show == True:
+            plt.show()
