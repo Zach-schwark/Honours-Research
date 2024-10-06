@@ -48,15 +48,53 @@ K2:
 
 ###### ess=100 for structure learning priors:
 
+these ran quicker with the prior, decreseing the prior might make it more accurate but run quicker
+
+Bdeu:
+- full: -82066.55
+- desired: -2948.395
+
+BDs:
+- full: -97783.914
+- desired: -2694.8018
+
+###### ess=50 for structure learning priors:
+
+Bdeu:
+- full: -81801.016
+- desired: -2977.7705
+
+BDs:
+- full: -98273.375
+- desired: -2764.6963
+
+###### ess=1000 for structure learning priors:
+
+Bdeu:
+- full: 
+- desired: 
+
+BDs:
+- full: -101985.39
+- desired: -2875.7534
+
+#####  ess=10 for structure learning priors, BDeu score for parameter estimation
+
+BIC:
+- full: -95452.75
+- desired: -2857.6394
+
 Bdeu:
 - full:
 - desired: 
 
 BDs:
-- full: 
+- full:
 - desired: 
 
-
+K2:
+- full: -97256.83
+- desired: -2687.0728
 
 ## Structure Learning:
 
