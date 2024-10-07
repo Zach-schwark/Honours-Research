@@ -15,7 +15,7 @@ logger.setLevel(logging.ERROR)
 #config.set_dtype(dtype=torch.float16)
 #config.set_backend("torch", device=device, dtype=torch.float32)
 
-config.set_dtype(dtype=np.float32)
+config.set_dtype(dtype=np.float16)
 
 
 with open("LogLikelihood_outputs/BDs_full_distribution.txt", "w") as file:
