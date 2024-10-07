@@ -105,8 +105,8 @@ train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_r
 BDeu_BN = BDeuBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
 BDeu_BN.set_evidence_features(evidence_features)
 BDeu_BN.set_target_list(target_features)
-BDeu_BN.structure_learning(equivalent_sample_size = 1000)
-BDeu_BN.parameter_estimator(prior_type = "BDeu", equivalent_sample_size= 1000)
+BDeu_BN.structure_learning(equivalent_sample_size = 50)
+BDeu_BN.parameter_estimator(prior_type = "BDeu", equivalent_sample_size= 50)
 
 
 full_log_likelihood = BDeu_BN.evaluate(distribution="full")

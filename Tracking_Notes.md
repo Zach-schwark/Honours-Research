@@ -22,8 +22,8 @@ First run / Finetuning:
     the BDeu taking over 13 hours just for stucture learning
     the BIC still runing over 13 hours aswell etc
 
-#### 1 run on 10 000 lines
-#####  ess=10 for structure learning priors, k2 sccore for parameter estimation
+### 1 run on 10 000 lines
+####  ess=10 for structure learning priors, k2 sccore for parameter estimation
 
 random:
 - full: -83716.11
@@ -46,7 +46,7 @@ K2:
 - full: -99207.66
 - desired: -2794.0796
 
-###### ess=100 for structure learning priors:
+##### ess=100 for structure learning priors:
 
 these ran quicker with the prior, decreseing the prior might make it more accurate but run quicker
 
@@ -58,7 +58,7 @@ BDs:
 - full: -97783.914
 - desired: -2694.8018
 
-###### ess=50 for structure learning priors:
+##### ess=50 for structure learning priors:
 
 Bdeu:
 - full: -81801.016
@@ -78,7 +78,7 @@ BDs:
 - full: -101985.39
 - desired: -2875.7534
 
-#####  ess=10 for structure learning priors, BDeu score for parameter estimation
+####  ess=10 for structure learning priors, BDeu score for parameter estimation
 
 BIC:
 - full: -95452.75
@@ -95,6 +95,111 @@ BDs:
 K2:
 - full: -97256.83
 - desired: -2687.0728
+
+
+#### ess=1000 for structure learning, BDeu with ess=1000 for parameter estimation
+
+##### LogLikelihood:
+random:
+- ran into error 
+
+BIC:
+- full: -101404.875
+- desired: -3206.0286
+
+Bdeu:
+- full: -86472.68
+- desired: ran into error, int_rate not in graph
+
+BDs:
+- full: -103673.555
+- desired: -3013.8362
+
+K2:
+- full: -98227.16
+- desired: -3059.7332
+
+Chow-Liu:
+- full: -103353.125
+- desired: -3203.9448
+
+##### Correlation:
+
+random:
+- ran into error
+
+BIC:
+- accuracy: 0.5525150905432595
+- f1: 0.0
+
+Bdeu:
+- ran into error
+
+BDs:
+- accuracy: 0.42160493827160495
+- f1: 0.0
+
+K2:
+- accuracy: 0.4560126582278481
+- f1: 0.07030827474310439
+
+Chow-Liu:
+- accuracy: 0.44537037037037036
+- f1: 0.0
+
+
+#### ess=50 for structure learning, BDeu with ess=50 for parameter estimation
+
+##### LogLikelihood:
+random:
+- full: 
+- desired: 
+
+BIC:
+- full: 
+- desired: 
+
+Bdeu:
+- full: 
+- desired:
+
+BDs:
+- full: 
+- desired: 
+
+K2:
+- full: 
+- desired: 
+
+Chow-Liu:
+- full: 
+- desired: 
+
+##### Correlation:
+
+random:
+- accuracy:
+- f1: 
+
+BIC:
+- accuracy:
+- f1: 
+
+Bdeu:
+- accuracy:
+- f1: 
+
+BDs:
+- accuracy: 
+- f1: 
+
+K2:
+- accuracy: 
+- f1: 
+
+Chow-Liu:
+- accuracy: 
+- f1: 
 
 ## Structure Learning:
 
