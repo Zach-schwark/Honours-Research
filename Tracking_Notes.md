@@ -156,20 +156,20 @@ random:
 - desired: 
 
 BIC:
-- full: 
-- desired: 
+- full: -95383.305,
+- desired: -2759.7083,
 
 Bdeu:
-- full: 
-- desired:
+- full: -80765.58,
+- desired: -2874.6968,
 
 BDs:
-- full: 
-- desired: 
+- full: -inf,
+- desired: nan,
 
 K2:
-- full: 
-- desired: 
+- full: -97868.92,
+- desired: -2827.8086,
 
 Chow-Liu:
 - full: 
@@ -182,20 +182,20 @@ random:
 - f1: 
 
 BIC:
-- accuracy:
-- f1: 
+- accuracy: 0.5205479452054794,
+- f1: 0.0,
 
 Bdeu:
-- accuracy:
-- f1: 
+- accuracy: 0.5916515426497277,
+- f1: 0.0425531914893617,
 
 BDs:
-- accuracy: 
-- f1: 
+- accuracy: 0.4661392405063291,
+- f1: 0.0,
 
 K2:
-- accuracy: 
-- f1: 
+- accuracy: 0.4800389483933788,
+- f1: 0.011111111111111112,
 
 Chow-Liu:
 - accuracy: 
