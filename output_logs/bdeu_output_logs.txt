@@ -1,0 +1,57 @@
+/home-mscluster/zschwark/Honours-Research/./Data/DataPreprocessing.py:14: DtypeWarning: Columns (0,19,49,59,118,129,130,131,134,135,136,139,145,146,147) have mixed types. Specify dtype option on import or set low_memory=False.
+  data = pd.read_csv("Data/accepted_2007_to_2018Q4.csv", engine='c')
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/preprocessing/_discretization.py:263: UserWarning: Feature 0 is constant and will be replaced with 0.
+  warnings.warn(
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/preprocessing/_discretization.py:263: UserWarning: Feature 0 is constant and will be replaced with 0.
+  warnings.warn(
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/base.py:1473: ConvergenceWarning: Number of distinct clusters (3) found smaller than n_clusters (5). Possibly due to duplicate points in X.
+  return fit_method(estimator, *args, **kwargs)
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/preprocessing/_discretization.py:307: UserWarning: Bins whose width are too small (i.e., <= 1e-8) in feature 0 are removed. Consider decreasing the number of bins.
+  warnings.warn(
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/base.py:1473: ConvergenceWarning: Number of distinct clusters (4) found smaller than n_clusters (5). Possibly due to duplicate points in X.
+  return fit_method(estimator, *args, **kwargs)
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/preprocessing/_discretization.py:307: UserWarning: Bins whose width are too small (i.e., <= 1e-8) in feature 0 are removed. Consider decreasing the number of bins.
+  warnings.warn(
+#############
+Data loaded
+#############
+
+  0%|          | 0/100 [00:00<?, ?it/s]  1%|          | 1/100 [00:15<26:02, 15.78s/it]  2%|▏         | 2/100 [00:16<10:55,  6.69s/it]  3%|▎         | 3/100 [00:16<06:06,  3.78s/it]  4%|▍         | 4/100 [00:16<03:52,  2.42s/it]  5%|▌         | 5/100 [00:17<02:37,  1.66s/it]  6%|▌         | 6/100 [00:17<01:53,  1.21s/it]  7%|▋         | 7/100 [00:17<01:25,  1.09it/s]  8%|▊         | 8/100 [00:18<01:06,  1.37it/s]  9%|▉         | 9/100 [00:18<00:54,  1.66it/s] 10%|█         | 10/100 [00:18<00:46,  1.94it/s] 11%|█         | 11/100 [00:19<00:40,  2.19it/s] 12%|█▏        | 12/100 [00:19<00:36,  2.40it/s] 13%|█▎        | 13/100 [00:19<00:33,  2.58it/s] 14%|█▍        | 14/100 [00:19<00:31,  2.71it/s] 15%|█▌        | 15/100 [00:20<00:30,  2.82it/s] 16%|█▌        | 16/100 [00:20<00:29,  2.89it/s] 17%|█▋        | 17/100 [00:20<00:28,  2.94it/s] 18%|█▊        | 18/100 [00:21<00:28,  2.88it/s] 19%|█▉        | 19/100 [00:21<00:27,  2.94it/s] 20%|██        | 20/100 [00:21<00:26,  2.98it/s] 21%|██        | 21/100 [00:22<00:26,  3.02it/s] 22%|██▏       | 22/100 [00:22<00:25,  3.04it/s] 23%|██▎       | 23/100 [00:22<00:26,  2.94it/s] 24%|██▍       | 24/100 [00:23<00:25,  2.98it/s] 25%|██▌       | 25/100 [00:23<00:24,  3.01it/s] 26%|██▌       | 26/100 [00:23<00:24,  3.02it/s] 27%|██▋       | 27/100 [00:24<00:24,  3.04it/s] 28%|██▊       | 28/100 [00:24<00:24,  2.95it/s] 29%|██▉       | 29/100 [00:24<00:23,  2.98it/s] 30%|███       | 30/100 [00:25<00:23,  3.02it/s] 31%|███       | 31/100 [00:25<00:22,  3.03it/s] 32%|███▏      | 32/100 [00:25<00:22,  3.04it/s] 33%|███▎      | 33/100 [00:26<00:22,  3.04it/s] 34%|███▍      | 34/100 [00:26<00:21,  3.05it/s] 35%|███▌      | 35/100 [00:26<00:21,  3.05it/s] 36%|███▌      | 36/100 [00:27<00:20,  3.05it/s] 37%|███▋      | 37/100 [00:27<00:21,  2.95it/s] 38%|███▊      | 38/100 [00:27<00:21,  2.88it/s] 39%|███▉      | 39/100 [00:28<00:20,  2.92it/s] 40%|████      | 40/100 [00:28<00:20,  2.96it/s] 41%|████      | 41/100 [00:29<00:20,  2.88it/s] 42%|████▏     | 42/100 [00:29<00:20,  2.87it/s] 43%|████▎     | 43/100 [00:29<00:19,  2.92it/s] 44%|████▍     | 44/100 [00:30<00:18,  2.95it/s] 45%|████▌     | 45/100 [00:30<00:18,  3.02it/s] 46%|████▌     | 46/100 [00:30<00:17,  3.04it/s] 47%|████▋     | 47/100 [00:30<00:17,  3.04it/s] 48%|████▊     | 48/100 [00:31<00:17,  3.04it/s] 49%|████▉     | 49/100 [00:31<00:16,  3.04it/s] 50%|█████     | 50/100 [00:31<00:16,  3.02it/s] 51%|█████     | 51/100 [00:32<00:16,  3.03it/s] 52%|█████▏    | 52/100 [00:32<00:15,  3.03it/s] 53%|█████▎    | 53/100 [00:32<00:15,  3.03it/s] 54%|█████▍    | 54/100 [00:33<00:15,  3.03it/s] 55%|█████▌    | 55/100 [00:33<00:14,  3.03it/s] 56%|█████▌    | 56/100 [00:33<00:14,  3.03it/s] 57%|█████▋    | 57/100 [00:34<00:14,  2.91it/s] 58%|█████▊    | 58/100 [00:34<00:14,  2.84it/s] 60%|██████    | 60/100 [00:35<00:11,  3.51it/s] 61%|██████    | 61/100 [00:35<00:11,  3.27it/s] 62%|██████▏   | 62/100 [00:35<00:11,  3.19it/s] 63%|██████▎   | 63/100 [00:36<00:11,  3.22it/s] 64%|██████▍   | 64/100 [00:36<00:10,  3.30it/s] 65%|██████▌   | 65/100 [00:36<00:10,  3.22it/s] 66%|██████▌   | 66/100 [00:37<00:10,  3.14it/s] 67%|██████▋   | 67/100 [00:37<00:10,  3.01it/s] 68%|██████▊   | 68/100 [00:37<00:10,  3.00it/s] 69%|██████▉   | 69/100 [00:38<00:09,  3.10it/s] 70%|███████   | 70/100 [00:38<00:09,  3.06it/s] 71%|███████   | 71/100 [00:38<00:09,  3.03it/s] 72%|███████▏  | 72/100 [00:39<00:09,  2.94it/s] 73%|███████▎  | 73/100 [00:39<00:09,  2.95it/s] 74%|███████▍  | 74/100 [00:39<00:08,  2.96it/s] 75%|███████▌  | 75/100 [00:40<00:08,  2.98it/s] 76%|███████▌  | 76/100 [00:40<00:08,  2.97it/s] 77%|███████▋  | 77/100 [00:40<00:08,  2.86it/s] 78%|███████▊  | 78/100 [00:41<00:07,  2.88it/s] 79%|███████▉  | 79/100 [00:41<00:05,  3.65it/s] 80%|████████  | 80/100 [00:41<00:05,  3.40it/s] 81%|████████  | 81/100 [00:41<00:04,  4.23it/s] 82%|████████▏ | 82/100 [00:42<00:04,  3.73it/s] 83%|████████▎ | 83/100 [00:42<00:04,  3.52it/s] 84%|████████▍ | 84/100 [00:42<00:04,  3.37it/s] 85%|████████▌ | 85/100 [00:43<00:04,  3.19it/s] 86%|████████▌ | 86/100 [00:43<00:03,  3.94it/s] 87%|████████▋ | 87/100 [00:43<00:03,  3.50it/s] 88%|████████▊ | 88/100 [00:43<00:03,  3.18it/s] 89%|████████▉ | 89/100 [00:44<00:03,  2.92it/s] 90%|█████████ | 90/100 [00:44<00:03,  2.77it/s] 91%|█████████ | 91/100 [00:44<00:02,  3.45it/s] 92%|█████████▏| 92/100 [00:45<00:02,  3.21it/s] 93%|█████████▎| 93/100 [00:45<00:02,  2.94it/s] 94%|█████████▍| 94/100 [00:46<00:02,  2.77it/s] 95%|█████████▌| 95/100 [00:46<00:01,  2.75it/s] 96%|█████████▌| 96/100 [00:46<00:01,  2.73it/s] 97%|█████████▋| 97/100 [00:47<00:01,  2.72it/s] 98%|█████████▊| 98/100 [00:47<00:00,  2.62it/s] 99%|█████████▉| 99/100 [00:47<00:00,  3.25it/s]100%|██████████| 100/100 [00:48<00:00,  3.04it/s]100%|██████████| 100/100 [00:48<00:00,  2.08it/s]
+Performing Variable Elimination...
+  0%|          | 0/2000 [00:00<?, ?it/s]  0%|          | 0/2000 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/networkx/classes/digraph.py", line 936, in predecessors
+    return iter(self._pred[n])
+                ~~~~~~~~~~^^^
+KeyError: 'int_rate'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home-mscluster/zschwark/Honours-Research/Bayesian_Networks/BDeu_BN.py", line 117, in <module>
+    desired_log_likelihood = BDeu_BN.evaluate(distribution="desired")
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/Honours-Research/./Models.py", line 161, in evaluate
+    return self.__evaluate_desired_distribution()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/Honours-Research/./Models.py", line 135, in __evaluate_desired_distribution
+    map_probabilities = self.inference(return_type = "probability")  
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/Honours-Research/./Models.py", line 116, in inference
+    return self.__perform_inference_probability(target_list=self.target_list, evidence_list=validation_evidence_list)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/Honours-Research/./Models.py", line 87, in __perform_inference_probability
+    posterior_distribution = inference.query(variables = target_list, evidence=evidence_list[i], elimination_order="MinFill", joint=True, show_progress= False )
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/pgmpy/inference/ExactInference.py", line 318, in query
+    model_reduced, evidence = self._prune_bayesian_model(variables, evidence)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/pgmpy/inference/base.py", line 153, in _prune_bayesian_model
+    d_connected = self.model.active_trail_nodes(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/pgmpy/base/DAG.py", line 739, in active_trail_nodes
+    for parent in self.predecessors(node):
+                  ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/networkx/classes/digraph.py", line 938, in predecessors
+    raise NetworkXError(f"The node {n} is not in the digraph.") from err
+networkx.exception.NetworkXError: The node int_rate is not in the digraph.
