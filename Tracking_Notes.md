@@ -228,6 +228,47 @@ K2:
 
 
 
+
+#### ess = 50 for structure learning, Dirichelet with psuedo counts = 5 for parameter estimation
+
+##### LogLikelihood:
+
+BIC:
+- full: -100938.25,
+- desired:  -2822.3438,
+
+Bdeu:
+- full: -84097.87,
+- desired: -2912.1455,
+
+BDs:
+- full: -inf,
+- desired: nan,
+
+K2:
+- full: -101178.82,
+- desired: -2706.6191,
+
+
+##### Correlation:
+
+BIC:
+- accuracy: 0.5309076682316118,
+- f1: 0.0,
+
+Bdeu:
+- accuracy: 0.662083553675304,
+- f1: 0.22919179734620024,
+
+BDs:
+- accuracy: 0.4398148148148148,
+- f1: 0.0,
+
+K2:
+- accuracy:  0.47685185185185186,
+- f1: 0.10648392198207696,
+
+
 ## Structure Learning:
 
 ### different scores:

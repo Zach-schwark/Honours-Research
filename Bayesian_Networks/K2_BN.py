@@ -103,7 +103,7 @@ K2_BN = k2BayesianNetwork(train_data=train_data, test_data=validation_data, feat
 K2_BN.set_evidence_features(evidence_features)
 K2_BN.set_target_list(target_features)
 K2_BN.structure_learning()
-K2_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=5)
+K2_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=3)
 
 
 full_log_likelihood = K2_BN.evaluate(distribution="full")

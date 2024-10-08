@@ -106,7 +106,7 @@ BDeu_BN = BDeuBayesianNetwork(train_data=train_data, test_data=validation_data, 
 BDeu_BN.set_evidence_features(evidence_features)
 BDeu_BN.set_target_list(target_features)
 BDeu_BN.structure_learning(equivalent_sample_size = 50)
-BDeu_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=5)
+BDeu_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=3)
 
 
 full_log_likelihood = BDeu_BN.evaluate(distribution="full")
