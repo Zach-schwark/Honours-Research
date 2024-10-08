@@ -91,7 +91,7 @@ K2_correlation_accuracy_list = []
 K2_correlation_f1_list = []
 
 num_datapoints = []
-num_rows = int(10000)
+num_rows = int(50000)
 
 #for num_rows in range(1000,2000,500):
 #num_datapoints.append(num_rows)
@@ -103,7 +103,7 @@ K2_BN = k2BayesianNetwork(train_data=train_data, test_data=validation_data, feat
 K2_BN.set_evidence_features(evidence_features)
 K2_BN.set_target_list(target_features)
 K2_BN.structure_learning()
-K2_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=3)
+K2_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=2)
 
 
 full_log_likelihood = K2_BN.evaluate(distribution="full")

@@ -93,7 +93,7 @@ BIC_correlation_accuracy_list = []
 BIC_correlation_f1_list = []
 
 num_datapoints = []
-num_rows = int(10000)
+num_rows = int(50000)
 
 #for num_rows in range(1000,2000,500):
 #num_datapoints.append(num_rows)
@@ -105,7 +105,7 @@ BIC_BN = BICBayesianNetwork(train_data=train_data, test_data=validation_data, fe
 BIC_BN.set_evidence_features(evidence_features)
 BIC_BN.set_target_list(target_features)
 BIC_BN.structure_learning()
-BIC_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=3)
+BIC_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=2)
 
 full_log_likelihood = BIC_BN.evaluate(distribution="full")
 BIC_full_distribution_log_liklihood_list.append(full_log_likelihood)

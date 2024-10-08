@@ -96,7 +96,7 @@ Tree_correlation_accuracy_list = []
 Tree_correlation_f1_list = []
 
 num_datapoints = []
-num_rows = int(10000)
+num_rows = int(50000)
 
 #for num_rows in range(1000,2000,500):
 #num_datapoints.append(num_rows)

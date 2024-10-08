@@ -15,7 +15,7 @@ logger.setLevel(logging.ERROR)
 #config.set_dtype(dtype=torch.float16)
 #config.set_backend("torch", device=device, dtype=torch.float32)
 
-config.set_dtype(dtype=np.float16)
+config.set_dtype(dtype=np.float32)
 
 
 with open("LogLikelihood_outputs/BDs_full_distribution.txt", "w") as file:
@@ -93,7 +93,7 @@ BDs_correlation_f1_list = []
 
 
 num_datapoints = []
-num_rows = int(10000)
+num_rows = int(50000)
 
 #for num_rows in range(1000,2000,500):
 #num_datapoints.append(num_rows)
@@ -105,7 +105,7 @@ BDs_BN = BDsBayesianNetwork(train_data=train_data, test_data=validation_data, fe
 BDs_BN.set_evidence_features(evidence_features)    
 BDs_BN.set_target_list(target_features)
 BDs_BN.structure_learning(equivalent_sample_size  = 50)
-BDs_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=3)
+BDs_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=2)
 
 
 full_log_likelihood = BDs_BN.evaluate(distribution="full")

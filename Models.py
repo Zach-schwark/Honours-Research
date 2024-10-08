@@ -289,7 +289,7 @@ class Chow_Liu_Tree(Models):
         dag = est.estimate(estimator_type="chow-liu")
         self.model = BayesianNetwork(dag.edges())
     
-    def parameter_estimator(self, prior_type: str = "BDeu", equivalent_sample_size: int = 5, pseudo_counts: dict | int = None):
+    def parameter_estimator(self):
         self.model.fit(self.train_data, estimator=estimators.BayesianEstimator, state_names=self.feature_states, prior_type = "K2")
         
     def draw_graph(self, name: str, file_name: str, save: bool, show: bool):

@@ -81,8 +81,8 @@ BDs:
 ####  ess=10 for structure learning priors, BDeu score for parameter estimation
 
 BIC:
-- full: -95452.75
-- desired: -2857.6394
+- full: -98327.16,
+- desired: -2823.7607,
 
 Bdeu:
 - full:
