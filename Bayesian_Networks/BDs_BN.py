@@ -105,7 +105,7 @@ BDs_BN = BDsBayesianNetwork(train_data=train_data, test_data=validation_data, fe
 BDs_BN.set_evidence_features(evidence_features)    
 BDs_BN.set_target_list(target_features)
 BDs_BN.structure_learning(equivalent_sample_size  = 50)
-BDs_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=2)
+BDs_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=5)
 
 
 full_log_likelihood = BDs_BN.evaluate(distribution="full")

@@ -151,10 +151,6 @@ Chow-Liu:
 #### ess=50 for structure learning, BDeu with ess=50 for parameter estimation
 
 ##### LogLikelihood:
-random:
-- full: 
-- desired: 
-
 BIC:
 - full: -95383.305,
 - desired: -2759.7083,
@@ -171,15 +167,8 @@ K2:
 - full: -97868.92,
 - desired: -2827.8086,
 
-Chow-Liu:
-- full: 
-- desired: 
 
 ##### Correlation:
-
-random:
-- accuracy:
-- f1: 
 
 BIC:
 - accuracy: 0.5205479452054794,
@@ -197,9 +186,47 @@ K2:
 - accuracy: 0.4800389483933788,
 - f1: 0.011111111111111112,
 
-Chow-Liu:
-- accuracy: 
-- f1: 
+
+#### ess = 50 for structure learning, Dirichelet with psuedo counts = 2 for parameter estimation
+
+##### LogLikelihood:
+
+BIC:
+- full: -97932.11,
+- desired: -2815.4355,
+
+Bdeu:
+- full: -73792.07,
+- desired: -2880.5122,
+
+BDs:
+- full: -inf,
+- desired: nan,
+
+K2:
+- full: -99350.445,
+- desired: -3041.5918,
+
+
+##### Correlation:
+
+BIC:
+- accuracy: 0.4825700615174299,
+- f1: 0.0,
+
+Bdeu:
+- accuracy: 0.6275331935709294,
+- f1: 0.049910873440285206,
+
+BDs:
+- accuracy: 0.43148148148148147,
+- f1: 0.0,
+
+K2:
+- accuracy:  0.5075187969924813,
+- f1: 0.03223640026863667,
+
+
 
 ## Structure Learning:
 
