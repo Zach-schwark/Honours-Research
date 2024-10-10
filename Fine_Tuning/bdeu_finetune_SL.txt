@@ -1,0 +1,16 @@
+
+1000 Lines:
+ess =2
+full LL: -5650.0	 Correlation accuracy: 0.18499573742540495
+ess =3
+full LL: -5452.0	 Correlation accuracy: 0.16644052464947987
+ess =4
+full LL: -5490.0	 Correlation accuracy: 0.19393939393939394
+ess =6
+full LL: -5412.0	 Correlation accuracy: 0.15452151009657594
+ess =8
+full LL: -5936.0	 Correlation accuracy: 0.1794871794871795
+ess =10
+full LL: -5784.0	 Correlation accuracy: 0.12699000370233246
+ess =12
+full LL: -6076.0	 Correlation accuracy: 0.18554778554778556

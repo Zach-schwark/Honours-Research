@@ -318,43 +318,32 @@ desired:
 full: -5668.0, -5652.0\
 desired:
 
+### PE = BDeu
 
-### SL: ess = 4, PE = BDeu, ess =5
-
-#### loglikelihood:
+#### SL: ess = 4, ess =5
 full: -5420.0, -5236.0
 
-### SL: ess = 4, PE = BDeu, ess =4
-
-#### loglikelihood:
+#### SL: ess = 4, PE = BDeu, ess =4
 full: -5444.0
 
-### SL: ess = 4, PE = BDeu, ess = 10
-
-#### loglikelihood:
+#### SL: ess = 4, PE = BDeu, ess = 10
 full: -5604.0
 
-### SL: ess = 4, PE = BDeu, ess = 50
-
-#### loglikelihood:
+#### SL: ess = 4, PE = BDeu, ess = 50
 full: -5224.0
-### SL: ess = 4, PE = BDeu, ess = 20
 
-#### loglikelihood:
+#### SL: ess = 4, PE = BDeu, ess = 20
 full: -4870.0
 
-### SL: ess = 4, PE = Dirichlet pc = 1
+### PE = Dirichlet
 
-#### loglikelihood:
+#### SL: ess = 4, pc = 1
 full: -5304.0
-### SL: ess = 4, PE = Dirichlet pc = 2
 
-#### loglikelihood:
+#### SL: ess = 4, pc = 2
 full: -5680.0, -5610.0
 
-### SL: ess = 4, PE = Dirichlet pc = 0.25
-
-#### loglikelihood:
+#### SL: ess = 4, pc = 0.25
 full: -5100.0
 
 ## Bic: ( 1000 lines)

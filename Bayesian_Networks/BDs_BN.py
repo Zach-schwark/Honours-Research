@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import torch
 import logging
+from tqdm import tqdm
 from pgmpy.global_vars import logger
 logger.setLevel(logging.ERROR)
 
@@ -17,7 +18,8 @@ logger.setLevel(logging.ERROR)
 
 config.set_dtype(dtype=np.float32)
 
-
+with open("Fine_Tuning/bds_finetune_SL.txt", "w") as file:
+    file.write("")
 with open("LogLikelihood_outputs/BDs_full_distribution.txt", "w") as file:
     file.write("")
 
@@ -95,38 +97,46 @@ BDs_correlation_f1_list = []
 num_datapoints = []
 num_rows = int(50000)
 
-#for num_rows in range(1000,2000,500):
-#num_datapoints.append(num_rows)
-#percent_complete = (num_rows/3000)*100
-#print("#############\n")
-#print("percent_complete: "+str(percent_complete)+"%\n")
-train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_rows = num_rows)
-BDs_BN = BDsBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
-BDs_BN.set_evidence_features(evidence_features)    
-BDs_BN.set_target_list(target_features)
-BDs_BN.structure_learning(equivalent_sample_size  = 50)
-BDs_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=2)
+equiv_sample_sizes = [2,3,4,6,8,10,12,16,18,20,25,30,35,40]
+
+for num_row in tqdm(range(1000,150000,10000)):
+    with open("Fine_Tuning/bds_finetune_SL.txt", "a") as file:
+        file.write("\n"+str(num_row)+" Lines:\n")
+    for ess in equiv_sample_sizes:
+        print("ess: "+str(ess))
+        train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_rows = num_row)
+        BDs_BN = BDsBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
+        BDs_BN.set_evidence_features(evidence_features)    
+        BDs_BN.set_target_list(target_features)
+        BDs_BN.structure_learning(equivalent_sample_size  = ess)
+        BDs_BN.parameter_estimator(prior_type = "K2")
+        with open("Fine_Tuning/bds_finetune_SL.txt", "a") as file:
+            file.write("ess =" + str(ess)+"\n")
+        full_log_likelihood = BDs_BN.evaluate(distribution="full")
+        correlation_accuracy = BDs_BN.evaluate(score="correlation", classification_metric="accuracy") 
+        with open("Fine_Tuning/bds_finetune_SL.txt", "a") as file:
+            file.write("full LL: "+str(full_log_likelihood)+"\t Correlation accuracy: "+str(correlation_accuracy)+"\n")
 
 
-full_log_likelihood = BDs_BN.evaluate(distribution="full")
-BDs_full_distribution_log_liklihood_list.append(full_log_likelihood)
-with open("LogLikelihood_outputs/BDs_full_distribution.txt", "a") as file:
-    file.write(str(full_log_likelihood)+",")
-    
-desired_log_likelihood = BDs_BN.evaluate(distribution="desired")
-BDs_desired_distribution_log_liklihood_list.append(desired_log_likelihood)
-with open("LogLikelihood_outputs/BDs_desired_distribution.txt", "a") as file:
-    file.write(str(desired_log_likelihood)+",")
-    
-correlation_accuracy = BDs_BN.evaluate(score="correlation", classification_metric="accuracy")    
-BDs_correlation_accuracy_list.append(correlation_accuracy)
-with open("Correlation_outputs/BDs_correlation_accuracy.txt", "a") as file:
-    file.write(str(correlation_accuracy)+",")
-
-correlation_f1 = BDs_BN.evaluate(score="correlation", classification_metric="f1")
-BDs_correlation_f1_list.append(correlation_f1)
-with open("Correlation_outputs/BDs_correlation_f1.txt", "a") as file:
-    file.write(str(correlation_f1)+",")
-    
-BDs_BN.draw_graph(name= "Bayesian Network with BDs score",file_name="BDs_graph", save=True, show=False)
+#full_log_likelihood = BDs_BN.evaluate(distribution="full")
+#BDs_full_distribution_log_liklihood_list.append(full_log_likelihood)
+#with open("LogLikelihood_outputs/BDs_full_distribution.txt", "a") as file:
+#    file.write(str(full_log_likelihood)+",")
+#    
+#desired_log_likelihood = BDs_BN.evaluate(distribution="desired")
+#BDs_desired_distribution_log_liklihood_list.append(desired_log_likelihood)
+#with open("LogLikelihood_outputs/BDs_desired_distribution.txt", "a") as file:
+#    file.write(str(desired_log_likelihood)+",")
+#    
+#correlation_accuracy = BDs_BN.evaluate(score="correlation", classification_metric="accuracy")    
+#BDs_correlation_accuracy_list.append(correlation_accuracy)
+#with open("Correlation_outputs/BDs_correlation_accuracy.txt", "a") as file:
+#    file.write(str(correlation_accuracy)+",")
+#
+#correlation_f1 = BDs_BN.evaluate(score="correlation", classification_metric="f1")
+#BDs_correlation_f1_list.append(correlation_f1)
+#with open("Correlation_outputs/BDs_correlation_f1.txt", "a") as file:
+#    file.write(str(correlation_f1)+",")
+#    
+#BDs_BN.draw_graph(name= "Bayesian Network with BDs score",file_name="BDs_graph", save=True, show=False)
 
