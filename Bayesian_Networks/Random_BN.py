@@ -10,7 +10,7 @@ import logging
 from pgmpy.global_vars import logger
 logger.setLevel(logging.ERROR)
 
-config.set_dtype(dtype=np.float32)
+config.set_dtype(dtype=np.float16)
 
 with open("LogLikelihood_outputs/Random_full_distribution.txt", "w") as file:
     file.write("")
@@ -86,7 +86,7 @@ Random_correlation_accuracy_list = []
 Random_correlation_f1_list = []
 
 num_datapoints = []
-num_rows = int(50000)
+num_rows = int(1000)
 
 #for num_rows in range(1000,2000,500):
 #num_datapoints.append(num_rows)

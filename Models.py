@@ -7,6 +7,7 @@ from pgmpy.base import DAG
 from pgmpy.metrics import log_likelihood_score, correlation_score
 from pgmpy.inference import VariableElimination
 from pgmpy import estimators
+from pgmpy.estimators import MaximumLikelihoodEstimator
 from pgmpy.estimators import TreeSearch
 from sklearn.metrics import f1_score, accuracy_score
 from Data.DataPreprocessing import DataPreprocessing
@@ -65,6 +66,13 @@ class Models(ABC):
             plt.savefig("Graphics/BN_graphs/"+file_name)
         if show == True:
             plt.show()
+    
+    def  maximum_likelihood_estimator(self):
+        estimator = MaximumLikelihoodEstimator(self.model, self.train_data, state_names = self.feature_states)
+        parameters = estimator.get_parameters()
+        for i in range(len(parameters)):
+            self.model.add_cpds(parameters[i])
+    
     
     def parameter_estimator(self, prior_type: str = "BDeu", equivalent_sample_size: int = 5, pseudo_counts: dict | int = None):
         if prior_type == "dirichlet" and pseudo_counts == None:
@@ -195,7 +203,7 @@ class RandomBayesianNetwork(Models):
         
     def structure_learning(self):
         self.model = BayesianNetwork()
-        Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.05)
+        Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.1)
         self.model.add_nodes_from(self.train_data.columns.to_list())
         self.model.add_edges_from(Random_Dag.edges())
 
@@ -235,7 +243,7 @@ class BDeuBayesianNetwork(Models):
         scoring_method = estimators.BDeuScore(data=self.train_data, equivalent_sample_size=equivalent_sample_size)  # TODO change sample size hyperparameter
         est = estimators.HillClimbSearch(data=self.train_data, use_cache = True)
         estimated_model = est.estimate(
-            scoring_method=scoring_method, max_iter=int(1e2), max_indegree=3)
+            scoring_method=scoring_method, max_iter=int(1e3), max_indegree=3)
 
         self.model = BayesianNetwork(estimated_model.edges())
         self.model.add_nodes_from(estimated_model.nodes())
@@ -256,8 +264,7 @@ class BDsBayesianNetwork(Models):
         self.model.add_nodes_from(estimated_model.nodes())
         super().structure_learning()
         
-
-    
+  
 class k2BayesianNetwork(Models):
     
     def __init__(self, train_data, test_data, feature_states) -> None:

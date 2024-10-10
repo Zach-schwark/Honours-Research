@@ -11,7 +11,7 @@ class DataPreprocessing:
     def load_data()-> pd.DataFrame:
         # reads from CS, removes rows with null/missing values and automatically infers and converts datatypes for the data.
         # path for notebook files : "../Data/accepted_2007_to_2018Q4.csv"
-        data = pd.read_csv("Data/accepted_2007_to_2018Q4.csv", engine='c')
+        data = pd.read_csv("Data/accepted_2007_to_2018Q4.csv", engine='c',low_memory=False)
         data = data.drop(['id', 'member_id', 'settlement_term','settlement_percentage', 'settlement_amount', 'settlement_date','settlement_status', 'debt_settlement_flag_date', 'hardship_last_payment_amount', 'hardship_payoff_balance_amount', 'orig_projected_additional_accrued_interest',
            'hardship_loan_status', 'hardship_dpd', 'hardship_length','payment_plan_start_date','hardship_end_date', 'hardship_start_date', 'hardship_amount', 'deferral_term', 'hardship_status', 'hardship_reason', 'hardship_type',
            'sec_app_mths_since_last_major_derog', 'sec_app_collections_12_mths_ex_med', 'sec_app_chargeoff_within_12_mths', 'sec_app_num_rev_accts', 'sec_app_open_act_il', 'sec_app_revol_util', 'sec_app_open_acc', 'sec_app_mort_acc',
@@ -31,7 +31,7 @@ class DataPreprocessing:
 
         discretise_data = data.copy() 
 
-        standard_num_bins = 5
+        standard_num_bins = 4
 
         discretized = pd.cut(discretise_data['loan_amnt'].dropna(), bins= standard_num_bins)
         discretized = pd.Series(discretized, index= discretise_data['loan_amnt'].dropna().index)
@@ -101,7 +101,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['purpose'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins = standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins = standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         dti_dataframe = np.array([discretise_data['dti'].dropna().to_numpy()]).transpose()
         est.fit(dti_dataframe)
         dti_dataframe = est.transform(dti_dataframe)
@@ -111,7 +111,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['dti'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins = standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins = standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         delinq_2yrs_dataframe = np.array([discretise_data['delinq_2yrs'].dropna().to_numpy()]).transpose()
         est.fit(delinq_2yrs_dataframe)
         delinq_2yrs_dataframe = est.transform(delinq_2yrs_dataframe)
@@ -130,7 +130,7 @@ class DataPreprocessing:
         #
         discretise_data['fico_range_high'] = pd.cut(discretise_data['fico_range_high'], bins= standard_num_bins)
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         inq_last_6mths_dataframe = np.array([discretise_data['inq_last_6mths'].dropna().to_numpy()]).transpose()
         est.fit(inq_last_6mths_dataframe)
         inq_last_6mths_dataframe = est.transform(inq_last_6mths_dataframe)
@@ -139,13 +139,13 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['inq_last_6mths'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         open_acc_dataframe = pd.DataFrame(discretise_data['open_acc'])
         est.fit(open_acc_dataframe)
         open_acc_dataframe = est.transform(open_acc_dataframe)
         discretise_data['open_acc'] = open_acc_dataframe
 
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         pub_rec_dataframe = pd.DataFrame(discretise_data['pub_rec'])
         est.fit(pub_rec_dataframe)
         pub_rec_dataframe = est.transform(pub_rec_dataframe)
@@ -178,43 +178,43 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['initial_list_status'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         out_prncp_dataframe = pd.DataFrame(discretise_data['out_prncp'])
         est.fit(out_prncp_dataframe)
         out_prncp_dataframe = est.transform(out_prncp_dataframe)
         discretise_data['out_prncp'] = out_prncp_dataframe
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         out_prncp_inv_dataframe = pd.DataFrame(discretise_data['out_prncp_inv'])
         est.fit(out_prncp_inv_dataframe)
         out_prncp_inv_dataframe = est.transform(out_prncp_inv_dataframe)
         discretise_data['out_prncp_inv'] = out_prncp_inv_dataframe
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         total_pymnt_dataframe = pd.DataFrame(discretise_data['total_pymnt'])
         est.fit(total_pymnt_dataframe)
         total_pymnt_dataframe = est.transform(total_pymnt_dataframe)
         discretise_data['total_pymnt'] = total_pymnt_dataframe
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         total_rec_int_dataframe = pd.DataFrame(discretise_data['total_rec_int'])
         est.fit(total_rec_int_dataframe)
         total_rec_int_dataframe = est.transform(total_rec_int_dataframe)
         discretise_data['total_rec_int'] = total_rec_int_dataframe
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         total_rec_late_fee_dataframe = pd.DataFrame(discretise_data['total_rec_late_fee'])
         est.fit(total_rec_late_fee_dataframe)
         total_rec_late_fee_dataframe = est.transform(total_rec_late_fee_dataframe)
         discretise_data['total_rec_late_fee'] = total_rec_late_fee_dataframe
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         recoveries_dataframe = pd.DataFrame(discretise_data['recoveries'])
         est.fit(recoveries_dataframe)
         recoveries_dataframe = est.transform(recoveries_dataframe)
         discretise_data['recoveries'] = recoveries_dataframe
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         last_pymnt_amnt_dataframe = np.array([discretise_data['last_pymnt_amnt'].dropna().to_numpy()]).transpose()
         est.fit(last_pymnt_amnt_dataframe)
         last_pymnt_amnt_dataframe = est.transform(last_pymnt_amnt_dataframe)
@@ -250,7 +250,7 @@ class DataPreprocessing:
         #
         discretise_data['acc_now_delinq'] = pd.cut(discretise_data['acc_now_delinq'], bins= standard_num_bins)
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         tot_coll_amt_dataframe = pd.DataFrame(discretise_data['tot_coll_amt'])
         est.fit(tot_coll_amt_dataframe)
         tot_coll_amt_dataframe = est.transform(tot_coll_amt_dataframe)
@@ -262,7 +262,7 @@ class DataPreprocessing:
         tot_cur_bal_dataframe = est.transform(tot_cur_bal_dataframe)
         discretise_data['tot_cur_bal'] = tot_cur_bal_dataframe
         #
-        est = KBinsDiscretizer(n_bins=  standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins=  standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         open_acc_6m_dataframe = np.array([discretise_data['open_acc_6m'].dropna().to_numpy()]).transpose()
         est.fit(open_acc_6m_dataframe)
         open_acc_6m_dataframe = est.transform(open_acc_6m_dataframe)
@@ -273,7 +273,7 @@ class DataPreprocessing:
         #
 
 
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         open_act_il_dataframe = np.array([discretise_data['open_act_il'].dropna().to_numpy()]).transpose()
         est.fit(open_act_il_dataframe)
         open_act_il_dataframe = est.transform(open_act_il_dataframe)
@@ -282,7 +282,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['open_act_il'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         open_il_12m_dataframe = np.array([discretise_data['open_il_12m'].dropna().to_numpy()]).transpose()
         est.fit(open_il_12m_dataframe)
         open_il_12m_dataframe = est.transform(open_il_12m_dataframe)
@@ -291,7 +291,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['open_il_12m'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         open_il_24m_dataframe = np.array([discretise_data['open_il_24m'].dropna().to_numpy()]).transpose()
         est.fit(open_il_24m_dataframe)
         open_il_24m_dataframe = est.transform(open_il_24m_dataframe)
@@ -309,7 +309,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['total_bal_il'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         open_rv_12m_dataframe = np.array([discretise_data['open_rv_12m'].dropna().to_numpy()]).transpose()
         est.fit(open_rv_12m_dataframe)
         open_rv_12m_dataframe = est.transform(open_rv_12m_dataframe)
@@ -318,7 +318,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['open_rv_12m'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins , encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins , encode='ordinal', strategy='uniform',subsample=200_000)
         open_rv_24m_dataframe = np.array([discretise_data['open_rv_24m'].dropna().to_numpy()]).transpose()
         est.fit(open_rv_24m_dataframe)
         open_rv_24m_dataframe = est.transform(open_rv_24m_dataframe)
@@ -354,7 +354,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['total_rev_hi_lim'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         inq_fi_dataframe = np.array([discretise_data['inq_fi'].dropna().to_numpy()]).transpose()
         est.fit(inq_fi_dataframe)
         inq_fi_dataframe = est.transform(inq_fi_dataframe)
@@ -363,7 +363,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['inq_fi'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         total_cu_tl_dataframe = np.array([discretise_data['total_cu_tl'].dropna().to_numpy()]).transpose()
         est.fit(total_cu_tl_dataframe)
         total_cu_tl_dataframe = est.transform(total_cu_tl_dataframe)
@@ -372,7 +372,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['total_cu_tl'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins=  standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins=  standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         inq_last_12m_dataframe = np.array([discretise_data['inq_last_12m'].dropna().to_numpy()]).transpose()
         est.fit(inq_last_12m_dataframe)
         inq_last_12m_dataframe = est.transform(inq_last_12m_dataframe)
@@ -381,7 +381,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['inq_last_12m'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         acc_open_past_24mths_dataframe = np.array([discretise_data['acc_open_past_24mths'].dropna().to_numpy()]).transpose()
         est.fit(acc_open_past_24mths_dataframe)
         acc_open_past_24mths_dataframe = est.transform(acc_open_past_24mths_dataframe)
@@ -399,7 +399,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['avg_cur_bal'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         bc_open_to_buy_dataframe = np.array([discretise_data['bc_open_to_buy'].dropna().to_numpy()]).transpose()
         est.fit(bc_open_to_buy_dataframe)
         bc_open_to_buy_dataframe = est.transform(bc_open_to_buy_dataframe)
@@ -408,7 +408,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['bc_open_to_buy'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         bc_util_dataframe = np.array([discretise_data['bc_util'].dropna().to_numpy()]).transpose()
         est.fit(bc_util_dataframe)
         bc_util_dataframe = est.transform(bc_util_dataframe)
@@ -432,7 +432,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['delinq_amnt'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         mo_sin_old_il_acct_dataframe = np.array([discretise_data['mo_sin_old_il_acct'].dropna().to_numpy()]).transpose()
         est.fit(mo_sin_old_il_acct_dataframe)
         mo_sin_old_il_acct_dataframe = est.transform(mo_sin_old_il_acct_dataframe)
@@ -441,7 +441,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['mo_sin_old_il_acct'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         mo_sin_old_rev_tl_op_dataframe = np.array([discretise_data['mo_sin_old_rev_tl_op'].dropna().to_numpy()]).transpose()
         est.fit(mo_sin_old_rev_tl_op_dataframe)
         mo_sin_old_rev_tl_op_dataframe = est.transform(mo_sin_old_rev_tl_op_dataframe)
@@ -450,7 +450,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['mo_sin_old_rev_tl_op'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         mo_sin_rcnt_rev_tl_op_dataframe = np.array([discretise_data['mo_sin_rcnt_rev_tl_op'].dropna().to_numpy()]).transpose()
         est.fit(mo_sin_rcnt_rev_tl_op_dataframe)
         mo_sin_rcnt_rev_tl_op_dataframe = est.transform(mo_sin_rcnt_rev_tl_op_dataframe)
@@ -459,7 +459,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['mo_sin_rcnt_rev_tl_op'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         mo_sin_rcnt_tl_dataframe = np.array([discretise_data['mo_sin_rcnt_tl'].dropna().to_numpy()]).transpose()
         est.fit(mo_sin_rcnt_tl_dataframe)
         mo_sin_rcnt_tl_dataframe = est.transform(mo_sin_rcnt_tl_dataframe)
@@ -477,7 +477,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['mort_acc'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         mths_since_recent_bc_dataframe = np.array([discretise_data['mths_since_recent_bc'].dropna().to_numpy()]).transpose()
         est.fit(mths_since_recent_bc_dataframe)
         mths_since_recent_bc_dataframe = est.transform(mths_since_recent_bc_dataframe)
@@ -486,7 +486,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['mths_since_recent_bc'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         mths_since_recent_inq_dataframe = np.array([discretise_data['mths_since_recent_inq'].dropna().to_numpy()]).transpose()
         est.fit(mths_since_recent_inq_dataframe)
         mths_since_recent_inq_dataframe = est.transform(mths_since_recent_inq_dataframe)
@@ -495,7 +495,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['mths_since_recent_inq'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         num_accts_ever_120_pd_dataframe = np.array([discretise_data['num_accts_ever_120_pd'].dropna().to_numpy()]).transpose()
         est.fit(num_accts_ever_120_pd_dataframe)
         num_accts_ever_120_pd_dataframe = est.transform(num_accts_ever_120_pd_dataframe)
@@ -504,7 +504,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['num_accts_ever_120_pd'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         num_actv_bc_tl_dataframe = np.array([discretise_data['num_actv_bc_tl'].dropna().to_numpy()]).transpose()
         est.fit(num_actv_bc_tl_dataframe)
         num_actv_bc_tl_dataframe = est.transform(num_actv_bc_tl_dataframe)
@@ -513,7 +513,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['num_actv_bc_tl'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         num_actv_rev_tl_dataframe = np.array([discretise_data['num_actv_rev_tl'].dropna().to_numpy()]).transpose()
         est.fit(num_actv_rev_tl_dataframe)
         num_actv_rev_tl_dataframe = est.transform(num_actv_rev_tl_dataframe)
@@ -522,7 +522,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['num_actv_rev_tl'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         num_bc_sats_dataframe = np.array([discretise_data['num_bc_sats'].dropna().to_numpy()]).transpose()
         est.fit(num_bc_sats_dataframe)
         num_bc_sats_dataframe = est.transform(num_bc_sats_dataframe)
@@ -531,7 +531,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['num_bc_sats'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         num_bc_tl_dataframe = np.array([discretise_data['num_bc_tl'].dropna().to_numpy()]).transpose()
         est.fit(num_bc_tl_dataframe)
         num_bc_tl_dataframe = est.transform(num_bc_tl_dataframe)
@@ -540,7 +540,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['num_bc_tl'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         num_il_tl_dataframe =  np.array([discretise_data['num_il_tl'].dropna().to_numpy()]).transpose()
         est.fit(num_il_tl_dataframe)
         num_il_tl_dataframe = est.transform(num_il_tl_dataframe)
@@ -549,7 +549,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['num_il_tl'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         num_op_rev_tl_dataframe = np.array([discretise_data['num_op_rev_tl'].dropna().to_numpy()]).transpose()
         est.fit(num_op_rev_tl_dataframe)
         num_op_rev_tl_dataframe = est.transform(num_op_rev_tl_dataframe)
@@ -558,7 +558,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['num_op_rev_tl'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         num_rev_accts_dataframe = np.array([discretise_data['num_rev_accts'].dropna().to_numpy()]).transpose()
         est.fit(num_rev_accts_dataframe)
         num_rev_accts_dataframe = est.transform(num_rev_accts_dataframe)
@@ -567,7 +567,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['num_rev_accts'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins=  standard_num_bins , encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins=  standard_num_bins , encode='ordinal', strategy='uniform',subsample=200_000)
         num_tl_120dpd_2m_dataframe = np.array([discretise_data['num_tl_120dpd_2m'].dropna().to_numpy()]).transpose()
         est.fit(num_tl_120dpd_2m_dataframe)
         num_tl_120dpd_2m_dataframe = est.transform(num_tl_120dpd_2m_dataframe)
@@ -576,7 +576,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['num_tl_120dpd_2m'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins=  standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins=  standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         num_tl_30dpd_dataframe = np.array([discretise_data['num_tl_30dpd'].dropna().to_numpy()]).transpose()
         est.fit(num_tl_30dpd_dataframe)
         num_tl_30dpd_dataframe = est.transform(num_tl_30dpd_dataframe)
@@ -585,7 +585,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['num_tl_30dpd'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins=  standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins=  standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         num_tl_90g_dpd_24m_dataframe = np.array([discretise_data['num_tl_90g_dpd_24m'].dropna().to_numpy()]).transpose()
         est.fit(num_tl_90g_dpd_24m_dataframe)
         num_tl_90g_dpd_24m_dataframe = est.transform(num_tl_90g_dpd_24m_dataframe)
@@ -594,7 +594,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['num_tl_90g_dpd_24m'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins=  standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins=  standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         num_tl_op_past_12m_dataframe = np.array([discretise_data['num_tl_op_past_12m'].dropna().to_numpy()]).transpose()
         est.fit(num_tl_op_past_12m_dataframe)
         num_tl_op_past_12m_dataframe = est.transform(num_tl_op_past_12m_dataframe)
@@ -603,7 +603,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['num_tl_op_past_12m'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         pct_tl_nvr_dlq_dataframe = np.array([discretise_data['pct_tl_nvr_dlq'].dropna().to_numpy()]).transpose()
         est.fit(pct_tl_nvr_dlq_dataframe)
         pct_tl_nvr_dlq_dataframe = est.transform(pct_tl_nvr_dlq_dataframe)
@@ -612,7 +612,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['pct_tl_nvr_dlq'] = discretized_full
         #
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         percent_bc_gt_75_dataframe = np.array([discretise_data['percent_bc_gt_75'].dropna().to_numpy()]).transpose()
         est.fit(percent_bc_gt_75_dataframe)
         percent_bc_gt_75_dataframe = est.transform(percent_bc_gt_75_dataframe)
@@ -621,7 +621,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['percent_bc_gt_75'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         pub_rec_bankruptcies_dataframe = np.array([discretise_data['pub_rec_bankruptcies'].dropna().to_numpy()]).transpose()
         est.fit(pub_rec_bankruptcies_dataframe)
         pub_rec_bankruptcies_dataframe = est.transform(pub_rec_bankruptcies_dataframe)
@@ -630,7 +630,7 @@ class DataPreprocessing:
         discretized_full.update(discretized)
         discretise_data['pub_rec_bankruptcies'] = discretized_full
 
-        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='kmeans',subsample=200_000)
+        est = KBinsDiscretizer(n_bins= standard_num_bins, encode='ordinal', strategy='uniform',subsample=200_000)
         tax_liens_dataframe =  np.array([discretise_data['tax_liens'].dropna().to_numpy()]).transpose()
         est.fit(tax_liens_dataframe)
         tax_liens_dataframe = est.transform(tax_liens_dataframe)

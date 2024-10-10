@@ -15,7 +15,7 @@ logger.setLevel(logging.ERROR)
 #config.set_dtype(dtype=torch.float16)
 #config.set_backend("torch", device=device, dtype=torch.float32)
 
-config.set_dtype(dtype=np.float32)
+config.set_dtype(dtype=np.float16)
 
 with open("LogLikelihood_outputs/BDeu_full_distribution.txt", "w") as file:
     file.write("")
@@ -93,7 +93,7 @@ BDeu_correlation_f1_list = []
 
 
 num_datapoints = []
-num_rows = int(50000)
+num_rows = int(1000)
 
 
 #for num_rows in range(1000,2000,500):
@@ -105,8 +105,9 @@ train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_r
 BDeu_BN = BDeuBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
 BDeu_BN.set_evidence_features(evidence_features)
 BDeu_BN.set_target_list(target_features)
-BDeu_BN.structure_learning(equivalent_sample_size = 50)
-BDeu_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=2)
+BDeu_BN.structure_learning(equivalent_sample_size=4)
+BDeu_BN.draw_graph(name= "Bayesian Network with BDeu score",file_name="BDeu_graph", save=True, show=False)
+BDeu_BN.parameter_estimator(prior_type = "Dirichlet", pseudo_counts=0.25)
 
 
 
@@ -116,10 +117,10 @@ BDeu_full_distribution_log_liklihood_list.append(full_log_likelihood)
 with open("LogLikelihood_outputs/BDeu_full_distribution.txt", "a") as file:
     file.write(str(full_log_likelihood)+",")
     
-desired_log_likelihood = BDeu_BN.evaluate(distribution="desired")
-BDeu_desired_distribution_log_liklihood_list.append(desired_log_likelihood)
-with open("LogLikelihood_outputs/BDeu_desired_distribution.txt", "a") as file:
-    file.write(str(desired_log_likelihood)+",")
+#desired_log_likelihood = BDeu_BN.evaluate(distribution="desired")
+#BDeu_desired_distribution_log_liklihood_list.append(desired_log_likelihood)
+#with open("LogLikelihood_outputs/BDeu_desired_distribution.txt", "a") as file:
+#    file.write(str(desired_log_likelihood)+",")
     
 correlation_accuracy = BDeu_BN.evaluate(score="correlation", classification_metric="accuracy")    
 BDeu_correlation_accuracy_list.append(correlation_accuracy)
@@ -133,6 +134,5 @@ with open("Correlation_outputs/BDeu_correlation_f1.txt", "a") as file:
     
 
 
-BDeu_BN.draw_graph(name= "Bayesian Network with BDeu score",file_name="BDeu_graph", save=True, show=False)
 
 

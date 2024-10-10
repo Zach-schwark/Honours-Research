@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import torch
 import logging
+from tqdm import tqdm
 from pgmpy.global_vars import logger
 logger.setLevel(logging.ERROR)
 
@@ -17,6 +18,8 @@ logger.setLevel(logging.ERROR)
 
 config.set_dtype(dtype=np.float32)
 
+with open("Fine_Tuning/bic_finetune_dirichlet.txt", "w") as file:
+    file.write("")
 
 with open("LogLikelihood_outputs/BIC_full_distribution.txt", "w") as file:
     file.write("")
@@ -95,38 +98,48 @@ BIC_correlation_f1_list = []
 num_datapoints = []
 num_rows = int(50000)
 
-#for num_rows in range(1000,2000,500):
-#num_datapoints.append(num_rows)
-#percent_complete = (num_rows/3000)*100
-#print("#############\n")
-#print("percent_complete: "+str(percent_complete)+"%\n")
-train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_rows = num_rows)
-BIC_BN = BICBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
-BIC_BN.set_evidence_features(evidence_features)
-BIC_BN.set_target_list(target_features)
-BIC_BN.structure_learning()
-BIC_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=2)
+pseudo_counts = [1,2,4,6,7,8,9,10,11,12]
 
-full_log_likelihood = BIC_BN.evaluate(distribution="full")
-BIC_full_distribution_log_liklihood_list.append(full_log_likelihood)
-with open("LogLikelihood_outputs/BIC_full_distribution.txt", "a") as file:
-    file.write(str(full_log_likelihood)+",")
-    
-desired_log_likelihood = BIC_BN.evaluate(distribution="desired")
-BIC_desired_distribution_log_liklihood_list.append(desired_log_likelihood)
-with open("LogLikelihood_outputs/BIC_desired_distribution.txt", "a") as file:
-    file.write(str(desired_log_likelihood)+",")
-    
-correlation_accuracy = BIC_BN.evaluate(score="correlation", classification_metric="accuracy")    
-BIC_correlation_accuracy_list.append(correlation_accuracy)
-with open("Correlation_outputs/BIC_correlation_accuracy.txt", "a") as file:
-    file.write(str(correlation_accuracy)+",")
 
-correlation_f1 = BIC_BN.evaluate(score="correlation", classification_metric="f1")
-BIC_correlation_f1_list.append(correlation_f1)
-with open("Correlation_outputs/BIC_correlation_f1.txt", "a") as file:
-    file.write(str(correlation_f1)+",")
+
+for num_row in tqdm(range(1000,150000,10000)):
+    with open("Fine_Tuning/bic_finetune_dirichlet.txt", "a") as file:
+        file.write("\n"+str(num_row)+" Lines:\n")
+    for pseudo_count in pseudo_counts:
+        print("pseudo count: "+str(pseudo_count))
+        train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_rows = num_row)
+        BIC_BN = BICBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
+        BIC_BN.set_evidence_features(evidence_features)
+        BIC_BN.set_target_list(target_features)
+        BIC_BN.structure_learning()
+        BIC_BN.parameter_estimator(prior_type = "Dirichlet", pseudo_counts=pseudo_count)
+        with open("Fine_Tuning/bic_finetune_dirichlet.txt", "a") as file:
+            file.write("pseudo count=" + str(pseudo_count)+"\n")
+        full_log_likelihood = BIC_BN.evaluate(distribution="full")
+        correlation_accuracy = BIC_BN.evaluate(score="correlation", classification_metric="accuracy") 
+        with open("Fine_Tuning/bic_finetune_dirichlet.txt", "a") as file:
+            file.write("full LL: "+str(full_log_likelihood)+"\t Correlation accuracy: "+str(correlation_accuracy)+"\n")
+
+#full_log_likelihood = BIC_BN.evaluate(distribution="full")
+#BIC_full_distribution_log_liklihood_list.append(full_log_likelihood)
+#with open("LogLikelihood_outputs/BIC_full_distribution.txt", "a") as file:
+#    file.write(str(full_log_likelihood)+",")
+#    
+#desired_log_likelihood = BIC_BN.evaluate(distribution="desired")
+#BIC_desired_distribution_log_liklihood_list.append(desired_log_likelihood)
+#with open("LogLikelihood_outputs/BIC_desired_distribution.txt", "a") as file:
+#    file.write(str(desired_log_likelihood)+",")
+#    
+#correlation_accuracy = BIC_BN.evaluate(score="correlation", classification_metric="accuracy")    
+#BIC_correlation_accuracy_list.append(correlation_accuracy)
+#with open("Correlation_outputs/BIC_correlation_accuracy.txt", "a") as file:
+#    file.write(str(correlation_accuracy)+",")
+#
+#correlation_f1 = BIC_BN.evaluate(score="correlation", classification_metric="f1")
+#BIC_correlation_f1_list.append(correlation_f1)
+#with open("Correlation_outputs/BIC_correlation_f1.txt", "a") as file:
+#    file.write(str(correlation_f1)+",")
     
     
-BIC_BN.draw_graph(name= "Bayesian Network with BIC score",file_name="BIC_graph", save=True, show=False)
+#BIC_BN.draw_graph(name= "Bayesian Network with BIC score",file_name="BIC_graph", save=True, show=False)
  
