@@ -1,48 +1,330 @@
 
 1000 Lines:
 pseudo count=1
-full LL: -5038.917	 Correlation accuracy: 0.25339366515837103
+full LL: -4765.4165	 Correlation accuracy: 0.3395390070921986
 pseudo count=2
-full LL: -4897.4	 Correlation accuracy: 0.2016326530612245
+full LL: -4159.5176	 Correlation accuracy: 0.2789115646258503
 pseudo count=4
-full LL: -4673.21	 Correlation accuracy: 0.2015686274509804
+full LL: -1249.102	 Correlation accuracy: 0.42424242424242425
 pseudo count=6
-full LL: -4790.0757	 Correlation accuracy: 0.3926530612244898
+full LL: -4754.6895	 Correlation accuracy: 0.3
+pseudo count=7
+full LL: -4731.3926	 Correlation accuracy: 0.25177304964539005
 pseudo count=8
-full LL: -2047.0935	 Correlation accuracy: 0.6043956043956044
+full LL: -3906.8933	 Correlation accuracy: 0.25889046941678523
+pseudo count=9
+full LL: -1611.2532	 Correlation accuracy: 0.38461538461538464
 pseudo count=10
-full LL: -5040.5303	 Correlation accuracy: 0.26109936575052856
+full LL: -4900.4272	 Correlation accuracy: 0.2196078431372549
+pseudo count=11
+full LL: -4533.9624	 Correlation accuracy: 0.3222591362126246
+pseudo count=12
+full LL: -4730.733	 Correlation accuracy: 0.3121951219512195
 
 11000 Lines:
 pseudo count=1
-full LL: -63576.336	 Correlation accuracy: 0.42451923076923076
+full LL: -62600.047	 Correlation accuracy: 0.4229390681003584
 pseudo count=2
-full LL: -62619.527	 Correlation accuracy: 0.4473823373876256
+full LL: -63005.96	 Correlation accuracy: 0.42932692307692305
 pseudo count=4
-full LL: -62450.227	 Correlation accuracy: 0.4621893178212586
+full LL: -63730.336	 Correlation accuracy: 0.42107643600180916
 pseudo count=6
-full LL: -64154.8	 Correlation accuracy: 0.4305555555555556
+full LL: -64390.97	 Correlation accuracy: 0.4091346153846154
+pseudo count=7
+full LL: -64106.15	 Correlation accuracy: 0.3958041958041958
 pseudo count=8
-full LL: -64808.367	 Correlation accuracy: 0.4253731343283582
+full LL: -64332.418	 Correlation accuracy: 0.4601092896174863
+pseudo count=9
+full LL: -64176.96	 Correlation accuracy: 0.4033653846153846
 pseudo count=10
-full LL: -63693.723	 Correlation accuracy: 0.44649257552483357
+full LL: -64577.008	 Correlation accuracy: 0.3912256897331524
+pseudo count=11
+full LL: -64495.58	 Correlation accuracy: 0.4562841530054645
+pseudo count=12
+full LL: -65389.04	 Correlation accuracy: 0.3904761904761905
 
 21000 Lines:
 pseudo count=1
-full LL: -119432.83	 Correlation accuracy: 0.41236306729264477
+full LL: -119047.25	 Correlation accuracy: 0.5089605734767025
 pseudo count=2
-full LL: -120295.84	 Correlation accuracy: 0.43138832997987925
+full LL: -120262.26	 Correlation accuracy: 0.4335403726708075
 pseudo count=4
-full LL: -120838.72	 Correlation accuracy: 0.432712215320911
+full LL: -120381.5	 Correlation accuracy: 0.4455486542443064
 pseudo count=6
-full LL: -120728.72	 Correlation accuracy: 0.4556628621597893
+full LL: -120036.67	 Correlation accuracy: 0.4654002713704206
+pseudo count=7
+full LL: -121785.36	 Correlation accuracy: 0.4338810641627543
 pseudo count=8
-full LL: -120256.125	 Correlation accuracy: 0.4604916593503073
+full LL: -121282.14	 Correlation accuracy: 0.4354460093896714
+pseudo count=9
+full LL: -121798.5	 Correlation accuracy: 0.4322250639386189
 pseudo count=10
-full LL: -121806.09	 Correlation accuracy: 0.42996870109546165
+full LL: -121699.47	 Correlation accuracy: 0.43561076604554866
+pseudo count=11
+full LL: -122096.016	 Correlation accuracy: 0.4458752515090543
+pseudo count=12
+full LL: -121358.0	 Correlation accuracy: 0.4635911352329263
 
 31000 Lines:
 pseudo count=1
-full LL: -175680.66	 Correlation accuracy: 0.4877846790890269
+full LL: -176326.62	 Correlation accuracy: 0.47701863354037266
 pseudo count=2
-full LL: -175056.03	 Correlation accuracy: 0.4720496894409938
+full LL: -174008.62	 Correlation accuracy: 0.49118046132971505
+pseudo count=4
+full LL: -175840.23	 Correlation accuracy: 0.47911338448422847
+pseudo count=6
+full LL: -176808.3	 Correlation accuracy: 0.44366197183098594
+pseudo count=7
+full LL: -177955.9	 Correlation accuracy: 0.48891730605285594
+pseudo count=8
+full LL: -179224.56	 Correlation accuracy: 0.45472837022132795
+pseudo count=9
+full LL: -178593.52	 Correlation accuracy: 0.4716297786720322
+pseudo count=10
+full LL: -178823.53	 Correlation accuracy: 0.45553319919517105
+pseudo count=11
+full LL: -177424.28	 Correlation accuracy: 0.49561018437225635
+pseudo count=12
+full LL: -179015.56	 Correlation accuracy: 0.46870109546165883
+
+41000 Lines:
+pseudo count=1
+full LL: -232494.64	 Correlation accuracy: 0.4756468797564688
+pseudo count=2
+full LL: -230984.72	 Correlation accuracy: 0.4835680751173709
+pseudo count=4
+full LL: -233341.16	 Correlation accuracy: 0.5011737089201878
+pseudo count=6
+full LL: -234345.6	 Correlation accuracy: 0.45760829322473157
+pseudo count=7
+full LL: -234983.27	 Correlation accuracy: 0.4980438184663537
+pseudo count=8
+full LL: -234901.31	 Correlation accuracy: 0.5018108651911469
+pseudo count=9
+full LL: -234279.11	 Correlation accuracy: 0.4679186228482003
+pseudo count=10
+full LL: -233990.92	 Correlation accuracy: 0.517998244073749
+pseudo count=11
+full LL: -235228.2	 Correlation accuracy: 0.5018108651911469
+pseudo count=12
+full LL: -234892.98	 Correlation accuracy: 0.4949698189134809
+
+51000 Lines:
+pseudo count=1
+full LL: -287205.3	 Correlation accuracy: 0.5558397271952259
+pseudo count=2
+full LL: -288926.56	 Correlation accuracy: 0.5011737089201878
+pseudo count=4
+full LL: -289406.88	 Correlation accuracy: 0.5417732310315431
+pseudo count=6
+full LL: -289142.94	 Correlation accuracy: 0.49818913480885313
+pseudo count=7
+full LL: -291152.2	 Correlation accuracy: 0.49921752738654146
+pseudo count=8
+full LL: -290118.1	 Correlation accuracy: 0.5106639839034205
+pseudo count=9
+full LL: -289832.0	 Correlation accuracy: 0.5171026156941649
+pseudo count=10
+full LL: -292432.06	 Correlation accuracy: 0.5144757433489828
+pseudo count=11
+full LL: -292225.62	 Correlation accuracy: 0.5191146881287726
+pseudo count=12
+full LL: -292107.8	 Correlation accuracy: 0.5219315895372233
+
+61000 Lines:
+pseudo count=1
+full LL: -344426.56	 Correlation accuracy: 0.5076103500761036
+pseudo count=2
+full LL: -343672.12	 Correlation accuracy: 0.5242566510172144
+pseudo count=4
+full LL: -344354.2	 Correlation accuracy: 0.5101721439749609
+pseudo count=6
+full LL: -345222.44	 Correlation accuracy: 0.5400402414486921
+pseudo count=7
+full LL: -346472.6	 Correlation accuracy: 0.52660406885759
+pseudo count=8
+full LL: -347643.2	 Correlation accuracy: 0.48144144144144146
+pseudo count=9
+full LL: -347345.97	 Correlation accuracy: 0.5091324200913242
+pseudo count=10
+full LL: -347143.78	 Correlation accuracy: 0.5101721439749609
+pseudo count=11
+full LL: -348138.25	 Correlation accuracy: 0.5182648401826484
+pseudo count=12
+full LL: -349755.22	 Correlation accuracy: 0.5293427230046949
+
+71000 Lines:
+pseudo count=1
+full LL: -399567.44	 Correlation accuracy: 0.5453834115805947
+pseudo count=2
+full LL: -399643.06	 Correlation accuracy: 0.5258215962441315
+pseudo count=4
+full LL: -400329.28	 Correlation accuracy: 0.5359937402190923
+pseudo count=6
+full LL: -400917.53	 Correlation accuracy: 0.5319634703196348
+pseudo count=7
+full LL: -401718.44	 Correlation accuracy: 0.519406392694064
+pseudo count=8
+full LL: -401706.9	 Correlation accuracy: 0.5026636225266362
+pseudo count=9
+full LL: -401182.62	 Correlation accuracy: 0.5352112676056338
+pseudo count=10
+full LL: -403706.0	 Correlation accuracy: 0.5541346973572038
+pseudo count=11
+full LL: -403650.44	 Correlation accuracy: 0.5348200312989045
+pseudo count=12
+full LL: -403331.7	 Correlation accuracy: 0.5494824016563147
+
+81000 Lines:
+pseudo count=1
+full LL: -457084.0	 Correlation accuracy: 0.548904538341158
+pseudo count=2
+full LL: -456702.88	 Correlation accuracy: 0.5453834115805947
+pseudo count=4
+full LL: -457743.25	 Correlation accuracy: 0.5579029733959311
+pseudo count=6
+full LL: -456721.38	 Correlation accuracy: 0.5573440643863179
+pseudo count=7
+full LL: -456099.56	 Correlation accuracy: 0.5508607198748043
+pseudo count=8
+full LL: -457596.78	 Correlation accuracy: 0.5441400304414004
+pseudo count=9
+full LL: -458248.06	 Correlation accuracy: 0.5492957746478874
+pseudo count=10
+full LL: -460407.3	 Correlation accuracy: 0.5334855403348554
+pseudo count=11
+full LL: -461070.78	 Correlation accuracy: 0.5551643192488263
+pseudo count=12
+full LL: -460730.5	 Correlation accuracy: 0.5292998477929984
+
+91000 Lines:
+pseudo count=1
+full LL: -510614.88	 Correlation accuracy: 0.5625978090766823
+pseudo count=2
+full LL: -510969.94	 Correlation accuracy: 0.5167567567567568
+pseudo count=4
+full LL: -513284.75	 Correlation accuracy: 0.556697108066971
+pseudo count=6
+full LL: -514855.2	 Correlation accuracy: 0.560641627543036
+pseudo count=7
+full LL: -513140.3	 Correlation accuracy: 0.5730382293762576
+pseudo count=8
+full LL: -513905.75	 Correlation accuracy: 0.5612633181126332
+pseudo count=9
+full LL: -515806.47	 Correlation accuracy: 0.5738430583501006
+pseudo count=10
+full LL: -516314.5	 Correlation accuracy: 0.5625978090766823
+pseudo count=11
+full LL: -514287.03	 Correlation accuracy: 0.5422374429223744
+pseudo count=12
+full LL: -515843.62	 Correlation accuracy: 0.5468036529680366
+
+101000 Lines:
+pseudo count=1
+full LL: -568041.9	 Correlation accuracy: 0.5692488262910798
+pseudo count=2
+full LL: -569745.7	 Correlation accuracy: 0.5574581430745814
+pseudo count=4
+full LL: -569055.06	 Correlation accuracy: 0.563165905631659
+pseudo count=6
+full LL: -571367.0	 Correlation accuracy: 0.5751173708920188
+pseudo count=7
+full LL: -570299.75	 Correlation accuracy: 0.5586854460093896
+pseudo count=8
+full LL: -572302.75	 Correlation accuracy: 0.5620243531202436
+pseudo count=9
+full LL: -570167.3	 Correlation accuracy: 0.5743348982785602
+pseudo count=10
+full LL: -572095.1	 Correlation accuracy: 0.5845070422535211
+pseudo count=11
+full LL: -571026.0	 Correlation accuracy: 0.5468345057386154
+pseudo count=12
+full LL: -573498.5	 Correlation accuracy: 0.5446131062569419
+
+111000 Lines:
+pseudo count=1
+full LL: -626099.0	 Correlation accuracy: 0.560882800608828
+pseudo count=2
+full LL: -622888.5	 Correlation accuracy: 0.5486856719733432
+pseudo count=4
+full LL: -624546.94	 Correlation accuracy: 0.5825508607198748
+pseudo count=6
+full LL: -625809.06	 Correlation accuracy: 0.577073552425665
+pseudo count=7
+full LL: -627164.5	 Correlation accuracy: 0.5915492957746479
+pseudo count=8
+full LL: -626449.75	 Correlation accuracy: 0.5641627543035994
+pseudo count=9
+full LL: -628385.44	 Correlation accuracy: 0.5538689374305813
+pseudo count=10
+full LL: -628022.0	 Correlation accuracy: 0.5707762557077626
+pseudo count=11
+full LL: -627461.5	 Correlation accuracy: 0.5653461680858941
+pseudo count=12
+full LL: -629962.5	 Correlation accuracy: 0.5369369369369369
+
+121000 Lines:
+pseudo count=1
+full LL: -680507.94	 Correlation accuracy: 0.5852895148669797
+pseudo count=2
+full LL: -679563.25	 Correlation accuracy: 0.5639269406392694
+pseudo count=4
+full LL: -679164.9	 Correlation accuracy: 0.5907668231611893
+pseudo count=6
+full LL: -683985.7	 Correlation accuracy: 0.5657164013328397
+pseudo count=7
+full LL: -682119.7	 Correlation accuracy: 0.5987927565392354
+pseudo count=8
+full LL: -682876.7	 Correlation accuracy: 0.596244131455399
+pseudo count=9
+full LL: -683352.1	 Correlation accuracy: 0.5978090766823161
+pseudo count=10
+full LL: -684572.5	 Correlation accuracy: 0.5658295281582952
+pseudo count=11
+full LL: -684420.0	 Correlation accuracy: 0.5841158059467919
+pseudo count=12
+full LL: -684330.1	 Correlation accuracy: 0.5809859154929577
+
+131000 Lines:
+pseudo count=1
+full LL: -732811.44	 Correlation accuracy: 0.5473873873873873
+pseudo count=2
+full LL: -735426.56	 Correlation accuracy: 0.5845070422535211
+pseudo count=4
+full LL: -735721.8	 Correlation accuracy: 0.5502702702702703
+pseudo count=6
+full LL: -740164.5	 Correlation accuracy: 0.5974178403755869
+pseudo count=7
+full LL: -739197.75	 Correlation accuracy: 0.5668271010736764
+pseudo count=8
+full LL: -736775.25	 Correlation accuracy: 0.5880281690140845
+pseudo count=9
+full LL: -742881.25	 Correlation accuracy: 0.5643243243243243
+pseudo count=10
+full LL: -740903.5	 Correlation accuracy: 0.6017214397496088
+pseudo count=11
+full LL: -740219.5	 Correlation accuracy: 0.554979637171418
+pseudo count=12
+full LL: -737901.3	 Correlation accuracy: 0.606036217303823
+
+141000 Lines:
+pseudo count=1
+full LL: -793170.06	 Correlation accuracy: 0.6060250391236307
+pseudo count=2
+full LL: -793409.75	 Correlation accuracy: 0.5806697108066972
+pseudo count=4
+full LL: -791428.3	 Correlation accuracy: 0.5834875971862273
+pseudo count=6
+full LL: -792782.3	 Correlation accuracy: 0.5856164383561644
+pseudo count=7
+full LL: -792149.44	 Correlation accuracy: 0.5894216133942162
+pseudo count=8
+full LL: -794049.75	 Correlation accuracy: 0.5771936319881525
+pseudo count=9
+full LL: -794987.7	 Correlation accuracy: 0.6068075117370892
+pseudo count=10
+full LL: -797465.44	 Correlation accuracy: 0.58675799086758
+pseudo count=11
+full LL: -794837.5	 Correlation accuracy: 0.5814307458143074
+pseudo count=12
+full LL: -793920.25	 Correlation accuracy: 0.5875190258751902
