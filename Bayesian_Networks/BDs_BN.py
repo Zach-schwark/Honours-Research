@@ -20,17 +20,17 @@ config.set_dtype(dtype=np.float32)
 
 with open("Fine_Tuning/bds_finetune_SL.txt", "w") as file:
     file.write("")
-with open("LogLikelihood_outputs/BDs_full_distribution.txt", "w") as file:
-    file.write("")
-
-with open("LogLikelihood_outputs/BDs_desired_distribution.txt", "w") as file:
-    file.write("")
-
-with open("Correlation_outputs/BDs_correlation_accuracy.txt", "w") as file:
-    file.write("")
-
-with open("Correlation_outputs/BDs_correlation_f1.txt", "w") as file:
-    file.write("")
+#with open("LogLikelihood_outputs/BDs_full_distribution.txt", "w") as file:
+#    file.write("")
+#
+#with open("LogLikelihood_outputs/BDs_desired_distribution.txt", "w") as file:
+#    file.write("")
+#
+#with open("Correlation_outputs/BDs_correlation_accuracy.txt", "w") as file:
+#    file.write("")
+#
+#with open("Correlation_outputs/BDs_correlation_f1.txt", "w") as file:
+#    file.write("")
 
 loaded_data: pd.DataFrame = DataPreprocessing.load_data()
 data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)
@@ -97,21 +97,20 @@ BDs_correlation_f1_list = []
 num_datapoints = []
 num_rows = int(50000)
 
-equiv_sample_sizes = [2,3,4,6,8,10,12,16,18,20,25,30,35,40]
+equiv_sample_sizes = [10,30,40,50,80,90,100,120,140,150,200]
 
-for num_row in tqdm(range(1000,150000,10000)):
+for num_rows in tqdm(range(1000,100000,10000)):
     with open("Fine_Tuning/bds_finetune_SL.txt", "a") as file:
-        file.write("\n"+str(num_row)+" Lines:\n")
+        file.write("lines: "+str(num_rows)+"\n")
     for ess in equiv_sample_sizes:
-        print("ess: "+str(ess))
-        train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_rows = num_row)
+        with open("Fine_Tuning/bds_finetune_SL.txt", "a") as file:
+            file.write("ess: "+str(ess)+"\n")
+        train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_rows = num_rows)
         BDs_BN = BDsBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
         BDs_BN.set_evidence_features(evidence_features)    
         BDs_BN.set_target_list(target_features)
-        BDs_BN.structure_learning(equivalent_sample_size  = ess)
-        BDs_BN.parameter_estimator(prior_type = "K2")
-        with open("Fine_Tuning/bds_finetune_SL.txt", "a") as file:
-            file.write("ess =" + str(ess)+"\n")
+        BDs_BN.structure_learning(equivalent_sample_size  = 40)
+        BDs_BN.parameter_estimator(prior_type = "BDeu", equivalent_sample_size=ess)
         full_log_likelihood = BDs_BN.evaluate(distribution="full")
         correlation_accuracy = BDs_BN.evaluate(score="correlation", classification_metric="accuracy") 
         with open("Fine_Tuning/bds_finetune_SL.txt", "a") as file:

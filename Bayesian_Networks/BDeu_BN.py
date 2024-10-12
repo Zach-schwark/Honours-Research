@@ -20,18 +20,18 @@ config.set_dtype(dtype=np.float16)
 
 with open("Fine_Tuning/bdeu_finetune_SL.txt", "w") as file:
     file.write("")
-
-with open("LogLikelihood_outputs/BDeu_full_distribution.txt", "w") as file:
-    file.write("")
-
-with open("LogLikelihood_outputs/BDeu_desired_distribution.txt", "w") as file:
-    file.write("")
-    
-with open("Correlation_outputs/BDeu_correlation_accuracy.txt", "w") as file:
-    file.write("")
-
-with open("Correlation_outputs/BDeu_correlation_f1.txt", "w") as file:
-    file.write("")
+#
+#with open("LogLikelihood_outputs/BDeu_full_distribution.txt", "w") as file:
+#    file.write("")
+#
+#with open("LogLikelihood_outputs/BDeu_desired_distribution.txt", "w") as file:
+#    file.write("")
+#    
+#with open("Correlation_outputs/BDeu_correlation_accuracy.txt", "w") as file:
+#    file.write("")
+#
+#with open("Correlation_outputs/BDeu_correlation_f1.txt", "w") as file:
+#    file.write("")
 
 loaded_data: pd.DataFrame = DataPreprocessing.load_data()
 data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)
@@ -99,22 +99,20 @@ BDeu_correlation_f1_list = []
 num_datapoints = []
 num_rows = int(1000)
 
-equiv_sample_sizes = [2,3,4,6,8,10,12,16,18,20,25,30,35,40]
+equiv_sample_sizes = [10,40,50,80,100,200]
 
-for num_row in tqdm(range(1000,150000,10000)):
+for num_rows in tqdm(range(1000,100000,10000)):
     with open("Fine_Tuning/bdeu_finetune_SL.txt", "a") as file:
-        file.write("\n"+str(num_row)+" Lines:\n")
+        file.write("lines: "+str(num_rows)+"\n")
     for ess in equiv_sample_sizes:
-        print("ess: "+str(ess))
-        train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_rows = num_row)
+        with open("Fine_Tuning/bdeu_finetune_SL.txt", "a") as file:
+            file.write("ess: "+str(ess)+"\n")
+        train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_rows = num_rows)
         BDeu_BN = BDeuBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
         BDeu_BN.set_evidence_features(evidence_features)
         BDeu_BN.set_target_list(target_features)
         BDeu_BN.structure_learning(equivalent_sample_size=ess)
-        #BDeu_BN.draw_graph(name= "Bayesian Network with BDeu score",file_name="BDeu_graph", save=True, show=False)
         BDeu_BN.parameter_estimator(prior_type = "K2")
-        with open("Fine_Tuning/bdeu_finetune_SL.txt", "a") as file:
-            file.write("ess =" + str(ess)+"\n")
         full_log_likelihood = BDeu_BN.evaluate(distribution="full")
         correlation_accuracy = BDeu_BN.evaluate(score="correlation", classification_metric="accuracy") 
         with open("Fine_Tuning/bdeu_finetune_SL.txt", "a") as file:

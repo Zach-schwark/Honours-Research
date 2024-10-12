@@ -227,7 +227,7 @@ class BICBayesianNetwork(Models):
     def structure_learning(self):
         scoring_method = estimators.BicScore(data=self.train_data)
         est = estimators.HillClimbSearch(data=self.train_data, use_cache = True)
-        estimated_model = est.estimate(scoring_method=scoring_method, max_iter=int(1e3))
+        estimated_model = est.estimate(scoring_method=scoring_method, max_iter=int(1e3), show_progress=False)
         self.model = BayesianNetwork(estimated_model.edges())
         self.model.add_nodes_from(estimated_model.nodes())
         super().structure_learning()
@@ -243,7 +243,7 @@ class BDeuBayesianNetwork(Models):
         scoring_method = estimators.BDeuScore(data=self.train_data, equivalent_sample_size=equivalent_sample_size)  # TODO change sample size hyperparameter
         est = estimators.HillClimbSearch(data=self.train_data, use_cache = True)
         estimated_model = est.estimate(
-            scoring_method=scoring_method, max_iter=int(1e3), max_indegree=3)
+            scoring_method=scoring_method, max_iter=int(1e3), max_indegree=3, show_progress=False)
 
         self.model = BayesianNetwork(estimated_model.edges())
         self.model.add_nodes_from(estimated_model.nodes())
@@ -259,7 +259,7 @@ class BDsBayesianNetwork(Models):
     def structure_learning(self, equivalent_sample_size=10):
         scoring_method = estimators.BDsScore(data=self.train_data,equivalent_sample_size=equivalent_sample_size) # TODO change sample size hyperparameter
         est = estimators.HillClimbSearch(data=self.train_data, use_cache = True)
-        estimated_model = est.estimate(scoring_method=scoring_method, max_iter=int(1e3),  max_indegree=3)
+        estimated_model = est.estimate(scoring_method=scoring_method, max_iter=int(1e3),  max_indegree=3, show_progress=False)
         self.model = BayesianNetwork(estimated_model.edges())
         self.model.add_nodes_from(estimated_model.nodes())
         super().structure_learning()

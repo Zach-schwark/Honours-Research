@@ -21,17 +21,17 @@ config.set_dtype(dtype=np.float32)
 with open("Fine_Tuning/bic_finetune_dirichlet.txt", "w") as file:
     file.write("")
 
-with open("LogLikelihood_outputs/BIC_full_distribution.txt", "w") as file:
-    file.write("")
-    
-with open("LogLikelihood_outputs/BIC_desired_distribution.txt", "w") as file:
-    file.write("")
-    
-with open("Correlation_outputs/BIC_correlation_accuracy.txt", "w") as file:
-    file.write("")
-
-with open("Correlation_outputs/BIC_correlation_f1.txt", "w") as file:
-    file.write("")
+#with open("LogLikelihood_outputs/BIC_full_distribution.txt", "w") as file:
+#    file.write("")
+#    
+#with open("LogLikelihood_outputs/BIC_desired_distribution.txt", "w") as file:
+#    file.write("")
+#    
+#with open("Correlation_outputs/BIC_correlation_accuracy.txt", "w") as file:
+#    file.write("")
+#
+#with open("Correlation_outputs/BIC_correlation_f1.txt", "w") as file:
+#    file.write("")
 
 loaded_data: pd.DataFrame = DataPreprocessing.load_data()
 data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)
@@ -98,27 +98,31 @@ BIC_correlation_f1_list = []
 num_datapoints = []
 num_rows = int(50000)
 
-pseudo_counts = [1,2,4,6,7,8,9,10,11,12]
 
 
 
-for num_row in tqdm(range(1000,150000,10000)):
+equiv_sample_sizes = [10,30,50,80,100,125,150,200,225,250,300,325,350,400]
+
+
+
+for num_row in tqdm(range(1000,100000,10000)):
     with open("Fine_Tuning/bic_finetune_dirichlet.txt", "a") as file:
         file.write("\n"+str(num_row)+" Lines:\n")
-    for pseudo_count in pseudo_counts:
-        print("pseudo count: "+str(pseudo_count))
-        train_data, validation_data, test_data = DataPreprocessing.split_data(data,num_rows = num_row)
-        BIC_BN = BICBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
-        BIC_BN.set_evidence_features(evidence_features)
-        BIC_BN.set_target_list(target_features)
-        BIC_BN.structure_learning()
-        BIC_BN.parameter_estimator(prior_type = "Dirichlet", pseudo_counts=pseudo_count)
-        with open("Fine_Tuning/bic_finetune_dirichlet.txt", "a") as file:
-            file.write("pseudo count=" + str(pseudo_count)+"\n")
-        full_log_likelihood = BIC_BN.evaluate(distribution="full")
-        correlation_accuracy = BIC_BN.evaluate(score="correlation", classification_metric="accuracy") 
-        with open("Fine_Tuning/bic_finetune_dirichlet.txt", "a") as file:
-            file.write("full LL: "+str(full_log_likelihood)+"\t Correlation accuracy: "+str(correlation_accuracy)+"\n")
+    for ess in equiv_sample_sizes:
+        for i in range(2):
+            train_data, validation_data, test_data = DataPreprocessing.split_data(data, num_rows = 10000)
+            BIC_BN = BICBayesianNetwork(train_data=train_data, test_data=validation_data, feature_states=feature_states)
+            BIC_BN.set_evidence_features(evidence_features)
+            BIC_BN.set_target_list(target_features)
+            BIC_BN.structure_learning()
+            BIC_BN.parameter_estimator(prior_type = "BDeu", equivalent_sample_size=ess)
+            with open("Fine_Tuning/bic_finetune_dirichlet.txt", "a") as file:
+                file.write("ess =" + str(ess)+"\n")
+            full_log_likelihood = BIC_BN.evaluate(distribution="full")
+            correlation_accuracy = BIC_BN.evaluate(score="correlation", classification_metric="accuracy") 
+            print("full LL: "+str(full_log_likelihood)+"\t Correlation accuracy: "+str(correlation_accuracy)+"\n")
+            with open("Fine_Tuning/bic_finetune_dirichlet.txt", "a") as file:
+                file.write("full LL: "+str(full_log_likelihood)+"\t Correlation accuracy: "+str(correlation_accuracy)+"\n")
 
 #full_log_likelihood = BIC_BN.evaluate(distribution="full")
 #BIC_full_distribution_log_liklihood_list.append(full_log_likelihood)
