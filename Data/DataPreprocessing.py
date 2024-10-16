@@ -696,11 +696,13 @@ class DataPreprocessing:
         validation: pd.DataFrame = None
         
         # splits data into 60% train and 20% test, 20% validation
-        train_val, test =  train_test_split(subset_data, test_size = 0.2)
+        #train_val, test =  train_test_split(subset_data, test_size = 0.2)
         
-        train, validation =  train_test_split(train_val, test_size = 0.25)
+        #train, validation =  train_test_split(train_val, test_size = 0.25)
         
-        return train, validation, test
+        train, test =  train_test_split(subset_data, test_size = 0.20)
+        
+        return train, test
     
     def get_evidence_list(test_data, target_label_list: list, evidence_features: list):
         # gets the evidence list of the testing data to use as evidence when classifying loan status

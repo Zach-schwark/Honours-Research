@@ -73,7 +73,6 @@ class Models(ABC):
         for i in range(len(parameters)):
             self.model.add_cpds(parameters[i])
     
-    
     def parameter_estimator(self, prior_type: str = "BDeu", equivalent_sample_size: int = 5, pseudo_counts: dict | int = None):
         if prior_type == "dirichlet" and pseudo_counts == None:
             raise ValueError("pseudo_counts needs to be given if prior_type == 'dirichlet'.")
@@ -192,9 +191,11 @@ class Models(ABC):
             raise ValueError('invalid argument for score, must be either "log_likelihood" or "correlation".')
             
                    
-    def train(self):
+    def train(self, PE_prior_type, PE_pseudo_counts, PE_equivalent_sample_size):
         self.structure_learning()
-        self.parameter_estimator()
+        self.parameter_estimator(prior_type=PE_prior_type, equivalent_sample_size=PE_equivalent_sample_size, pseudo_counts=PE_pseudo_counts)
+        
+        
 
 class RandomBayesianNetwork(Models):
     
