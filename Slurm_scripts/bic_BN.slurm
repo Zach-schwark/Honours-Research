@@ -8,4 +8,4 @@
 
 source ~/.bashrc
 conda activate HonoursResearch
-python3 ~/Honours-Research/Bayesian_Networks/BIC_BN.py
+python3 ~/Honours-Research/Cross_Validation/BIC_cross_validation.py

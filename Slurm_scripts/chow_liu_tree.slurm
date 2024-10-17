@@ -8,4 +8,4 @@
 
 source ~/.bashrc
 conda activate HonoursResearch
-python3 ~/Honours-Research/Bayesian_Networks/Chow_Liu_Tree.py
+python3 ~/Honours-Research/Cross_Validation/ChowLiu_cross_validation.py

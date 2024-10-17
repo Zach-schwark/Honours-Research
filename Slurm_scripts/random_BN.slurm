@@ -8,4 +8,4 @@
 
 source ~/.bashrc
 conda activate HonoursResearch
-python3 ~/Honours-Research/Bayesian_Networks/Random_BN.py
+python3 ~/Honours-Research/Cross_Validation/Random_cross_validation.py

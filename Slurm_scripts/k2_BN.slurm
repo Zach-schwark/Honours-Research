@@ -4,8 +4,8 @@
 #SBATCH --output=/home-mscluster/zschwark/Honours-Research/output_logs/k2_output_logs.txt
 #SBATCH -N 1
 #SBATCH -n 1
-#SBATCH -p stampede
+#SBATCH -p bigbatch
 
 source ~/.bashrc
 conda activate HonoursResearch
-python3 ~/Honours-Research/Bayesian_Networks/K2_BN.py
+python3 ~/Honours-Research/Cross_Validation/K2_cross_validation.py
