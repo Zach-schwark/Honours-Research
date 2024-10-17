@@ -1,6 +1,6 @@
 import sys
 sys.path.insert(0,"./")
-from Models import BICBayesianNetwork
+from Models import BICBayesianNetwork, k2BayesianNetwork, Chow_Liu_Tree, RandomBayesianNetwork
 import Models
 from Data.DataPreprocessing import DataPreprocessing
 from pgmpy import config
@@ -24,10 +24,10 @@ def kfold_indices(data: pd.DataFrame, k: int):
      return folds
  
  
-def perfrom_KfoldCrossValidation(folds: list, data: pd.DataFrame, Model: Models, feature_states, evidence_features, target_features, **kwargs):
+def perfrom_KfoldCrossValidation(folds: list, data: pd.DataFrame, Model: Models, feature_states, evidence_features, target_features, desired: bool, **kwargs):
 
     full_logLikelihood_list = []
-    correlation_accuracy_list = []
+    desired_log_likelihood_list = []
     
     # Iterate through each fold
     for train_indices, test_indices in tqdm(folds):
@@ -39,18 +39,27 @@ def perfrom_KfoldCrossValidation(folds: list, data: pd.DataFrame, Model: Models,
         model = Model(train_data=training_data, test_data=testing_data, feature_states=feature_states)
         model.set_evidence_features(evidence_features)
         model.set_target_list(target_features)
-        if type(model) == BICBayesianNetwork:
+        if type(model) == BICBayesianNetwork or k2BayesianNetwork or Chow_Liu_Tree or RandomBayesianNetwork:
             model.structure_learning()
         else:
             model.structure_learning(equivalent_sample_size = kwargs.get("SL_equivalent_sample_size"))
-        model.parameter_estimator(prior_type = kwargs.get("prior_type"), pseudo_counts=kwargs.get('pseudo_counts'), equivalent_sample_size = kwargs.get('PE_equivalent_sample_size') )
+        #model.draw_graph(name="Random", file_name= "Random_graph",save = True, show = False)
+        if type(model) == Chow_Liu_Tree:
+            model.parameter_estimator()
+        else:
+            model.parameter_estimator(prior_type = kwargs.get("prior_type"), pseudo_counts=kwargs.get('pseudo_counts'), equivalent_sample_size = kwargs.get('PE_equivalent_sample_size') )
         
         # evaluate of the testing data
         full_log_likelihood = model.evaluate(distribution="full")
-        correlation_accuracy = model.evaluate(score="correlation", classification_metric="accuracy") 
-        
-        # Append the fold score to the list of scores
         full_logLikelihood_list.append(full_log_likelihood)
+        if desired == True:
+            desired_log_likelihood = model.evaluate(distribution="desired")
+            desired_log_likelihood_list.append(desired_log_likelihood)
         
-    mean_full_loglikelihood = np.mean(full_logLikelihood_list)
-    return mean_full_loglikelihood
+        
+    mean_full_loglikelihood = np.mean(full_logLikelihood_list)    
+    if desired == True:
+        mean_desired_loglikelihood = np.mean(desired_log_likelihood_list)
+        return mean_full_loglikelihood, mean_desired_loglikelihood
+    else:
+        return mean_full_loglikelihood

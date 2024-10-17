@@ -152,7 +152,7 @@ class Models(ABC):
 
         Args:
             distribution (str): The distribution to evalaute when using the log likelihood score. This can be either "full" meaning the log likelihood is calculated using the P(all features), or "desired" meaning the log likelihood is specifically calculated for the P(target variables | evidence). The default is "full"
-            score (str): Specifies which evaluation metric to use, either the "log_likelihood" score or the "correlation" score.
+            score (str): Specifies which evaluation metric to use, either the "log_likelihood" score or the "correlation" score. The defaulr is the log_likelihood score.
             classification_metric (str): Specifies which classification metric to use if score = "correlation". Can be either "accuracy" or "f1". The default is "accuracy"
 
         Raises:
@@ -204,7 +204,7 @@ class RandomBayesianNetwork(Models):
         
     def structure_learning(self):
         self.model = BayesianNetwork()
-        Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.1)
+        Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.08)
         self.model.add_nodes_from(self.train_data.columns.to_list())
         self.model.add_edges_from(Random_Dag.edges())
 
@@ -276,7 +276,7 @@ class k2BayesianNetwork(Models):
         scoring_method = estimators.K2Score(data=self.train_data)
         est = estimators.HillClimbSearch(data=self.train_data, use_cache = True)
         estimated_model = est.estimate(
-            scoring_method=scoring_method, max_iter=int(1e3), max_indegree=3)
+            scoring_method=scoring_method, max_iter=int(1e3), max_indegree=3, show_progress=False)
         self.model = BayesianNetwork(estimated_model.edges())
         self.model.add_nodes_from(estimated_model.nodes())
         super().structure_learning()
@@ -294,7 +294,7 @@ class Chow_Liu_Tree(Models):
         
     def structure_learning(self):
         est = TreeSearch(self.train_data, root_node="fico_range_high")
-        dag = est.estimate(estimator_type="chow-liu")
+        dag = est.estimate(estimator_type="chow-liu", show_progress=False)
         self.model = BayesianNetwork(dag.edges())
     
     def parameter_estimator(self):
