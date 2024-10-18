@@ -208,16 +208,18 @@ class RandomBayesianNetwork(Models):
         self.model.add_nodes_from(self.train_data.columns.to_list())
         self.model.add_edges_from(Random_Dag.edges())
 
-        #active_trail_nodes = self.model.active_trail_nodes(['loan_status',"int_rate","term","installment", "loan_amnt"])
-        #active_trail_nodes_list = list(active_trail_nodes['loan_status'])
-        #active_trail_nodes_list.extend(active_trail_nodes['int_rate'])
-        #active_trail_nodes_list.extend(active_trail_nodes['term'])
-        #active_trail_nodes_list.extend(active_trail_nodes['installment'])
-        #active_trail_nodes_list.extend(active_trail_nodes['loan_amnt'])
-        #original_nodes = list(self.model.nodes())
-        #for node in original_nodes:
-        #    if node not in active_trail_nodes_list:
-        #        self.model.remove_node(node)s
+    def parameter_estimator(self, prior_type: str = "BDeu", equivalent_sample_size: int = 5, pseudo_counts: dict | int = None):
+        if prior_type == "dirichlet" and pseudo_counts == None:
+            raise ValueError("pseudo_counts needs to be given if prior_type == 'dirichlet'.")
+        
+        if prior_type == 'BDeu' and equivalent_sample_size == None:
+            raise ValueError("equivalent_sample_size needs to be given if prior_type == 'BDeu'.")
+        
+        parameter_estimator = estimators.BayesianEstimator(self.model, self.train_data, state_names = self.feature_states)
+        parameters = parameter_estimator.get_parameters(prior_type=prior_type,equivalent_sample_size = equivalent_sample_size, pseudo_counts = pseudo_counts,  n_jobs=1)
+ 
+        for i in range(len(parameters)):
+            self.model.add_cpds(parameters[i])
 
 
 class BICBayesianNetwork(Models):
