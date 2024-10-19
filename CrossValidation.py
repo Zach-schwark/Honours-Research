@@ -10,6 +10,7 @@ import torch
 import logging
 from tqdm import tqdm
 from pgmpy.global_vars import logger
+import warnings 
 logger.setLevel(logging.ERROR)
 
 
@@ -53,8 +54,12 @@ def perfrom_KfoldCrossValidation(folds: list, data: pd.DataFrame, Model: Models,
         full_log_likelihood = model.evaluate(distribution="full")
         full_logLikelihood_list.append(full_log_likelihood)
         if desired == True:
-            desired_log_likelihood = model.evaluate(distribution="desired")
-            desired_log_likelihood_list.append(desired_log_likelihood)
+            try:
+                desired_log_likelihood = model.evaluate(distribution="desired")
+                desired_log_likelihood_list.append(desired_log_likelihood)
+            except:
+                warnings.warn('Could not evaluate desired distribution. Problem could be in Variable Elimination where a certain node was not in the graph.') 
+                continue
         
         
     mean_full_loglikelihood = np.mean(full_logLikelihood_list)    
