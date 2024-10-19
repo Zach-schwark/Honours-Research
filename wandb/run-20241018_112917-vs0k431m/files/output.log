@@ -1,0 +1,101 @@
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/preprocessing/_discretization.py:263: UserWarning: Feature 0 is constant and will be replaced with 0.
+  warnings.warn(
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/preprocessing/_discretization.py:263: UserWarning: Feature 0 is constant and will be replaced with 0.
+  warnings.warn(
+#############
+Data loaded
+#############
+100%|██████████| 5/5 [06:16<00:00, 75.23s/it] 
+100%|██████████| 5/5 [06:52<00:00, 82.42s/it]
+100%|██████████| 5/5 [07:00<00:00, 84.01s/it]
+100%|██████████| 5/5 [06:51<00:00, 82.29s/it]
+100%|██████████| 5/5 [07:24<00:00, 88.98s/it]
+100%|██████████| 5/5 [07:54<00:00, 94.97s/it]
+100%|██████████| 5/5 [07:53<00:00, 94.75s/it]
+100%|██████████| 5/5 [07:43<00:00, 92.60s/it]
+100%|██████████| 5/5 [08:11<00:00, 98.34s/it] 
+100%|██████████| 5/5 [08:13<00:00, 98.65s/it]
+100%|██████████| 5/5 [09:08<00:00, 109.61s/it]
+100%|██████████| 5/5 [09:19<00:00, 111.88s/it]
+100%|██████████| 5/5 [10:23<00:00, 124.70s/it]
+100%|██████████| 5/5 [10:44<00:00, 128.86s/it]
+100%|██████████| 5/5 [11:22<00:00, 136.52s/it]
+100%|██████████| 5/5 [11:39<00:00, 139.86s/it]
+100%|██████████| 5/5 [11:54<00:00, 142.99s/it]
+100%|██████████| 5/5 [12:43<00:00, 152.75s/it]
+100%|██████████| 5/5 [13:31<00:00, 162.38s/it]
+100%|██████████| 5/5 [12:53<00:00, 154.61s/it]
+100%|██████████| 5/5 [13:32<00:00, 162.43s/it]
+100%|██████████| 5/5 [13:56<00:00, 167.33s/it]
+100%|██████████| 5/5 [14:48<00:00, 177.60s/it]
+100%|██████████| 5/5 [14:45<00:00, 177.12s/it]
+100%|██████████| 5/5 [15:25<00:00, 185.01s/it]
+100%|██████████| 5/5 [15:19<00:00, 183.94s/it]
+100%|██████████| 5/5 [16:40<00:00, 200.02s/it]
+100%|██████████| 5/5 [16:22<00:00, 196.47s/it]
+100%|██████████| 5/5 [16:55<00:00, 203.01s/it]
+100%|██████████| 5/5 [16:37<00:00, 199.45s/it]
+100%|██████████| 5/5 [16:56<00:00, 203.22s/it]
+100%|██████████| 5/5 [17:50<00:00, 214.08s/it]
+100%|██████████| 5/5 [19:04<00:00, 228.87s/it]
+100%|██████████| 5/5 [19:18<00:00, 231.63s/it]
+100%|██████████| 5/5 [18:21<00:00, 220.28s/it]
+100%|██████████| 5/5 [19:33<00:00, 234.71s/it]
+100%|██████████| 5/5 [19:56<00:00, 239.33s/it]
+100%|██████████| 5/5 [19:46<00:00, 237.37s/it]
+100%|██████████| 5/5 [19:41<00:00, 236.23s/it]
+100%|██████████| 5/5 [20:46<00:00, 249.35s/it]
+100%|██████████| 5/5 [20:45<00:00, 249.09s/it]
+100%|██████████| 5/5 [21:21<00:00, 256.29s/it]
+100%|██████████| 5/5 [19:39<00:00, 235.82s/it]
+100%|██████████| 5/5 [20:23<00:00, 244.69s/it]
+100%|██████████| 5/5 [20:56<00:00, 251.26s/it]
+100%|██████████| 5/5 [22:11<00:00, 266.29s/it]
+100%|██████████| 5/5 [21:54<00:00, 263.00s/it]
+100%|██████████| 5/5 [22:01<00:00, 264.34s/it]
+100%|██████████| 5/5 [22:28<00:00, 269.67s/it]
+100%|██████████| 5/5 [21:22<00:00, 256.55s/it]
+100%|██████████| 5/5 [22:53<00:00, 274.72s/it]
+100%|██████████| 5/5 [26:30<00:00, 318.06s/it]
+100%|██████████| 5/5 [26:47<00:00, 321.50s/it]
+100%|██████████| 5/5 [23:46<00:00, 285.28s/it]
+100%|██████████| 5/5 [27:26<00:00, 329.38s/it]
+ 60%|██████    | 3/5 [15:04<10:03, 301.88s/it]/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+100%|██████████| 5/5 [25:45<00:00, 309.09s/it]
+100%|██████████| 5/5 [28:23<00:00, 340.68s/it]
+  0%|          | 0/5 [00:00<?, ?it/s]/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+ 80%|████████  | 4/5 [22:36<05:38, 338.62s/it]/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+100%|██████████| 5/5 [28:25<00:00, 341.05s/it]
+  0%|          | 0/5 [00:00<?, ?it/s]/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+ 20%|██        | 1/5 [05:26<21:45, 326.35s/it]/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+100%|██████████| 5/5 [25:39<00:00, 307.97s/it]
+ 20%|██        | 1/5 [05:49<23:19, 349.76s/it]/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+100%|██████████| 5/5 [27:14<00:00, 326.96s/it]
+  0%|          | 0/5 [00:00<?, ?it/s]/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+100%|██████████| 5/5 [29:40<00:00, 356.18s/it]
+100%|██████████| 5/5 [25:43<00:00, 308.61s/it]
+100%|██████████| 5/5 [31:54<00:00, 382.94s/it]
+100%|██████████| 5/5 [29:14<00:00, 350.94s/it]
+ 20%|██        | 1/5 [06:07<24:28, 367.06s/it]/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+100%|██████████| 5/5 [29:52<00:00, 358.51s/it]
+ 20%|██        | 1/5 [05:52<23:28, 352.22s/it]/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+100%|██████████| 5/5 [29:39<00:00, 355.93s/it]
+100%|██████████| 5/5 [32:41<00:00, 392.33s/it]
+  0%|          | 0/5 [00:00<?, ?it/s]/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+100%|██████████| 5/5 [31:02<00:00, 372.42s/it]
+100%|██████████| 5/5 [32:03<00:00, 384.72s/it]
+100%|██████████| 5/5 [32:01<00:00, 384.34s/it]
+100%|██████████| 5/5 [32:50<00:00, 394.19s/it]
+100%|██████████| 5/5 [36:14<00:00, 434.92s/it]
+100%|██████████| 5/5 [31:51<00:00, 382.28s/it]
+ 60%|██████    | 3/5 [19:22<12:47, 383.91s/it]

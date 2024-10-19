@@ -1,0 +1,42 @@
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/preprocessing/_discretization.py:263: UserWarning: Feature 0 is constant and will be replaced with 0.
+  warnings.warn(
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/preprocessing/_discretization.py:263: UserWarning: Feature 0 is constant and will be replaced with 0.
+  warnings.warn(
+#############
+Data loaded
+#############
+100%|██████████| 5/5 [06:48<00:00, 81.62s/it] 
+100%|██████████| 5/5 [06:45<00:00, 81.05s/it]
+100%|██████████| 5/5 [06:47<00:00, 81.47s/it]
+100%|██████████| 5/5 [07:03<00:00, 84.64s/it]
+100%|██████████| 5/5 [07:27<00:00, 89.42s/it]
+100%|██████████| 5/5 [07:21<00:00, 88.25s/it]
+100%|██████████| 5/5 [07:37<00:00, 91.45s/it]
+100%|██████████| 5/5 [07:57<00:00, 95.45s/it]
+100%|██████████| 5/5 [07:55<00:00, 95.08s/it]
+100%|██████████| 5/5 [08:10<00:00, 98.07s/it]
+100%|██████████| 5/5 [09:05<00:00, 109.12s/it]
+100%|██████████| 5/5 [09:31<00:00, 114.39s/it]
+100%|██████████| 5/5 [10:14<00:00, 122.83s/it]
+100%|██████████| 5/5 [10:55<00:00, 131.07s/it]
+100%|██████████| 5/5 [11:13<00:00, 134.63s/it]
+100%|██████████| 5/5 [11:23<00:00, 136.72s/it]
+100%|██████████| 5/5 [11:51<00:00, 142.35s/it]
+100%|██████████| 5/5 [12:50<00:00, 154.02s/it]
+100%|██████████| 5/5 [12:52<00:00, 154.59s/it]
+100%|██████████| 5/5 [16:46<00:00, 201.29s/it]
+100%|██████████| 5/5 [19:04<00:00, 228.92s/it]
+100%|██████████| 5/5 [22:24<00:00, 268.84s/it]
+  0%|          | 0/5 [00:00<?, ?it/s]/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+100%|██████████| 5/5 [26:51<00:00, 322.36s/it]
+100%|██████████| 5/5 [30:46<00:00, 369.36s/it]
+100%|██████████| 5/5 [37:47<00:00, 453.49s/it]
+100%|██████████| 5/5 [40:44<00:00, 488.94s/it]
+100%|██████████| 5/5 [42:04<00:00, 504.83s/it]
+100%|██████████| 5/5 [53:49<00:00, 645.95s/it]
+100%|██████████| 5/5 [44:18<00:00, 531.73s/it]
+100%|██████████| 5/5 [47:43<00:00, 572.71s/it]
+100%|██████████| 5/5 [58:11<00:00, 698.21s/it]
+100%|██████████| 5/5 [52:22<00:00, 628.44s/it]
+ 20%|██        | 1/5 [11:48<47:15, 708.93s/it]

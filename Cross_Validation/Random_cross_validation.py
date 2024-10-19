@@ -39,7 +39,7 @@ wandb.init(
 )
 
 
-config.set_dtype(dtype=np.float32)
+config.set_dtype(dtype=np.float16)
 
 loaded_data: pd.DataFrame = DataPreprocessing.load_data()
 data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)

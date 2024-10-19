@@ -35,12 +35,12 @@ wandb.init(
     name = "K2",
     config={
         "prior_type": "dirichlet",
-        "pseudo_counts": 1,
+        "pseudo_counts": 5,
     }
 )
 
 
-config.set_dtype(dtype=np.float64)
+config.set_dtype(dtype=np.float32)
 
 loaded_data: pd.DataFrame = DataPreprocessing.load_data()
 data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)
@@ -60,10 +60,8 @@ def variable_step_loop(start, end):
         
         if current < 1000:
             step = 100
-        elif current < 10000:
-            step = 1000
         else:
-            step = 10000
+            step = 1000
         
         current = min(current + step, end)
 
@@ -80,7 +78,7 @@ for num_rows in variable_step_loop(100, 250000):
                                                                   target_features=target_features,
                                                                   desired=False,
                                                                   prior_type = "dirichlet",
-                                                                  pseudo_counts = 1)
+                                                                  pseudo_counts = 5)
     row_full = [num_rows, log_likelihood]
     #row_desired = [num_rows, desired_log_likelihood]
     with open(full_filename, 'a', newline="") as file:

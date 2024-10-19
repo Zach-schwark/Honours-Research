@@ -38,7 +38,7 @@ wandb.init(
     name = "BIC",
     config={
         "prior_type": "dirichlet",
-        "pseudo_counts": 1,
+        "pseudo_counts": 10,
     }
 )
 
@@ -64,10 +64,8 @@ def variable_step_loop(start, end):
         
         if current < 1000:
             step = 100
-        elif current < 10000:
-            step = 1000
         else:
-            step = 10000
+            step = 1000
         
         current = min(current + step, end)
 
@@ -84,7 +82,7 @@ for num_rows in variable_step_loop(100, 250000):
                                                                   target_features=target_features,
                                                                   desired=False,
                                                                   prior_type = "dirichlet",
-                                                                  pseudo_counts = 1)
+                                                                  pseudo_counts = 10)
     row_full = [num_rows, log_likelihood]
     #row_desired = [num_rows, desired_log_likelihood]
     with open(full_filename, 'a', newline="") as file:

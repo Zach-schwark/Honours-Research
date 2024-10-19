@@ -1,0 +1,66 @@
+{
+  "os":  "Linux-5.15.0-58-generic-x86_64-with-glibc2.35",
+  "python":  "3.11.9",
+  "startedAt":  "2024-10-17T14:16:17.797416Z",
+  "program":  "/home-mscluster/zschwark/Honours-Research/Cross_Validation/BDs_cross_validation.py",
+  "codePath":  "Cross_Validation/BDs_cross_validation.py",
+  "git":  {
+    "remote":  "git@github.com:Zach-schwark/Honours-Research.git",
+    "commit":  "b6f0ad61aa19d908547acb5adc459d03fd3ee440"
+  },
+  "email":  "zachs1708@gmail.com",
+  "root":  "/home-mscluster/zschwark/Honours-Research",
+  "host":  "mscluster76.ms.wits.ac.za",
+  "username":  "zschwark",
+  "executable":  "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/bin/python3",
+  "codePathLocal":  "Cross_Validation/BDs_cross_validation.py",
+  "cpu_count":  14,
+  "cpu_count_logical":  28,
+  "disk":  {
+    "/":  {
+      "total":  "501809635328",
+      "used":  "107409633280"
+    }
+  },
+  "memory":  {
+    "total":  "134775619584"
+  },
+  "cpu":  {
+    "count":  14,
+    "countLogical":  28
+  },
+  "slurm":  {
+    "cluster_name":  "mscluster",
+    "conf":  "/etc/slurm/slurm.conf",
+    "cpus_on_node":  "28",
+    "gtids":  "0",
+    "job_account":  "students",
+    "job_cpus_per_node":  "28",
+    "job_gid":  "20961",
+    "job_id":  "126545",
+    "job_name":  "BDs_BN",
+    "job_nodelist":  "mscluster76",
+    "job_num_nodes":  "1",
+    "job_partition":  "bigbatch",
+    "job_qos":  "normal",
+    "job_uid":  "20961",
+    "job_user":  "zschwark",
+    "jobid":  "126545",
+    "localid":  "0",
+    "nnodes":  "1",
+    "node_aliases":  "(null)",
+    "nodeid":  "0",
+    "nodelist":  "mscluster76",
+    "nprocs":  "1",
+    "ntasks":  "1",
+    "prio_process":  "0",
+    "procid":  "0",
+    "submit_dir":  "/home-mscluster/zschwark/Honours-Research",
+    "submit_host":  "mscluster-login1.ms.wits.ac.za",
+    "task_pid":  "1056968",
+    "tasks_per_node":  "1",
+    "topology_addr":  "mscluster76",
+    "topology_addr_pattern":  "node",
+    "working_cluster":  "mscluster:10.100.14.254:6817:9472:102"
+  }
+}

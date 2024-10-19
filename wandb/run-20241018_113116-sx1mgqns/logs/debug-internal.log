@@ -1,0 +1,15 @@
+{"time":"2024-10-18T11:31:16.516298432+02:00","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-18T11:31:16.516388763+02:00","level":"INFO","msg":"created symlink","path":"/home-mscluster/zschwark/Honours-Research/wandb/run-20241018_113116-sx1mgqns/logs/debug-core.log"}
+{"time":"2024-10-18T11:31:16.523707361+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-18T11:31:16.582060798+02:00","level":"INFO","msg":"created new stream","id":"sx1mgqns"}
+{"time":"2024-10-18T11:31:16.582114232+02:00","level":"INFO","msg":"stream: started","id":"sx1mgqns"}
+{"time":"2024-10-18T11:31:16.58216194+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"sx1mgqns"}}
+{"time":"2024-10-18T11:31:16.58220661+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"sx1mgqns"}}
+{"time":"2024-10-18T11:31:16.582286276+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"sx1mgqns"}}
+{"time":"2024-10-18T11:31:17.156793796+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-18T11:31:17.16016054+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-19T03:25:23.30176931+02:00","level":"INFO","msg":"api: retrying HTTP error","status":500,"url":"https://api.wandb.ai/files/zachs-university-of-the-witwatersrand/Honours-Research/sx1mgqns/file_stream"}
+{"time":"2024-10-19T03:25:37.351610471+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2024-10-19T03:26:09.835746685+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2024-10-19T03:26:22.287712033+02:00","level":"INFO","msg":"api: retrying HTTP error","status":500,"url":"https://api.wandb.ai/files/zachs-university-of-the-witwatersrand/Honours-Research/sx1mgqns/file_stream"}
+{"time":"2024-10-19T03:57:52.417194574+02:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/zachs-university-of-the-witwatersrand/Honours-Research/sx1mgqns/file_stream"}

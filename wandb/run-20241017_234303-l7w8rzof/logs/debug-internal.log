@@ -1,0 +1,14 @@
+{"time":"2024-10-17T23:43:03.930165749+02:00","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-17T23:43:03.9302141+02:00","level":"INFO","msg":"created symlink","path":"/home-mscluster/zschwark/Honours-Research/wandb/run-20241017_234303-l7w8rzof/logs/debug-core.log"}
+{"time":"2024-10-17T23:43:03.934979011+02:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-17T23:43:04.006908505+02:00","level":"INFO","msg":"created new stream","id":"l7w8rzof"}
+{"time":"2024-10-17T23:43:04.007036433+02:00","level":"INFO","msg":"stream: started","id":"l7w8rzof"}
+{"time":"2024-10-17T23:43:04.007114491+02:00","level":"INFO","msg":"sender: started","stream_id":{"value":"l7w8rzof"}}
+{"time":"2024-10-17T23:43:04.007121904+02:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"l7w8rzof"}}
+{"time":"2024-10-17T23:43:04.007220219+02:00","level":"INFO","msg":"handler: started","stream_id":{"value":"l7w8rzof"}}
+{"time":"2024-10-17T23:43:04.443044298+02:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-17T23:43:04.45042602+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-18T00:19:35.682091525+02:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/zachs-university-of-the-witwatersrand/Honours-Research/l7w8rzof/file_stream"}
+{"time":"2024-10-18T04:18:14.718066534+02:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/zachs-university-of-the-witwatersrand/Honours-Research/l7w8rzof/file_stream"}
+{"time":"2024-10-18T04:28:59.730440684+02:00","level":"INFO","msg":"api: retrying HTTP error","status":500,"url":"https://api.wandb.ai/files/zachs-university-of-the-witwatersrand/Honours-Research/l7w8rzof/file_stream"}
+{"time":"2024-10-18T04:29:07.058418135+02:00","level":"INFO","msg":"api: retrying HTTP error","status":500,"url":"https://api.wandb.ai/files/zachs-university-of-the-witwatersrand/Honours-Research/l7w8rzof/file_stream"}

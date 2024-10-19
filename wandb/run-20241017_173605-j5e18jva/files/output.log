@@ -1,0 +1,50 @@
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/preprocessing/_discretization.py:263: UserWarning: Feature 0 is constant and will be replaced with 0.
+  warnings.warn(
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/preprocessing/_discretization.py:263: UserWarning: Feature 0 is constant and will be replaced with 0.
+  warnings.warn(
+#############
+Data loaded
+#############
+100%|██████████| 5/5 [00:35<00:00,  7.02s/it]
+100%|██████████| 5/5 [02:53<00:00, 34.77s/it]
+100%|██████████| 5/5 [09:58<00:00, 119.62s/it]
+100%|██████████| 5/5 [01:15<00:00, 15.00s/it]
+100%|██████████| 5/5 [13:55<00:00, 167.13s/it]
+100%|██████████| 5/5 [05:07<00:00, 61.45s/it] 
+100%|██████████| 5/5 [11:41<00:00, 140.28s/it]
+100%|██████████| 5/5 [02:54<00:00, 34.90s/it]
+100%|██████████| 5/5 [00:58<00:00, 11.67s/it]
+100%|██████████| 5/5 [03:51<00:00, 46.36s/it]
+100%|██████████| 5/5 [00:38<00:00,  7.66s/it]
+100%|██████████| 5/5 [01:12<00:00, 14.57s/it]
+100%|██████████| 5/5 [02:05<00:00, 25.06s/it]
+ 20%|██        | 1/5 [19:50<1:19:20, 1190.16s/it]
+Traceback (most recent call last):
+  File "/home-mscluster/zschwark/Honours-Research/Cross_Validation/Random_cross_validation.py", line 75, in <module>
+    log_likelihood = CrossValidation.perfrom_KfoldCrossValidation(folds = folds,
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/Honours-Research/./CrossValidation.py", line 50, in perfrom_KfoldCrossValidation
+    model.parameter_estimator(prior_type = kwargs.get("prior_type"), pseudo_counts=kwargs.get('pseudo_counts'), equivalent_sample_size = kwargs.get('PE_equivalent_sample_size') )
+  File "/home-mscluster/zschwark/Honours-Research/./Models.py", line 84, in parameter_estimator
+    parameters = parameter_estimator.get_parameters(prior_type=prior_type,equivalent_sample_size = equivalent_sample_size, pseudo_counts = pseudo_counts,  n_jobs=6)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/pgmpy/estimators/BayesianEstimator.py", line 119, in get_parameters
+    parameters = Parallel(n_jobs=n_jobs)(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/parallel.py", line 2007, in __call__
+    return output if self.return_generator else list(output)
+                                                ^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/parallel.py", line 1650, in _get_outputs
+    yield from self._retrieve()
+  File "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/parallel.py", line 1754, in _retrieve
+    self._raise_error_fast()
+  File "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/parallel.py", line 1789, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/parallel.py", line 745, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/parallel.py", line 763, in _return_or_raise
+    raise self._result
+joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
+
+The exit codes of the workers are {SIGKILL(-9)}
