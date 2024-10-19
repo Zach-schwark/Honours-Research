@@ -21,7 +21,7 @@ from tqdm import tqdm
 #config.set_dtype(dtype=torch.float16)
 #config.set_backend("torch", device=device, dtype=torch.float32)#
 
-config.set_dtype(dtype=np.float16)
+config.set_dtype(dtype=np.float32)
 
 class Models(ABC):
     

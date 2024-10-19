@@ -723,6 +723,15 @@ class DataPreprocessing:
         return testing_evidence_list
     
     def return_evidence_features(list_description: str, inc_loan_amnt: bool):
+        """Returns the evidence features list
+
+        Args:
+            list_description (str): Can be "very_basic", "basic", "detailed", "advanced", "all_info".
+            inc_loan_amnt (bool): whether to include the loan amount as evidence or not.
+
+        Returns:
+            list: The evidence features as a list of strings
+        """
 
         very_basic_evidence_features = ["annual_inc","emp_length", "grade", "verification_status","fico_range_high","purpose","dti", "home_ownership", "tot_cur_bal", "pub_rec_bankruptcies"]
         basic_evidence_features = ["annual_inc", "emp_length", "grade", "home_ownership", "verification_status", "last_fico_range_high", "fico_range_high", "purpose", "dti", "application_type", "delinq_2yrs", "avg_cur_bal", "tot_cur_bal", "pub_rec_bankruptcies", "mort_acc", "num_il_tl", "num_rev_accts", "total_bal_ex_mort"]
@@ -732,7 +741,7 @@ class DataPreprocessing:
 
         evidence_features = []
 
-        if list_description == "very basic":
+        if list_description == "very_basic":
             evidence_features = very_basic_evidence_features
         elif list_description == "basic":
             evidence_features = basic_evidence_features
@@ -740,7 +749,7 @@ class DataPreprocessing:
             evidence_features = more_detailed_evidence_features
         elif list_description == "advanced":
             evidence_features = advanced_evidence_features
-        elif list_description == "all info":
+        elif list_description == "all_info":
             evidence_features = all_customer_info_evidence_features
 
         # this will result in the loan amount being the original loan amount for each data point

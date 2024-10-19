@@ -15,8 +15,14 @@ from pgmpy.global_vars import logger
 logger.setLevel(logging.ERROR)
 
 
+
+if len(sys.argv) != 2:
+    exit()
+
+evidence_list_type = sys.argv[1]
+
 full_filename = "Cross_Validation_outputs/Full_Log_Likelihoods/ChowLiu_full.csv"
-desired_filename = "Cross_Validation_outputs/Desired_Log_Likelihoods/ChowLiu_desired_basic.csv"
+desired_filename = "Cross_Validation_outputs/Desired_Log_Likelihoods/ChowLiu_desired_"+str(evidence_list_type)+".csv"
 
 
 header = ['dataset_size','full_log_likelihood']
@@ -43,14 +49,14 @@ except FileExistsError:
 
 wandb.init(
     project="Honours-Research",
-    name = "ChowLiu",
+    name = "ChowLiu_"+str(evidence_list_type),
     config={
         "prior_type": "K2",
     }
 )
 
 
-config.set_dtype(dtype=np.float64)
+config.set_dtype(dtype=np.float32)
 
 loaded_data: pd.DataFrame = DataPreprocessing.load_data()
 data: pd.DataFrame = DataPreprocessing.preprocess_data(loaded_data)
@@ -60,7 +66,7 @@ print("Data loaded")
 print("#############\n")
 
 
-evidence_features = DataPreprocessing.return_evidence_features(list_description="basic", inc_loan_amnt=False)
+evidence_features = DataPreprocessing.return_evidence_features(list_description=str(evidence_list_type), inc_loan_amnt=False)
 target_features = DataPreprocessing.return_target_features(inc_loan_amnt=True)
 
 def variable_step_loop(start, end):
@@ -69,34 +75,33 @@ def variable_step_loop(start, end):
         yield current
         
         if current < 1000:
-            step = 100
+            step = 50
         elif current < 10000:
-            step = 1000
+            step = 500
         else:
-            step = 10000
+            step = 5000
         
         current = min(current + step, end)
 
 
-for num_rows in variable_step_loop(100, 250000):
+for num_rows in variable_step_loop(50, 110000):
     train_data, test_data = DataPreprocessing.split_data(data, num_rows = num_rows)
     folds = CrossValidation.kfold_indices(data = train_data, k = 5 )
-    #, desired_log_likelihood
-    log_likelihood = CrossValidation.perfrom_KfoldCrossValidation(folds = folds,
+    log_likelihood, desired_log_likelihood = CrossValidation.perfrom_KfoldCrossValidation(folds = folds,
                                                                   data=train_data,
                                                                   Model = Chow_Liu_Tree,
                                                                   feature_states=feature_states,
                                                                   evidence_features=evidence_features,
                                                                   target_features=target_features,
-                                                                  desired=False)
+                                                                  desired=True)
     row_full = [num_rows, log_likelihood]
-    #row_desired = [num_rows, desired_log_likelihood]
+    row_desired = [num_rows, desired_log_likelihood]
     with open(full_filename, 'a', newline="") as file:
         csvwriter = csv.writer(file) 
         csvwriter.writerow(row_full)
-    #with open(desired_filename, 'a', newline="") as file:
-    #    csvwriter = csv.writer(file) 
-    #    csvwriter.writerow(row_desired)   
-    wandb.log({"dataset size":num_rows,"log_likelihood": log_likelihood})
+    with open(desired_filename, 'a', newline="") as file:
+        csvwriter = csv.writer(file) 
+        csvwriter.writerow(row_desired)   
+    wandb.log({"dataset size":num_rows,"log_likelihood": log_likelihood, str(evidence_list_type)+"_log_likelihood": desired_log_likelihood})
 
 wandb.finish()
