@@ -5,3 +5,6 @@ preprocessed_data.csv
 
 #ignore pycache
 __pycache__/
+
+# ignore wandb stuff
+wandb/
