@@ -1,0 +1,23 @@
+wandb: Using wandb-core as the SDK backend. Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: zachs (zachs-university-of-the-witwatersrand). Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.18.3
+wandb: Run data is saved locally in /home-mscluster/zschwark/Honours-Research/wandb/run-20241020_163516-c0bz5eeb
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run BDeu_very_basic
+wandb: ⭐️ View project at https://wandb.ai/zachs-university-of-the-witwatersrand/Honours-Research
+wandb: 🚀 View run at https://wandb.ai/zachs-university-of-the-witwatersrand/Honours-Research/runs/c0bz5eeb
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/preprocessing/_discretization.py:263: UserWarning: Feature 0 is constant and will be replaced with 0.
+  warnings.warn(
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/sklearn/preprocessing/_discretization.py:263: UserWarning: Feature 0 is constant and will be replaced with 0.
+  warnings.warn(
+#############
+Data loaded
+#############
+
+  0%|          | 0/5 [00:00<?, ?it/s]Performing Variable Elimination...
+
+  0%|          | 0/8 [00:00<?, ?it/s][A/var/lib/slurm/slurmd/job127050/slurm_script: line 11: 847623 Killed                  python3 ~/Honours-Research/Cross_Validation/BDeu_cross_validation.py 50 dirichlet 5 very_basic
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/backend/resource_tracker.py:314: UserWarning: resource_tracker: There appear to be 12 leaked semlock objects to clean up at shutdown
+  warnings.warn(
+/home-mscluster/zschwark/miniconda3/envs/HonoursResearch/lib/python3.11/site-packages/joblib/externals/loky/backend/resource_tracker.py:314: UserWarning: resource_tracker: There appear to be 1 leaked folder objects to clean up at shutdown
+  warnings.warn(

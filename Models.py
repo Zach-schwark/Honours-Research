@@ -204,7 +204,7 @@ class RandomBayesianNetwork(Models):
         
     def structure_learning(self):
         self.model = BayesianNetwork()
-        Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.07)
+        Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.06)
         self.model.add_nodes_from(self.train_data.columns.to_list())
         self.model.add_edges_from(Random_Dag.edges())
 
