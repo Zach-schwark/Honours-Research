@@ -10,6 +10,7 @@ class DataPreprocessing:
     
     def load_data()-> pd.DataFrame:
         # reads from CS, removes rows with null/missing values and automatically infers and converts datatypes for the data.
+        # path for python files: "Data/accepted_2007_to_2018Q4.csv"
         # path for notebook files : "../Data/accepted_2007_to_2018Q4.csv"
         data = pd.read_csv("Data/accepted_2007_to_2018Q4.csv", engine='c',low_memory=False)
         data = data.drop(['id', 'member_id', 'settlement_term','settlement_percentage', 'settlement_amount', 'settlement_date','settlement_status', 'debt_settlement_flag_date', 'hardship_last_payment_amount', 'hardship_payoff_balance_amount', 'orig_projected_additional_accrued_interest',

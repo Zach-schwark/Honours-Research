@@ -50,13 +50,19 @@ def perfrom_KfoldCrossValidation(folds: list, data: pd.DataFrame, Model: Models,
         else:
             model.parameter_estimator(prior_type = kwargs.get("prior_type"), pseudo_counts=kwargs.get('pseudo_counts'), equivalent_sample_size = kwargs.get('PE_equivalent_sample_size') )
         
+        #print("chech model:\n")
+        #print(model.model.check_model())
         # evaluate of the testing data
         full_log_likelihood = model.evaluate(distribution="full")
         full_logLikelihood_list.append(full_log_likelihood)
         if desired == True:
             try:
+                #print("her")
                 desired_log_likelihood = model.evaluate(distribution="desired")
-                desired_log_likelihood_list.append(desired_log_likelihood)
+                #print(desired_log_likelihood)
+                if np.isnan(desired_log_likelihood) == False:
+                    print(desired_log_likelihood)
+                    desired_log_likelihood_list.append(desired_log_likelihood)
             except:
                 warnings.warn('Could not evaluate desired distribution. Problem could be in Variable Elimination where a certain node was not in the graph.') 
                 continue
@@ -65,6 +71,7 @@ def perfrom_KfoldCrossValidation(folds: list, data: pd.DataFrame, Model: Models,
     mean_full_loglikelihood = np.mean(full_logLikelihood_list)    
     if desired == True:
         mean_desired_loglikelihood = np.mean(desired_log_likelihood_list)
+        #print("\n"+str(mean_desired_loglikelihood)+"\n")
         return mean_full_loglikelihood, mean_desired_loglikelihood
     else:
         return mean_full_loglikelihood

@@ -204,9 +204,27 @@ class RandomBayesianNetwork(Models):
         
     def structure_learning(self):
         self.model = BayesianNetwork()
-        Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.06)
+        Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.5)
         self.model.add_nodes_from(self.train_data.columns.to_list())
         self.model.add_edges_from(Random_Dag.edges())
+        
+        # reduce random networks models complexity by redusing the indegree of the nodes.
+        for node in self.model.nodes():
+            parents_list = self.model.get_parents(node)
+            while len(parents_list) > 3:
+                parent = parents_list.pop()
+                self.model.remove_edge(parent, node)
+        super().structure_learning()
+        #active_trail_nodes = self.model.active_trail_nodes(['loan_status',"int_rate","term","installment"])
+        #active_trail_nodes_list = list(active_trail_nodes['loan_status'])
+        #active_trail_nodes_list.extend(active_trail_nodes['int_rate'])
+        #active_trail_nodes_list.extend(active_trail_nodes['term'])
+        #active_trail_nodes_list.extend(active_trail_nodes['installment'])
+        #original_nodes = list(self.model.nodes())
+        #for node in original_nodes:
+        #    if node not in active_trail_nodes_list:
+        #        self.model.remove_node(node)
+        
 
     def parameter_estimator(self, prior_type: str = "BDeu", equivalent_sample_size: int = 5, pseudo_counts: dict | int = None):
         if prior_type == "dirichlet" and pseudo_counts == None:

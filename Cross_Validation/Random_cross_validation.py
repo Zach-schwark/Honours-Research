@@ -15,10 +15,12 @@ from pgmpy.global_vars import logger
 logger.setLevel(logging.ERROR)
 
 
-if len(sys.argv) != 2:
-    exit()
+#if len(sys.argv) != 2:
+#    exit()
+#
+#evidence_list_type = sys.argv[1]
 
-evidence_list_type = sys.argv[1]
+evidence_list_type = "basic"
 
 full_filename = "Cross_Validation_outputs/Full_Log_Likelihoods/Random_full.csv"
 desired_filename = "Cross_Validation_outputs/Desired_Log_Likelihoods/Random_desired_"+str(evidence_list_type)+".csv"
@@ -82,8 +84,8 @@ def variable_step_loop(start, end):
         
         current = min(current + step, end)
 
-
-for num_rows in variable_step_loop(50, 110000):
+#110000
+for num_rows in variable_step_loop(50, 100000):
     train_data, test_data = DataPreprocessing.split_data(data, num_rows = num_rows)
     folds = CrossValidation.kfold_indices(data = train_data, k = 5 )
     log_likelihood, desired_log_likelihood = CrossValidation.perfrom_KfoldCrossValidation(folds = folds,
@@ -102,6 +104,7 @@ for num_rows in variable_step_loop(50, 110000):
     with open(desired_filename, 'a', newline="") as file:
         csvwriter = csv.writer(file) 
         csvwriter.writerow(row_desired)   
+    print(desired_log_likelihood)
     wandb.log({"dataset size":num_rows,"log_likelihood": log_likelihood, str(evidence_list_type)+"_log_likelihood": desired_log_likelihood})
 
 wandb.finish()
