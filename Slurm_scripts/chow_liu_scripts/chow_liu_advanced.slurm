@@ -3,8 +3,7 @@
 #SBATCH --job-name=ChowLiu_advanced
 #SBATCH --output=/home-mscluster/zschwark/Honours-Research/output_logs/chowliu_advanced_output_logs.txt
 #SBATCH -N 1
-#SBATCH -n 1
-#SBATCH -p stampede
+#SBATCH -p bigbatch
 
 source ~/.bashrc
 conda activate HonoursResearch

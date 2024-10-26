@@ -21,35 +21,43 @@ if len(sys.argv) != 2:
 
 evidence_list_type = sys.argv[1]
 
-full_filename = "Cross_Validation_outputs/Full_Log_Likelihoods/ChowLiu_full.csv"
-desired_filename = "Cross_Validation_outputs/Desired_Log_Likelihoods/ChowLiu_desired_"+str(evidence_list_type)+".csv"
+full_evaluation = False
+desired_evaluation = False
 
-
-header = ['dataset_size','full_log_likelihood']
-try:
-    with open(full_filename, 'x', newline="") as file:
-        csvwriter = csv.writer(file) 
-        csvwriter.writerow(header)
-except FileExistsError:
-    with open(full_filename, 'w', newline="") as file:
-        csvwriter = csv.writer(file) 
-        csvwriter.writerow(header)
+if evidence_list_type == "none":
+    full_evaluation = True
+    full_filename = "Cross_Validation_outputs/Full_Log_Likelihoods/ChowLiu_full.csv"
+    header = ['dataset_size','full_log_likelihood']
+    try:
+        with open(full_filename, 'x', newline="") as file:
+            csvwriter = csv.writer(file) 
+            csvwriter.writerow(header)
+    except FileExistsError:
+        with open(full_filename, 'w', newline="") as file:
+            csvwriter = csv.writer(file) 
+            csvwriter.writerow(header)
+else:
+    desired_evaluation = True
+    desired_filename = "Cross_Validation_outputs/Desired_Log_Likelihoods/ChowLiu_desired_"+str(evidence_list_type)+".csv"
+    header_desired = ['dataset_size','desired_log_likelihood']
+    try:
+        with open(desired_filename, 'x', newline="") as file:
+            csvwriter = csv.writer(file) 
+            csvwriter.writerow(header_desired)
+    except FileExistsError:
+        with open(desired_filename, 'w', newline="") as file:
+            csvwriter = csv.writer(file) 
+            csvwriter.writerow(header_desired)
+    
+if full_evaluation == True:
+    wandb_run_name = "ChowLiu"
+elif desired_evaluation == True:
+    wandb_run_name = "ChowLiu_"+str(evidence_list_type)
     
     
-header_desired = ['dataset_size','desired_log_likelihood']
-try:
-    with open(desired_filename, 'x', newline="") as file:
-        csvwriter = csv.writer(file) 
-        csvwriter.writerow(header_desired)
-except FileExistsError:
-    with open(desired_filename, 'w', newline="") as file:
-        csvwriter = csv.writer(file) 
-        csvwriter.writerow(header_desired)
-    
-
 wandb.init(
     project="Honours-Research",
-    name = "ChowLiu_"+str(evidence_list_type),
+    name = wandb_run_name,
     config={
         "prior_type": "K2",
     }
@@ -66,7 +74,12 @@ print("Data loaded")
 print("#############\n")
 
 
-evidence_features = DataPreprocessing.return_evidence_features(list_description=str(evidence_list_type), inc_loan_amnt=False)
+if desired_evaluation == True:
+    evidence_features = DataPreprocessing.return_evidence_features(list_description= str(evidence_list_type), inc_loan_amnt=False)
+else:
+    # this is just to set the evidence list to some evidence to prevent errors since the Model class needs the evidence list set.
+    evidence_features = DataPreprocessing.return_evidence_features(list_description= "basic", inc_loan_amnt=False)
+    
 target_features = DataPreprocessing.return_target_features(inc_loan_amnt=True)
 
 def variable_step_loop(start, end):
@@ -93,15 +106,21 @@ for num_rows in variable_step_loop(50, 110000):
                                                                   feature_states=feature_states,
                                                                   evidence_features=evidence_features,
                                                                   target_features=target_features,
-                                                                  desired=True)
-    row_full = [num_rows, log_likelihood]
-    row_desired = [num_rows, desired_log_likelihood]
-    with open(full_filename, 'a', newline="") as file:
-        csvwriter = csv.writer(file) 
-        csvwriter.writerow(row_full)
-    with open(desired_filename, 'a', newline="") as file:
-        csvwriter = csv.writer(file) 
-        csvwriter.writerow(row_desired)   
-    wandb.log({"dataset size":num_rows,"log_likelihood": log_likelihood, str(evidence_list_type)+"_log_likelihood": desired_log_likelihood})
+                                                                  desired=desired_evaluation)
+    if full_evaluation == True:
+        row_full = [num_rows, log_likelihood]
+        with open(full_filename, 'a', newline="") as file:
+            csvwriter = csv.writer(file) 
+            csvwriter.writerow(row_full)
+        
+    if desired_evaluation == True:
+        row_desired = [num_rows, desired_log_likelihood]
+        with open(desired_filename, 'a', newline="") as file:
+            csvwriter = csv.writer(file) 
+            csvwriter.writerow(row_desired) 
+    if full_evaluation == True:
+        wandb.log({"dataset size":num_rows,"log_likelihood": log_likelihood})
+    if desired_evaluation == True:               
+        wandb.log({"dataset size":num_rows, str(evidence_list_type)+"_log_likelihood": desired_log_likelihood})
 
 wandb.finish()

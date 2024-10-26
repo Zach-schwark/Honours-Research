@@ -126,6 +126,6 @@ for num_rows in variable_step_loop(50, 110000):
     if full_evaluation == True:
         wandb.log({"dataset size":num_rows,"log_likelihood": log_likelihood})
     if desired_evaluation == True:               
-        wandb.log({str(evidence_list_type)+"_log_likelihood": desired_log_likelihood})
+        wandb.log({"dataset size":num_rows, str(evidence_list_type)+"_log_likelihood": desired_log_likelihood})
 
 wandb.finish()

@@ -3,7 +3,6 @@
 #SBATCH --job-name=K2_basic
 #SBATCH --output=/home-mscluster/zschwark/Honours-Research/output_logs/k2_basic_output_logs.txt
 #SBATCH -N 1
-#SBATCH -n 16
 #SBATCH -p stampede
 
 source ~/.bashrc
