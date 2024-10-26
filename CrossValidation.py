@@ -74,4 +74,4 @@ def perfrom_KfoldCrossValidation(folds: list, data: pd.DataFrame, Model: Models,
         #print("\n"+str(mean_desired_loglikelihood)+"\n")
         return mean_full_loglikelihood, mean_desired_loglikelihood
     else:
-        return mean_full_loglikelihood
+        return mean_full_loglikelihood, None
