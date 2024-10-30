@@ -25,11 +25,11 @@ def kfold_indices(data: pd.DataFrame, k: int):
      return folds
  
  
-def perfrom_KfoldCrossValidation(folds: list, data: pd.DataFrame, Model: Models, feature_states, evidence_features, target_features, desired: bool, **kwargs):
+def perfrom_KfoldCrossValidation(folds: list, data: pd.DataFrame, Model: Models, feature_states, evidence_features, target_features, desired: bool, draw: bool = False, learn_parmeters: bool = True, evaluate: bool = True,  **kwargs) -> tuple | None:
 
     full_logLikelihood_list = []
     desired_log_likelihood_list = []
-    
+    graph_num = 0
     # Iterate through each fold
     for train_indices, test_indices in tqdm(folds):
         training_data = data.iloc[train_indices]
@@ -44,34 +44,39 @@ def perfrom_KfoldCrossValidation(folds: list, data: pd.DataFrame, Model: Models,
             model.structure_learning()
         else:
             model.structure_learning(equivalent_sample_size = kwargs.get("SL_equivalent_sample_size"))
-        #model.draw_graph(name="Random", file_name= "Random_graph",save = True, show = False)
-        if type(model) == Chow_Liu_Tree:
-            model.parameter_estimator()
-        else:
-            model.parameter_estimator(prior_type = kwargs.get("prior_type"), pseudo_counts=kwargs.get('pseudo_counts'), equivalent_sample_size = kwargs.get('PE_equivalent_sample_size') )
         
-        #print("chech model:\n")
-        #print(model.model.check_model())
-        # evaluate of the testing data
-        full_log_likelihood = model.evaluate(distribution="full")
-        full_logLikelihood_list.append(full_log_likelihood)
+        if draw == True:
+            model.draw_graph(name=kwargs.get('graph_name')+"_"+str(graph_num), file_name= kwargs.get('graph_file_name')+"_"+str(graph_num), save = kwargs.get('graph_save'), show = kwargs.get('graph_show'))
+            graph_num +=1
+            
+        if learn_parmeters:
+            if type(model) == Chow_Liu_Tree:
+                model.parameter_estimator()
+            else:
+                model.parameter_estimator(prior_type = kwargs.get("prior_type"), pseudo_counts=kwargs.get('pseudo_counts'), equivalent_sample_size = kwargs.get('PE_equivalent_sample_size') )
+        
+        if evaluate:
+            # evaluate of the testing data
+            full_log_likelihood = model.evaluate(distribution="full")
+            full_logLikelihood_list.append(full_log_likelihood)
+            if desired == True:
+                try:
+                    #print("her")
+                    desired_log_likelihood = model.evaluate(distribution="desired")
+                    #print(desired_log_likelihood)
+                    if np.isnan(desired_log_likelihood) == False:
+                        print(desired_log_likelihood)
+                        desired_log_likelihood_list.append(desired_log_likelihood)
+                except:
+                    warnings.warn('Could not evaluate desired distribution. Problem could be in Variable Elimination where a certain node was not in the graph.') 
+                    continue
+    
+    if evaluate:          
+        mean_full_loglikelihood = np.mean(full_logLikelihood_list)    
         if desired == True:
-            try:
-                #print("her")
-                desired_log_likelihood = model.evaluate(distribution="desired")
-                #print(desired_log_likelihood)
-                if np.isnan(desired_log_likelihood) == False:
-                    print(desired_log_likelihood)
-                    desired_log_likelihood_list.append(desired_log_likelihood)
-            except:
-                warnings.warn('Could not evaluate desired distribution. Problem could be in Variable Elimination where a certain node was not in the graph.') 
-                continue
-        
-        
-    mean_full_loglikelihood = np.mean(full_logLikelihood_list)    
-    if desired == True:
-        mean_desired_loglikelihood = np.mean(desired_log_likelihood_list)
-        #print("\n"+str(mean_desired_loglikelihood)+"\n")
-        return mean_full_loglikelihood, mean_desired_loglikelihood
+            mean_desired_loglikelihood = np.mean(desired_log_likelihood_list)
+            return mean_full_loglikelihood, mean_desired_loglikelihood
+        else:
+            return mean_full_loglikelihood, None
     else:
-        return mean_full_loglikelihood, None
+        return None, None

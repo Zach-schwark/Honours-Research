@@ -57,15 +57,22 @@ class Models(ABC):
                 self.model.remove_node(node)
         
         
+        font_size_dict = {}
+        for node in self.model.nodes():
+            font_size_dict.update({node:{'fontsize':60, 'offset':(0,0)}})
+
+        
         nx_graph = nx.DiGraph(self.model.edges())
-        pos = nx.spring_layout(nx_graph,2)
-        fig, ax = plt.subplots(ncols=1, figsize=(20, 20))
-        nx.draw(nx_graph, pos, with_labels=True, node_size=1000, node_color = 'skyblue', edge_color='#424242',font_size=15,font_color='black')
-        ax.set_title(name)
+        pos = nx.spring_layout(nx_graph,k=2.5,scale=5.25,dim=2, seed=12)
+        draft_object = self.model.to_daft(node_pos=pos, latex = False, pgm_params = {'grid_unit':10, 'node_unit': 4}, node_params=font_size_dict)
         if save == True:
-            plt.savefig("Graphics/BN_graphs/"+file_name)
+            draft_object.render()
+            draft_object.savefig("Graphics/BN_graphs/"+file_name+".pdf", format='pdf')
         if show == True:
-            plt.show()
+            draft_object.render()
+            #plt.show()
+        plt.close()
+        
     
     def  maximum_likelihood_estimator(self):
         estimator = MaximumLikelihoodEstimator(self.model, self.train_data, state_names = self.feature_states)
@@ -203,8 +210,15 @@ class RandomBayesianNetwork(Models):
         super().__init__(train_data, test_data, feature_states)
         
     def structure_learning(self):
+        
+        random_generator = np.random.default_rng()
+        edge_prob = random_generator.uniform(low=0.25,high=0.76)
+        
+        node_names = self.train_data.columns.to_list()
+        random_generator.shuffle(node_names)
+        
         self.model = BayesianNetwork()
-        Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=self.train_data.columns.to_list(), edge_prob=0.5)
+        Random_Dag = DAG.get_random(n_nodes = len(self.train_data.columns.to_list()), node_names=node_names, edge_prob = edge_prob)
         self.model.add_nodes_from(self.train_data.columns.to_list())
         self.model.add_edges_from(Random_Dag.edges())
         

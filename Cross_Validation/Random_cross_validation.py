@@ -20,6 +20,7 @@ if len(sys.argv) != 2:
 
 evidence_list_type = sys.argv[1]
 
+
 full_evaluation = False
 desired_evaluation = False
 
@@ -53,7 +54,7 @@ if full_evaluation == True:
     wandb_run_name = "Random"
 elif desired_evaluation == True:
     wandb_run_name = "Random_"+str(evidence_list_type)
-
+    
 wandb.init(
     project="Honours-Research",
     name = wandb_run_name,
@@ -96,7 +97,7 @@ def variable_step_loop(start, end):
         
         current = min(current + step, end)
 
-
+#variable_step_loop(50, 110000)
 for num_rows in variable_step_loop(50, 110000):
     train_data, test_data = DataPreprocessing.split_data(data, num_rows = num_rows)
     folds = CrossValidation.kfold_indices(data = train_data, k = 5 )
@@ -107,7 +108,14 @@ for num_rows in variable_step_loop(50, 110000):
                                                                   evidence_features=evidence_features,
                                                                   target_features=target_features,
                                                                   desired= desired_evaluation,
-                                                                  prior_type = "K2")
+                                                                  draw=False,
+                                                                  learn_parmeters=True,
+                                                                  evaluate=True,
+                                                                  prior_type = "K2",
+                                                                  graph_name="Random Bayesian Network Trained on a dataset size of "+str(num_rows)+"lines",
+                                                                  graph_file_name = "Random_graphs/Random_"+str(num_rows),
+                                                                  graph_save = True,
+                                                                  graph_show= False)
     if full_evaluation == True:
         row_full = [num_rows, log_likelihood]
         with open(full_filename, 'a', newline="") as file:
