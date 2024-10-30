@@ -3,7 +3,7 @@
 #SBATCH --job-name=K2_Vbasic
 #SBATCH --output=/home-mscluster/zschwark/Honours-Research/output_logs/k2_very_basic_output_logs.txt
 #SBATCH -N 1
-#SBATCH -p stampede
+#SBATCH -p bigbatch
 
 source ~/.bashrc
 conda activate HonoursResearch
