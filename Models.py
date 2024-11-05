@@ -59,12 +59,12 @@ class Models(ABC):
         
         font_size_dict = {}
         for node in self.model.nodes():
-            font_size_dict.update({node:{'fontsize':60, 'offset':(0,0)}})
+            font_size_dict.update({node:{'fontsize':40, 'offset':(0,0)}})
 
-        
+        #, node_params=font_size_dict
         nx_graph = nx.DiGraph(self.model.edges())
-        pos = nx.spring_layout(nx_graph,k=2.5,scale=5.25,dim=2, seed=12)
-        draft_object = self.model.to_daft(node_pos=pos, latex = False, pgm_params = {'grid_unit':10, 'node_unit': 4}, node_params=font_size_dict)
+        pos = nx.spring_layout(nx_graph, k=1.3,scale=3.75, dim=2)
+        draft_object = self.model.to_daft(node_pos=pos, latex = False, pgm_params = {'grid_unit':10, 'node_unit': 3}, node_params=font_size_dict)
         if save == True:
             draft_object.render()
             draft_object.savefig("Graphics/BN_graphs/"+file_name+".pdf", format='pdf')
