@@ -114,24 +114,33 @@ class Models(ABC):
             predicted_values.append(target_variables_result)
         return predicted_values
     
-    def inference(self, return_type: str):
-        removed_attributes = set()
-        # get datapoints for the evidence
-        validation_evidence_list = DataPreprocessing.get_evidence_list(test_data = self.test_data, target_label_list=self.target_list, evidence_features=self.evidence_features)
-        # clean the evidence:
-        # remove evidence features that are not in the Bayesian Network
-        for i in range(len(validation_evidence_list)):
-            for attribute in list(validation_evidence_list[i].keys()):
-                if attribute not in self.model.nodes():
-                    removed_attributes.add(attribute)
-                    del validation_evidence_list[i][attribute]
+    def inference(self, return_type: str, evidence: dict, mode: str = "batch"):
         
-        if return_type == "probability":
-            return self.__perform_inference_probability(target_list=self.target_list, evidence_list=validation_evidence_list)
-        elif return_type == "assignment":
-            return self.__perform_inference_assignment(target_list=self.target_list, evidence_list=validation_evidence_list)
-        else:
-            raise ValueError('invalid argument for return_type, must be either "probability" or "assignment".')
+        if mode == "batch":
+            removed_attributes = set()
+            # get datapoints for the evidence
+            validation_evidence_list = DataPreprocessing.get_evidence_list(test_data = self.test_data, target_label_list=self.target_list, evidence_features=self.evidence_features)
+            # clean the evidence:
+            # remove evidence features that are not in the Bayesian Network
+            for i in range(len(validation_evidence_list)):
+                for attribute in list(validation_evidence_list[i].keys()):
+                    if attribute not in self.model.nodes():
+                        removed_attributes.add(attribute)
+                        del validation_evidence_list[i][attribute]
+        
+            if return_type == "probability":
+                return self.__perform_inference_probability(target_list=self.target_list, evidence_list=validation_evidence_list)
+            elif return_type == "assignment":
+                return self.__perform_inference_assignment(target_list=self.target_list, evidence_list=validation_evidence_list)
+            else:
+                raise ValueError('invalid argument for return_type, must be either "probability" or "assignment".')
+        
+        elif mode == "single":
+            for attribute in list(evidence.keys()):
+                if attribute not in self.model.nodes():
+                    del evidence[attribute]
+            
+            return self.__perform_inference_assignment(target_list=self.target_list, evidence_list=[evidence])
         
     def __evaluate_full_distribution(self):
         difference = list(set(self.test_data.columns) - set(self.model.nodes()))
