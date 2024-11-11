@@ -15,14 +15,14 @@ logger.setLevel(logging.ERROR)
 
 
 def kfold_indices(data: pd.DataFrame, k: int):
-     fold_size = len(data) // k
-     indices = np.arange(len(data))
-     folds = []
-     for i in range(k):
-         test_indices = indices[i * fold_size: (i + 1) * fold_size]
-         train_indices = np.concatenate([indices[:i * fold_size], indices[(i + 1) * fold_size:]])
-         folds.append((train_indices, test_indices))
-     return folds
+    fold_size = len(data) // k
+    indices = np.arange(len(data))
+    folds = []
+    for i in range(k):
+        test_indices = indices[i * fold_size: (i + 1) * fold_size]
+        train_indices = np.concatenate([indices[:i * fold_size], indices[(i + 1) * fold_size:]])
+        folds.append((train_indices, test_indices))
+    return folds
  
  
 def perfrom_KfoldCrossValidation(folds: list, data: pd.DataFrame, Model: Models, feature_states, evidence_features, target_features, desired: bool, draw: bool = False, learn_parmeters: bool = True, evaluate: bool = True,  **kwargs) -> tuple | None:
