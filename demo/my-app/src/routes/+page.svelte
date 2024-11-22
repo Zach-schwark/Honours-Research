@@ -9,7 +9,7 @@
     
     
     const API_URL = import.meta.env.PROD 
-        ? 'https://honours-research.vercel.app/'
+        ? 'https://honours-research.vercel.app'
         : 'http://localhost:8000';
 
     let inputValues = {};

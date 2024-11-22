@@ -34,7 +34,7 @@ class PredictionInput(BaseModel):
     variables: dict = {'term': '_36_months', 'installment': '_5_898_435_665_', 'loan_amnt': '_961_0_10750_0_', 'int_rate': '_5_284_11_73_'}
 
 
-@app.post("/predict")
+@app.post("/predict",  strict_slashes=False)
 async def predict(input_data: PredictionInput):
     try:
         prediction = BIC_BN.inference("assignment", mode="single", evidence=input_data.variables)
