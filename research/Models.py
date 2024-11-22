@@ -10,12 +10,15 @@ from pgmpy import estimators
 from pgmpy.estimators import MaximumLikelihoodEstimator
 from pgmpy.estimators import TreeSearch
 from sklearn.metrics import f1_score, accuracy_score
-from Data.DataPreprocessing import DataPreprocessing
+from data_preprocessing.DataPreprocessing import DataPreprocessing
 from pgmpy.utils import compat_fns
 from abc import ABC, abstractmethod
 from pgmpy import config
 import torch
 from tqdm import tqdm
+import sys
+sys.path.append('research/')
+import os
 #device = "cuda" if torch.cuda.is_available() else "cpu"
 
 #config.set_dtype(dtype=torch.float16)
@@ -25,8 +28,11 @@ config.set_dtype(dtype=np.float32)
 
 class Models(ABC):
     
-    def __init__(self, train_data, test_data, feature_states) -> None:
-        self.model: BayesianNetwork
+    def __init__(self, train_data = None, test_data = None, feature_states = None, model = None) -> None:
+        if model != None:
+            self.model: BayesianNetwork = model
+        else:
+            self.model: BayesianNetwork
         self.target_list: list = ["int_rate","term","installment","loan_amnt"]
         self.evidence_features: list = ["annual_inc", "emp_length", "grade", "home_ownership", "verification_status", "last_fico_range_high", "fico_range_high", "purpose", "dti", "application_type", "delinq_2yrs", "avg_cur_bal", "tot_cur_bal", "pub_rec_bankruptcies", "mort_acc", "num_il_tl", "num_rev_accts", "total_bal_ex_mort"]
         self.train_data = train_data
@@ -49,6 +55,7 @@ class Models(ABC):
                 self.model.remove_node(node)
     
     def draw_graph(self, name: str, file_name: str, save: bool, show: bool):
+        
         active_trail_nodes = self.model.active_trail_nodes('loan_status')['loan_status']
         active_trail_nodes_list = list(active_trail_nodes)
         original_nodes = list(self.model.nodes())
@@ -59,15 +66,19 @@ class Models(ABC):
         
         font_size_dict = {}
         for node in self.model.nodes():
-            font_size_dict.update({node:{'fontsize':40, 'offset':(0,0)}})
+            font_size_dict.update({node:{'fontsize':52, 'offset':(0,0)}})
+            
+        edge_arrow_dict = {}
+        for edge in self.model.edges():
+            edge_arrow_dict.update({edge:{'plot_params':{'head_width':0.65, 'head_length':1.2}}})
 
         #, node_params=font_size_dict
         nx_graph = nx.DiGraph(self.model.edges())
-        pos = nx.spring_layout(nx_graph, k=1.3,scale=3.75, dim=2)
-        draft_object = self.model.to_daft(node_pos=pos, latex = False, pgm_params = {'grid_unit':10, 'node_unit': 3}, node_params=font_size_dict)
+        pos = nx.spring_layout(nx_graph, k=1.22,scale=3.8, dim=2)
+        draft_object = self.model.to_daft(node_pos=pos, latex = False, pgm_params = {'grid_unit':16, 'node_unit': 4}, node_params=font_size_dict, edge_params=edge_arrow_dict)
         if save == True:
             draft_object.render()
-            draft_object.savefig("Graphics/BN_graphs/"+file_name+".pdf", format='pdf')
+            draft_object.savefig("research/graphics/BN_graphs/"+file_name+".png", format='png')
         if show == True:
             draft_object.render()
             #plt.show()
@@ -265,8 +276,8 @@ class RandomBayesianNetwork(Models):
 
 class BICBayesianNetwork(Models):
     
-    def __init__(self, train_data, test_data, feature_states) -> None:
-        super().__init__(train_data, test_data, feature_states)
+    def __init__(self, train_data = None, test_data = None, feature_states = None, model = None) -> None:
+        super().__init__(train_data, test_data, feature_states, model)
     
     def structure_learning(self):
         scoring_method = estimators.BicScore(data=self.train_data)

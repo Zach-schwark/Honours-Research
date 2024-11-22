@@ -4,15 +4,18 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler, KBinsDiscretizer
 from sklearn.model_selection import train_test_split
 import math
-
+import sys
+sys.path.append('research/')
+import os
 
 class DataPreprocessing:
     
     def load_data()-> pd.DataFrame:
         # reads from CS, removes rows with null/missing values and automatically infers and converts datatypes for the data.
-        # path for python files: "Data/accepted_2007_to_2018Q4.csv"
-        # path for notebook files : "../Data/accepted_2007_to_2018Q4.csv"
-        data = pd.read_csv("Data/accepted_2007_to_2018Q4.csv", engine='c',low_memory=False)
+        # path for python files: "data_preprocessing/accepted_2007_to_2018Q4.csv"
+        # path for notebook files : "../data_preprocessing/accepted_2007_to_2018Q4.csv"
+        #research/data_preprocessing/accepted_2007_to_2018Q4.csv
+        data = pd.read_csv("research/data_preprocessing/accepted_2007_to_2018Q4.csv", engine='c',low_memory=False)
         data = data.drop(['id', 'member_id', 'settlement_term','settlement_percentage', 'settlement_amount', 'settlement_date','settlement_status', 'debt_settlement_flag_date', 'hardship_last_payment_amount', 'hardship_payoff_balance_amount', 'orig_projected_additional_accrued_interest',
            'hardship_loan_status', 'hardship_dpd', 'hardship_length','payment_plan_start_date','hardship_end_date', 'hardship_start_date', 'hardship_amount', 'deferral_term', 'hardship_status', 'hardship_reason', 'hardship_type',
            'sec_app_mths_since_last_major_derog', 'sec_app_collections_12_mths_ex_med', 'sec_app_chargeoff_within_12_mths', 'sec_app_num_rev_accts', 'sec_app_open_act_il', 'sec_app_revol_util', 'sec_app_open_acc', 'sec_app_mort_acc',

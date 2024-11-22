@@ -1,14 +1,15 @@
 import sys
 import timeit
-sys.path.insert(0,"./")
+sys.path.append('research/')
 from Models import RandomBayesianNetwork,  BICBayesianNetwork, BDeuBayesianNetwork, BDsBayesianNetwork, k2BayesianNetwork
-from Data.DataPreprocessing import DataPreprocessing
+from data_preprocessing.DataPreprocessing import DataPreprocessing
 from pgmpy import config
 import numpy as np
 import pandas as pd
 import torch
 import logging
 from tqdm import tqdm
+from pgmpy.readwrite import XMLBIFWriter
 from pgmpy.global_vars import logger
 logger.setLevel(logging.ERROR)
 
@@ -80,7 +81,7 @@ BIC_correlation_accuracy_list = []
 BIC_correlation_f1_list = []
 
 num_datapoints = []
-num_rows = int(50000)
+num_rows = int(10000)
 
 
 train_data, test_data = DataPreprocessing.split_data(data, num_rows = 10000)
@@ -89,9 +90,15 @@ BIC_BN.set_evidence_features(evidence_features)
 BIC_BN.set_target_list(target_features)
 BIC_BN.structure_learning()
 BIC_BN.parameter_estimator(prior_type = "dirichlet", pseudo_counts=5)
-#BIC_BN.draw_graph(name= "Bayesian Network with BIC score",file_name="BIC_graph_final", save=True, show=False)
+#BIC_BN.draw_graph(name= "Bayesian Network with BIC score",file_name="BIC_graph_final_aroow_test", save=True, show=False)
 
-BIC_BN.model.save("BIC_Model.bif")
+print(BIC_BN.model.states)
+
+#writer = XMLBIFWriter(BIC_BN.model)
+#writer.write_xmlbif(filename='BIC_saved_model.xml')
+
+#BIC_BN.model.save("BIC_Model.bif")
+
 
 
 #single_borrower_evidence = DataPreprocessing.get_evidence_list(test_data=test_data.sample(1), target_label_list=target_features, evidence_features=evidence_features)
