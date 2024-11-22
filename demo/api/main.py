@@ -16,7 +16,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",  # SvelteKit dev server
-        "https://honours-research.vercel.app/",  # Production URL
+        "https://honours-research-ebk6.vercel.app/",  # Production URL
     ],
     allow_credentials=True,
     allow_methods=["*"],
