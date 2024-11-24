@@ -9,18 +9,14 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-## Set up logging
-#logging.basicConfig(level=logging.INFO)
-#logger = logging.getLogger(__name__)
-#
-# Enable CORS
-#app.add_middleware(
-#    CORSMiddleware,
-#    allow_origins=["*"],
-#    allow_credentials=False,
-#    allow_methods=["*"],
-#    allow_headers=["*"],
-#)
+# Allow CORS for the frontend (replace with your actual frontend URL)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://honours-research-ebk6.vercel.app"],  # Replace with your actual frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def load_model():
@@ -45,7 +41,8 @@ async def predict(input_data: PredictionInput):
         return {"prediction": prediction[0]}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-#    
+    
+        
 @app.get("/")
 async def root():
     return {"message": "Backend is working"}   
