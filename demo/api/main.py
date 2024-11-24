@@ -14,13 +14,13 @@ app = FastAPI()
 #logger = logging.getLogger(__name__)
 #
 # Enable CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+#app.add_middleware(
+#    CORSMiddleware,
+#    allow_origins=["*"],
+#    allow_credentials=False,
+#    allow_methods=["*"],
+#    allow_headers=["*"],
+#)
 
 
 def load_model():
