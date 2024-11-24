@@ -4,7 +4,6 @@ import pandas as pd
 sys.path.insert(0,"../../research")
 from pgmpy.readwrite import XMLBIFReader
 from Models import BICBayesianNetwork
-from data_preprocessing.DataPreprocessing import DataPreprocessing
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -36,19 +35,19 @@ class PredictionInput(BaseModel):
     variables: dict = {'term': '_36_months', 'installment': '_5_898_435_665_', 'loan_amnt': '_961_0_10750_0_', 'int_rate': '_5_284_11_73_'}
 
 
-@app.post("/predict")
-async def predict(input_data: PredictionInput):
-    logger.info("Received prediction request")
-    logger.info(f"Input data: {input_data}")
-    try:
-        print("in backend predict endpoint")
-        prediction = BIC_BN.inference("assignment", mode="single", evidence=input_data.variables)
-        logger.info(f"Prediction result: {prediction}")
-        print(prediction[0])
-        return {"prediction": prediction[0]}
-    except Exception as e:
-        logger.error(f"Error during prediction: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+#@app.post("/predict")
+#async def predict(input_data: PredictionInput):
+#    logger.info("Received prediction request")
+#    logger.info(f"Input data: {input_data}")
+#    try:
+#        print("in backend predict endpoint")
+#        prediction = BIC_BN.inference("assignment", mode="single", evidence=input_data.variables)
+#        logger.info(f"Prediction result: {prediction}")
+#        print(prediction[0])
+#        return {"prediction": prediction[0]}
+#    except Exception as e:
+#        logger.error(f"Error during prediction: {str(e)}")
+#        raise HTTPException(status_code=500, detail=str(e))
     
 @app.get("/")
 async def root():
