@@ -14,12 +14,12 @@ app = FastAPI()
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-   # allow_origins=[
-   #     "http://localhost:5173",  # SvelteKit dev server
-   #     "https://honours-research-ebk6.vercel.app",  # Production URL
-   #     "https://honours-research-frontend-6e1g5o4ov-zachschwarks-projects.vercel.app"
-   # ],
-    allow_origins=["*"], 
+    allow_origins=[
+        "http://localhost:5173",  # SvelteKit dev server
+        "https://honours-research-ebk6.vercel.app",  # Production URL
+        "https://honours-research-frontend-6e1g5o4ov-zachschwarks-projects.vercel.app",
+        "https://honours-research.vercel.app" 
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -36,7 +36,7 @@ class PredictionInput(BaseModel):
     variables: dict = {'term': '_36_months', 'installment': '_5_898_435_665_', 'loan_amnt': '_961_0_10750_0_', 'int_rate': '_5_284_11_73_'}
 
 
-@app.post("/predict",  strict_slashes=False)
+@app.post("/predict")
 async def predict(input_data: PredictionInput):
     try:
         prediction = BIC_BN.inference("assignment", mode="single", evidence=input_data.variables)
