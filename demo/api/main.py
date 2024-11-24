@@ -34,6 +34,7 @@ class PredictionInput(BaseModel):
 @app.post("/predict")
 async def predict(input_data: PredictionInput):
     try:
+        print("in backend predict endpoint")
         prediction = BIC_BN.inference("assignment", mode="single", evidence=input_data.variables)
         print(prediction[0])
         return {"prediction": prediction[0]}
