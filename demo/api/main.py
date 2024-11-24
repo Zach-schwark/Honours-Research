@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0,"../../research")
 from pgmpy.readwrite import XMLBIFReader
 from Models import BICBayesianNetwork
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -30,21 +30,20 @@ def load_model():
     
     return BIC_BN
 
+class PredictionInput(BaseModel):
+    # define your input schema here
+    variables: dict = {'term': '_36_months', 'installment': '_5_898_435_665_', 'loan_amnt': '_961_0_10750_0_', 'int_rate': '_5_284_11_73_'}
 
-##@app.post("/predict")
-##async def predict(input_data: PredictionInput):
-##    BIC_BN = load_model()
-##    logger.info("Received prediction request")
-##    logger.info(f"Input data: {input_data}")
-##    try:
-##        print("in backend predict endpoint")
-##        prediction = BIC_BN.inference("assignment", mode="single", evidence=input_data.variables)
-##        logger.info(f"Prediction result: {prediction}")
-##        print(prediction[0])
-##        return {"prediction": prediction[0]}
-##    except Exception as e:
-##        logger.error(f"Error during prediction: {str(e)}")
-##        raise HTTPException(status_code=500, detail=str(e))
+@app.post("/predict")
+async def predict(input_data: PredictionInput):
+    BIC_BN = load_model()
+    try:
+        print("in backend predict endpoint")
+        prediction = BIC_BN.inference("assignment", mode="single", evidence=input_data.variables)
+        print(prediction[0])
+        return {"prediction": prediction[0]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 #    
 @app.get("/")
 async def root():
@@ -54,12 +53,3 @@ async def root():
 @app.get("/test")
 async def test():
     return {"message": "Backend is working!"}
-
-
-#from fastapi import FastAPI
-#
-#app = FastAPI()
-#
-#@app.get("/")
-#async def root():
-#    return {"message": "It works!"}
