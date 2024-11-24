@@ -8,9 +8,9 @@
     }
     
     
-    const API_URL = import.meta.env.PROD 
-        ? 'https://honours-research.vercel.app'
-        : 'http://localhost:8000';
+    //const API_URL = import.meta.env.PROD 
+    //    ? 'https://honours-research.vercel.app'
+    //    : 'http://localhost:8000';
 
     let inputValues = {};
     let prediction : LoanStructure = {int_rate : "",
@@ -23,7 +23,7 @@
 
     async function getPrediction() {
         try {
-            const response = await fetch(`${API_URL}/predict`, {
+            const response = await fetch('https://honours-research.vercel.app/predict', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

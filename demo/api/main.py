@@ -14,13 +14,8 @@ app = FastAPI()
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",  # SvelteKit dev server
-        "https://honours-research-ebk6.vercel.app",  # Production URL
-        "https://honours-research-frontend-6e1g5o4ov-zachschwarks-projects.vercel.app",
-        "https://honours-research.vercel.app" 
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
