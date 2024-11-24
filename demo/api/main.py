@@ -1,3 +1,4 @@
+import logging
 import sys
 import pandas as pd
 sys.path.insert(0,"../../research")
@@ -48,6 +49,10 @@ async def predict(input_data: PredictionInput):
     except Exception as e:
         logger.error(f"Error during prediction: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.get("/")
+async def root():
+    return {"message": "Backend is working"}   
     
     
 @app.get("/test")
