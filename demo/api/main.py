@@ -25,7 +25,7 @@ app.add_middleware(
 )
 
 
-reader = XMLBIFReader("models/BIC_saved_model.xml")
+reader = XMLBIFReader("public/BIC_saved_model.xml")
 model = reader.get_model()
 
 BIC_BN = BICBayesianNetwork(model = model)
