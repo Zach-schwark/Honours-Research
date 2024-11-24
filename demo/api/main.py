@@ -25,10 +25,13 @@ app.add_middleware(
 )
 
 
-reader = XMLBIFReader("public/BIC_saved_model.xml")
-model = reader.get_model()
+def load_model():
+    reader = XMLBIFReader("public/BIC_saved_model.xml")
+    model = reader.get_model()
 
-BIC_BN = BICBayesianNetwork(model = model)
+    BIC_BN = BICBayesianNetwork(model = model)
+    
+    return BIC_BN
 
 class PredictionInput(BaseModel):
     # define your input schema here
@@ -37,6 +40,7 @@ class PredictionInput(BaseModel):
 
 #@app.post("/predict")
 #async def predict(input_data: PredictionInput):
+#    BIC_BN = load_model()
 #    logger.info("Received prediction request")
 #    logger.info(f"Input data: {input_data}")
 #    try:
